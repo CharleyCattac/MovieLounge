@@ -1,6 +1,5 @@
-package com.lobach.movielounge.entity;
+package com.lobach.movielounge.model.entity;
 
-import java.io.Serializable;
 import java.util.Objects;
 
 public class Movie {
@@ -9,6 +8,7 @@ public class Movie {
     private String description;
     private int releaseYear;
     private String director;
+    private Float rating;
 
     public long getId() {
         return id;
@@ -50,6 +50,14 @@ public class Movie {
         this.director = director;
     }
 
+    public Float getRating() {
+        return rating;
+    }
+
+    public void setRating(float rating) {
+        this.rating = rating;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -59,12 +67,13 @@ public class Movie {
                 releaseYear == movie.releaseYear &&
                 Objects.equals(title, movie.title) &&
                 Objects.equals(description, movie.description) &&
-                Objects.equals(director, movie.director);
+                Objects.equals(director, movie.director) &&
+                Objects.equals(rating, movie.rating);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, description, releaseYear, director);
+        return Objects.hash(id, title, description, releaseYear, director, rating);
     }
 
     @Override

@@ -1,17 +1,17 @@
-package com.lobach.movielounge.entity;
+package com.lobach.movielounge.model.entity;
 
 import java.util.Objects;
 
 public class Reservation {
     private long id;
     private User user;
-    private Session session;
+    private MovieSession movieSession;
     private boolean active;
     private boolean paid;
 
-    public Reservation(User user, Session session) {
+    public Reservation(User user, MovieSession movieSession) {
         this.user = user;
-        this.session = session;
+        this.movieSession = movieSession;
     }
 
     public long getId() {
@@ -30,12 +30,12 @@ public class Reservation {
         this.user = user;
     }
 
-    public Session getSession() {
-        return session;
+    public MovieSession getMovieSession() {
+        return movieSession;
     }
 
-    public void setSession(Session session) {
-        this.session = session;
+    public void setMovieSession(MovieSession movieSession) {
+        this.movieSession = movieSession;
     }
 
     public boolean isActive() {
@@ -63,12 +63,12 @@ public class Reservation {
                 active == that.active &&
                 paid == that.paid &&
                 Objects.equals(user, that.user) &&
-                Objects.equals(session, that.session);
+                Objects.equals(movieSession, that.movieSession);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, user, session, active, paid);
+        return Objects.hash(id, user, movieSession, active, paid);
     }
 
     @Override
@@ -76,7 +76,7 @@ public class Reservation {
         return "Reservation{" +
                 "id=" + id +
                 ", user=" + user +
-                ", session=" + session +
+                ", session=" + movieSession +
                 ", active=" + active +
                 ", paid=" + paid +
                 '}';

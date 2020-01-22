@@ -1,4 +1,4 @@
-package com.lobach.movielounge.entity;
+package com.lobach.movielounge.model.entity;
 
 public enum MovieLounge {
     LOUNGE;
