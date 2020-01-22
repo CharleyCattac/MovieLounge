@@ -4,7 +4,8 @@ import java.util.Date;
 import java.util.Objects;
 
 public class MovieSession {
-    private long id;
+    private Long id;
+    private Long movieId;
     private Date date;
     private Movie movie;
     private int bookingAmount;
@@ -14,8 +15,16 @@ public class MovieSession {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getMovieId() {
+        return movieId;
+    }
+
+    public void setMovieId(Long movieId) {
+        this.movieId = movieId;
     }
 
     public Date getDate() {
@@ -54,26 +63,28 @@ public class MovieSession {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        MovieSession movieSession = (MovieSession) o;
-        return id == movieSession.id &&
-                bookingAmount == movieSession.bookingAmount &&
-                available == movieSession.available &&
-                Objects.equals(date, movieSession.date) &&
-                Objects.equals(movie, movieSession.movie);
+        MovieSession that = (MovieSession) o;
+        return bookingAmount == that.bookingAmount &&
+                available == that.available &&
+                Objects.equals(id, that.id) &&
+                Objects.equals(movieId, that.movieId) &&
+                Objects.equals(date, that.date) &&
+                Objects.equals(movie, that.movie);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, date, movie, bookingAmount, available);
+        return Objects.hash(id, movieId, date, movie, bookingAmount, available);
     }
 
     @Override
     public String toString() {
-        return "Session{" +
+        return "MovieSession{" +
                 "id=" + id +
+                ", movieId=" + movieId +
                 ", date=" + date +
                 ", movie=" + movie +
-                ", booking_amount=" + bookingAmount +
+                ", bookingAmount=" + bookingAmount +
                 ", available=" + available +
                 '}';
     }

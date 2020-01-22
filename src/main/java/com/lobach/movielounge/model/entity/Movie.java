@@ -3,18 +3,18 @@ package com.lobach.movielounge.model.entity;
 import java.util.Objects;
 
 public class Movie {
-    private long id;
+    private Long id;
     private String title;
     private String description;
-    private int releaseYear;
+    private Integer releaseYear;
     private String director;
     private Float rating;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -34,11 +34,11 @@ public class Movie {
         this.description = description;
     }
 
-    public int getReleaseYear() {
+    public Integer getReleaseYear() {
         return releaseYear;
     }
 
-    public void setReleaseYear(int releaseYear) {
+    public void setReleaseYear(Integer releaseYear) {
         this.releaseYear = releaseYear;
     }
 
@@ -54,7 +54,7 @@ public class Movie {
         return rating;
     }
 
-    public void setRating(float rating) {
+    public void setRating(Float rating) {
         this.rating = rating;
     }
 
@@ -63,10 +63,10 @@ public class Movie {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Movie movie = (Movie) o;
-        return id == movie.id &&
-                releaseYear == movie.releaseYear &&
+        return Objects.equals(id, movie.id) &&
                 Objects.equals(title, movie.title) &&
                 Objects.equals(description, movie.description) &&
+                Objects.equals(releaseYear, movie.releaseYear) &&
                 Objects.equals(director, movie.director) &&
                 Objects.equals(rating, movie.rating);
     }

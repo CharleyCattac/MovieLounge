@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class User {
-    private long id;
+    private Long id;
     private String email;
     private String password;
     private Role role;
@@ -24,11 +24,11 @@ public class User {
         this.role = Role.USER;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -109,19 +109,21 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return id == user.id &&
+        return Objects.equals(id, user.id) &&
                 Objects.equals(email, user.email) &&
                 Objects.equals(password, user.password) &&
+                role == user.role &&
                 Objects.equals(name, user.name) &&
                 Objects.equals(phoneNumber, user.phoneNumber) &&
                 Objects.equals(age, user.age) &&
                 Objects.equals(sex, user.sex) &&
-                Objects.equals(avatarURL, user.avatarURL);
+                Objects.equals(avatarURL, user.avatarURL) &&
+                Objects.equals(reservations, user.reservations);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, email, password, name, phoneNumber, age, sex, avatarURL);
+        return Objects.hash(id, email, password, role, name, phoneNumber, age, sex, avatarURL, reservations);
     }
 
     @Override
