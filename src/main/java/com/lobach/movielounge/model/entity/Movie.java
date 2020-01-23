@@ -84,6 +84,7 @@ public class Movie {
                 ", description='" + description + '\'' +
                 ", releaseYear=" + releaseYear +
                 ", director='" + director + '\'' +
+                ", rating=" + rating +
                 '}';
     }
 }

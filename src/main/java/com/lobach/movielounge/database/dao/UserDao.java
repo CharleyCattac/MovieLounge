@@ -9,8 +9,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
-public enum UserDao implements BaseDao<User, Long> {
+public enum UserDao implements BaseDao<User> {
     INSTANCE;
 
     private static final String INSERT_USER =
@@ -45,10 +46,11 @@ public enum UserDao implements BaseDao<User, Long> {
             statement.executeUpdate();
             logger.info(String.format("Added new user: %s", object.getEmail()));
         } catch (SQLException e) {
-            throw new DatabaseException(String.format("Failed to add user due to: %s", e.getMessage()));
+            throw new DatabaseException(String.format("Failed to add user: %s", e));
         } finally {
             close(statement);
             close(connection);
+            ConnectionManager.INSTANCE.releaseConnection(connection);
         }
     }
 
@@ -67,10 +69,11 @@ public enum UserDao implements BaseDao<User, Long> {
             statement.setString(6, object.getEmail());
             statement.execute();
         } catch (SQLException e) {
-            throw new DatabaseException(String.format("Failed to update user data by email %s: %s", object.getEmail(), e.getMessage()));
+            throw new DatabaseException(String.format("Failed to update user data by email %s: %s", object.getEmail(), e));
         } finally {
             close(statement);
             close(connection);
+            ConnectionManager.INSTANCE.releaseConnection(connection);
         }
     }
 
@@ -84,19 +87,24 @@ public enum UserDao implements BaseDao<User, Long> {
             statement.setString(2, email);
             statement.execute();
         } catch (SQLException e) {
-            throw new DatabaseException(String.format("Failed to change password by email %s: %s", email, e.getMessage()));
+            throw new DatabaseException(String.format("Failed to change password by email %s: %s", email, e));
         } finally {
             close(statement);
             close(connection);
+            ConnectionManager.INSTANCE.releaseConnection(connection);
         }
     }
 
-    @Override
+    @Override @Deprecated
     public void remove(User object) {
     }
 
-    @Override
-    public User get(Long key) throws DatabaseException {
+    @Override @Deprecated
+    public List<User> getAll() throws DatabaseException {
+        return null;
+    }
+
+    public User getById(Long key) throws DatabaseException {
         User user = new User();
         Connection connection = null;
         PreparedStatement statement = null;
@@ -127,7 +135,7 @@ public enum UserDao implements BaseDao<User, Long> {
                 user.setAvatarURL(avatarURL);
             }
         } catch (SQLException e) {
-            throw new DatabaseException(String.format("Failed to find user with id %d: %s", key, e.getMessage()));
+            throw new DatabaseException(String.format("Failed to find user with id %d: %s", key, e));
         } finally {
             close(resultSet);
             close(statement);
@@ -169,7 +177,7 @@ public enum UserDao implements BaseDao<User, Long> {
                 user.setAvatarURL(avatarURL);
             }
         } catch (SQLException e) {
-            throw new DatabaseException(String.format("Failed to find user with email %s: %s", emailKey, e.getMessage()));
+            throw new DatabaseException(String.format("Failed to find user with email %s: %s", emailKey, e));
         } finally {
             close(resultSet);
             close(statement);

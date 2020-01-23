@@ -1,5 +1,6 @@
+package com.lobach.movielounge.database.dao;
+
 import com.lobach.movielounge.database.connection.ConnectionManager;
-import com.lobach.movielounge.database.dao.UserDao;
 import com.lobach.movielounge.exception.DatabaseException;
 import com.lobach.movielounge.model.entity.Role;
 import com.lobach.movielounge.model.entity.User;
@@ -54,7 +55,7 @@ public class UserDaoTest {
     @Test (dataProvider = "id_provider")
     public void getUsersByIdTest(long id, String name) throws DatabaseException {
         UserDao dao = UserDao.INSTANCE;
-        User user = dao.get(id);
+        User user = dao.getById(id);
         logger.info(String.format("User found: %s", user));
         Assert.assertEquals(user.getName(), name);
     }

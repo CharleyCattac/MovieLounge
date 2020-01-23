@@ -8,14 +8,15 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
-public interface BaseDao<T, K> {
+public interface BaseDao<T> {
     Logger logger = LogManager.getLogger();
 
     void add(T object) throws DatabaseException;
     void update(T object) throws DatabaseException;
-    void remove(T object);
-    T get(K key) throws DatabaseException;
+    void remove(T object) throws DatabaseException;
+    List<T> getAll() throws DatabaseException;
 
     default void close(Statement statement) {
         try {
