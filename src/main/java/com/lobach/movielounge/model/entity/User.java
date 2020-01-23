@@ -17,10 +17,7 @@ public class User {
 
     private List<Reservation> reservations;
 
-    public User(String email, String password) {
-        this.email = email;
-        this.password = password;
-
+    public User() {
         this.role = Role.USER;
     }
 

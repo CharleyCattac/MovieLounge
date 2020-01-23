@@ -34,22 +34,22 @@ public enum ConnectionManager {
     }
 
     public void setUpPool() {
-        availableConnections = new LinkedBlockingDeque<>(poolSize);
-        occupiedConnections = new ArrayDeque<>();
-
         if (!init()) {
             logger.fatal("Failed to set up connection pool");
             return;
         }
-        for (int i = 0; i < poolSize; i++) {
-            try {
+        availableConnections = new LinkedBlockingDeque<>(poolSize);
+        occupiedConnections = new ArrayDeque<>();
+        try {
+            for (int i = 0; i < poolSize; i++) {
                 Connection connection = createConnection();
                 if (!availableConnections.offer(connection)) {
                     logger.error("Failed to add connection to the pool");
                 }
-            } catch (SQLException e) {
-                logger.fatal(String.format("Failed to fill the pool due to: %s", e.getMessage()));
             }
+        } catch (SQLException e) {
+            logger.fatal(String.format("Failed to fill the pool: %s", e));
+            return;
         }
         logger.info("Connection pool is set up");
     }
@@ -60,7 +60,7 @@ public enum ConnectionManager {
             connection = availableConnections.take();
             occupiedConnections.offer(connection);
         } catch (InterruptedException e) {
-            logger.error(String.format("Failed to retrieve connection due to: %s", e.getMessage()));
+            logger.error(String.format("Failed to retrieve connection: %s", e.getMessage()));
         }
         return connection;
     }
@@ -77,9 +77,9 @@ public enum ConnectionManager {
             try {
                 availableConnections.take().close();
             } catch (InterruptedException e) {
-                logger.error(String.format("Failed to retrieve connection due to: %s", e.getMessage()));
+                logger.error(String.format("Failed to retrieve connection: %s", e.getMessage()));
             } catch (SQLException e) {
-                logger.fatal(String.format("Failed to close connection due to: %s", e.getMessage()));
+                logger.error(String.format("Failed to close connection: %s", e.getMessage()));
             }
         }
         logger.info("Connection pool is destroyed");
@@ -98,7 +98,7 @@ public enum ConnectionManager {
         } catch (ClassNotFoundException e) {
             logger.fatal("No drivers found by given url");
         } catch (IllegalArgumentException e) {
-            logger.error("Invalid pool size given");
+            logger.fatal("Invalid pool size given");
         }
         return false;
     }
