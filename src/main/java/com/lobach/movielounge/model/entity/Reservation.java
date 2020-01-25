@@ -5,32 +5,32 @@ import com.lobach.movielounge.database.dao.BaseDao;
 import java.util.Objects;
 
 public class Reservation {
-    private Long id;
-    private Long userId;
-    private Long movieSessionId;
+    private long id;
+    private long userId;
+    private long movieSessionId;
     private User user;
     private MovieSession movieSession;
-    private Boolean active;
-    private Boolean paid;
+    private boolean active;
+    private boolean paid;
 
     public Reservation(User user, MovieSession movieSession) {
         this.user = user;
         this.movieSession = movieSession;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public Long getUserId() {
+    public long getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(long userId) {
         this.userId = userId;
     }
 

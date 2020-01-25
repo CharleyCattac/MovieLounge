@@ -3,18 +3,18 @@ package com.lobach.movielounge.model.entity;
 import java.util.Objects;
 
 public class Movie {
-    private Long id;
+    private long id;
     private String title;
     private String description;
-    private Integer releaseYear;
+    private int releaseYear;
     private String director;
-    private Float rating;
+    private float rating;
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -34,11 +34,11 @@ public class Movie {
         this.description = description;
     }
 
-    public Integer getReleaseYear() {
+    public int getReleaseYear() {
         return releaseYear;
     }
 
-    public void setReleaseYear(Integer releaseYear) {
+    public void setReleaseYear(int releaseYear) {
         this.releaseYear = releaseYear;
     }
 
@@ -50,11 +50,11 @@ public class Movie {
         this.director = director;
     }
 
-    public Float getRating() {
+    public float getRating() {
         return rating;
     }
 
-    public void setRating(Float rating) {
+    public void setRating(float rating) {
         this.rating = rating;
     }
 
@@ -63,12 +63,12 @@ public class Movie {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Movie movie = (Movie) o;
-        return Objects.equals(id, movie.id) &&
+        return id == movie.id &&
+                releaseYear == movie.releaseYear &&
+                Float.compare(movie.rating, rating) == 0 &&
                 Objects.equals(title, movie.title) &&
                 Objects.equals(description, movie.description) &&
-                Objects.equals(releaseYear, movie.releaseYear) &&
-                Objects.equals(director, movie.director) &&
-                Objects.equals(rating, movie.rating);
+                Objects.equals(director, movie.director);
     }
 
     @Override

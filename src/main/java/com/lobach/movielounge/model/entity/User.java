@@ -7,18 +7,17 @@ public class User {
     private Long id;
     private String email;
     private String password;
-    private Role role;
+    private Boolean active;
+    private UserRole userRole;
 
     private String name;
     private String phoneNumber;
-    private Integer age;
-    private String sex;
     private String avatarURL;
 
     private List<Reservation> reservations;
 
     public User() {
-        this.role = Role.USER;
+        this.userRole = UserRole.USER;
     }
 
     public Long getId() {
@@ -45,12 +44,20 @@ public class User {
         this.password = password;
     }
 
-    public Role getRole() {
-        return role;
+    public Boolean isActive() {
+        return active;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
+    public UserRole getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(UserRole userRole) {
+        this.userRole = userRole;
     }
 
     public String getName() {
@@ -67,22 +74,6 @@ public class User {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
-    }
-
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
-    }
-
-    public String getSex() {
-        return sex;
-    }
-
-    public void setSex(String sex) {
-        this.sex = sex;
     }
 
     public String getAvatarURL() {
@@ -109,18 +100,16 @@ public class User {
         return Objects.equals(id, user.id) &&
                 Objects.equals(email, user.email) &&
                 Objects.equals(password, user.password) &&
-                role == user.role &&
+                userRole == user.userRole &&
                 Objects.equals(name, user.name) &&
                 Objects.equals(phoneNumber, user.phoneNumber) &&
-                Objects.equals(age, user.age) &&
-                Objects.equals(sex, user.sex) &&
                 Objects.equals(avatarURL, user.avatarURL) &&
                 Objects.equals(reservations, user.reservations);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, email, password, role, name, phoneNumber, age, sex, avatarURL, reservations);
+        return Objects.hash(id, email, password, userRole, name, phoneNumber, avatarURL, reservations);
     }
 
     @Override
@@ -129,11 +118,12 @@ public class User {
                 "id=" + id +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
+                ", active=" + active +
+                ", role=" + userRole +
                 ", name='" + name + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
-                ", age=" + age +
-                ", sex='" + sex + '\'' +
                 ", avatarURL='" + avatarURL + '\'' +
+                ", reservations=" + reservations +
                 '}';
     }
 }

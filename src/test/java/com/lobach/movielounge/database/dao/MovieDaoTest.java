@@ -1,10 +1,9 @@
 package com.lobach.movielounge.database.dao;
 
-import com.lobach.movielounge.database.connection.ConnectionManager;
-import com.lobach.movielounge.exception.DatabaseException;
+import com.lobach.movielounge.database.connection.ConnectionPool;
+import com.lobach.movielounge.database.dao.impl.MovieDaoImpl;
+import com.lobach.movielounge.exception.DaoException;
 import com.lobach.movielounge.model.entity.Movie;
-import com.lobach.movielounge.model.entity.Role;
-import com.lobach.movielounge.model.entity.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
@@ -20,7 +19,7 @@ public class MovieDaoTest {
 
     @BeforeClass
     public void initConnectionPool() {
-        ConnectionManager.INSTANCE.setUpPool();
+        ConnectionPool.INSTANCE.setUpPool();
     }
 
     @AfterClass
@@ -62,9 +61,9 @@ public class MovieDaoTest {
     }
 
     @Test(dataProvider = "movie_provider")
-    public void insertMoviesTest(Movie testMovie) throws DatabaseException {
-        MovieDao dao = MovieDao.INSTANCE;
-        dao.add(testMovie);
+    public void insertMoviesTest(Movie testMovie) throws DaoException {
+        MovieDaoImpl dao = MovieDaoImpl.INSTANCE;
+        dao.insert(testMovie);
     }
 
     @DataProvider(name = "title_provider")
@@ -77,17 +76,17 @@ public class MovieDaoTest {
     }
 
     @Test (dataProvider = "title_provider")
-    public void getMoviesByTitleTest(String title, Float rating) throws DatabaseException {
-        MovieDao dao = MovieDao.INSTANCE;
-        Movie movie = dao.getByTitle(title);
+    public void getMoviesByTitleTest(String title, Float rating) throws DaoException {
+        MovieDaoImpl dao = MovieDaoImpl.INSTANCE;
+        Movie movie = dao.selectByTitle(title);
         logger.info(String.format("Movie found: %s", movie));
         Assert.assertEquals(movie.getRating(), rating);
     }
 
     @Test
-    public void getAllMoviesTest() throws DatabaseException {
-        MovieDao dao = MovieDao.INSTANCE;
-        List<Movie> movies = dao.getAll();
+    public void getAllMoviesTest() throws DaoException {
+        MovieDaoImpl dao = MovieDaoImpl.INSTANCE;
+        List<Movie> movies = dao.selectAll();
         Assert.assertEquals(movies.size(), 4);
     }
 
@@ -101,11 +100,11 @@ public class MovieDaoTest {
     }
 
     @Test (dataProvider = "rating_provider")
-    public void updateRatingTest(String title, Float newRating) throws DatabaseException {
-        MovieDao dao = MovieDao.INSTANCE;
+    public void updateRatingTest(String title, Float newRating) throws DaoException {
+        MovieDaoImpl dao = MovieDaoImpl.INSTANCE;
         dao.updateRating(title, newRating);
 
-        Movie movie = dao.getByTitle(title);
+        Movie movie = dao.selectByTitle(title);
         logger.info(String.format("Movie found: %s", movie));
         Assert.assertEquals(movie.getRating(), newRating);
     }
@@ -120,21 +119,20 @@ public class MovieDaoTest {
     }
 
     @Test (dataProvider = "remove_title_provider")
-    public void removeByTitleTest(String title, int newAmount) throws DatabaseException {
-        MovieDao dao = MovieDao.INSTANCE;
-        Movie movie = dao.getByTitle(title);
-        dao.remove(movie);
+    public void removeByTitleTest(String title, int newAmount) throws DaoException {
+        MovieDaoImpl dao = MovieDaoImpl.INSTANCE;
+        dao.deleteByTitle(title);
 
-        List<Movie> movies = dao.getAll();
+        List<Movie> movies = dao.selectAll();
         Assert.assertEquals(movies.size(), newAmount);
     }
 
     @Test
-    public void removeAllTest() throws DatabaseException {
-        MovieDao dao = MovieDao.INSTANCE;
-        dao.removeAll();
+    public void removeAllTest() throws DaoException {
+        MovieDaoImpl dao = MovieDaoImpl.INSTANCE;
+        dao.deleteAll();
 
-        List<Movie> movies = dao.getAll();
+        List<Movie> movies = dao.selectAll();
         Assert.assertEquals(movies.size(), 0);
     }
 }

@@ -1,8 +1,6 @@
-package com.lobach.movielounge.servlet.service;
+package com.lobach.movielounge.servlet.listener;
 
-import com.lobach.movielounge.database.connection.ConnectionManager;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.lobach.movielounge.database.connection.ConnectionPool;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -13,11 +11,11 @@ public class PoolManagementListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
-        ConnectionManager.INSTANCE.setUpPool();
+        ConnectionPool.INSTANCE.setUpPool();
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
-        ConnectionManager.INSTANCE.destroyPool();
+        ConnectionPool.INSTANCE.destroyPool();
     }
 }

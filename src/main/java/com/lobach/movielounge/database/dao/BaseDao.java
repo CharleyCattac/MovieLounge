@@ -1,10 +1,10 @@
 package com.lobach.movielounge.database.dao;
 
-import com.lobach.movielounge.exception.DatabaseException;
+import com.lobach.movielounge.database.connection.ProxyConnection;
+import com.lobach.movielounge.exception.DaoException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -13,10 +13,11 @@ import java.util.List;
 public interface BaseDao<T> {
     Logger logger = LogManager.getLogger();
 
-    void add(T object) throws DatabaseException;
-    void update(T object) throws DatabaseException;
-    void remove(T object) throws DatabaseException;
-    List<T> getAll() throws DatabaseException;
+    void insert(T object) throws DaoException;
+    void update(T object) throws DaoException;
+    void delete(T object) throws DaoException;
+    T selectById(Long id) throws DaoException;
+    List<T> selectAll() throws DaoException;
 
     default void close(Statement statement) {
         try {
@@ -24,7 +25,7 @@ public interface BaseDao<T> {
                 statement.close();
             }
         } catch (SQLException e) {
-            logger.error(String.format("Failed to close statement due to: %s", e.getMessage()));
+            logger.error(String.format("Failed to close statement: %s", e));
         }
     }
 
@@ -34,17 +35,17 @@ public interface BaseDao<T> {
                 resultSet.close();
             }
         } catch (SQLException e) {
-            logger.error(String.format("Failed to close result set due to: %s", e.getMessage()));
+            logger.error(String.format("Failed to close result set: %s", e));
         }
     }
 
-    default void close(Connection connection) {
+    default void close(ProxyConnection connection) {
         try {
             if (connection != null) {
                 connection.close();
             }
         } catch (SQLException e) {
-            logger.error(String.format("Failed to close connection due to: %s", e.getMessage()));
+            logger.error(String.format("Failed to close connection: %s", e));
         }
     }
 }

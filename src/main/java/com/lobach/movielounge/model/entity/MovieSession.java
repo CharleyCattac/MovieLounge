@@ -1,30 +1,29 @@
 package com.lobach.movielounge.model.entity;
 
-import java.util.Date;
+import java.util.ArrayList;
+import java.sql.Date;
+import java.util.List;
 import java.util.Objects;
 
 public class MovieSession {
-    private Long id;
-    private Long movieId;
+    private long id;
     private Date date;
-    private Movie movie;
+    private List<Long> movieIds;
+    private List<Movie> movies;
     private int bookingAmount;
     private boolean available;
+
+    public MovieSession() {
+        movieIds = new ArrayList<>(3);
+        movies = new ArrayList<>(3);
+    }
 
     public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
-    }
-
-    public Long getMovieId() {
-        return movieId;
-    }
-
-    public void setMovieId(Long movieId) {
-        this.movieId = movieId;
     }
 
     public Date getDate() {
@@ -35,12 +34,20 @@ public class MovieSession {
         this.date = date;
     }
 
-    public Movie getMovie() {
-        return movie;
+    public List<Long> getMovieIds() {
+        return movieIds;
     }
 
-    public void setMovie(Movie movie) {
-        this.movie = movie;
+    public void setMovieIds(List<Long> movieIds) {
+        this.movieIds = movieIds;
+    }
+
+    public List<Movie> getMovies() {
+        return movies;
+    }
+
+    public void setMovies(List<Movie> movies) {
+        this.movies = movies;
     }
 
     public int getBookingAmount() {
@@ -67,23 +74,23 @@ public class MovieSession {
         return bookingAmount == that.bookingAmount &&
                 available == that.available &&
                 Objects.equals(id, that.id) &&
-                Objects.equals(movieId, that.movieId) &&
                 Objects.equals(date, that.date) &&
-                Objects.equals(movie, that.movie);
+                Objects.equals(movieIds, that.movieIds) &&
+                Objects.equals(movies, that.movies);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, movieId, date, movie, bookingAmount, available);
+        return Objects.hash(id, date, movieIds, movies, bookingAmount, available);
     }
 
     @Override
     public String toString() {
         return "MovieSession{" +
                 "id=" + id +
-                ", movieId=" + movieId +
                 ", date=" + date +
-                ", movie=" + movie +
+                ", movieIds=" + movieIds +
+                ", movies=" + movies +
                 ", bookingAmount=" + bookingAmount +
                 ", available=" + available +
                 '}';
