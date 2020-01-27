@@ -1,4 +1,4 @@
-package com.lobach.movielounge.servlet.listener;
+package com.lobach.movielounge.servlet;
 
 import com.lobach.movielounge.database.connection.ConnectionPool;
 

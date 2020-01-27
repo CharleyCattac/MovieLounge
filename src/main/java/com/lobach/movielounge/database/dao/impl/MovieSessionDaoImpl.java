@@ -4,8 +4,7 @@ import com.lobach.movielounge.database.connection.ConnectionPool;
 import com.lobach.movielounge.database.connection.ProxyConnection;
 import com.lobach.movielounge.database.dao.MovieSessionDao;
 import com.lobach.movielounge.exception.DaoException;
-import com.lobach.movielounge.model.entity.Movie;
-import com.lobach.movielounge.model.entity.MovieSession;
+import com.lobach.movielounge.model.MovieSession;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -27,11 +26,11 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
     private static final String SELECT_SESSIONS_BY_MOVIE_ID =
             "SELECT movie_sessions.id,date,booking_amount,available,movie1_id,movie2_id,movie3_id " +
                     "FROM movie_sessions WHERE movie1_id=? OR movie2_id=? OR movie3_id=?";
-    private static final String UPDATE_BOOKING_AMOUNT_BY_DATE =
-            "UPDATE movie_sessions SET booking_amount=? WHERE date=?";
-    private static final String UPDATE_AVAILABILITY_BY_DATE =
-            "UPDATE movie_sessions SET available=? WHERE date=?";
-    private static final String DELETE_BY_DATE = "DELETE FROM movie_sessions WHERE date=?";
+    private static final String UPDATE_BOOKING_AMOUNT_BY_ID =
+            "UPDATE movie_sessions SET booking_amount=? WHERE movie_session.id=?";
+    private static final String UPDATE_AVAILABILITY_BY_ID =
+            "UPDATE movie_sessions SET available=? WHERE movie_session.id=?";
+    private static final String DELETE_BY_ID = "DELETE FROM movie_sessions WHERE movie_session.id=?";
 
     @Override
     public void insert(MovieSession object) throws DaoException {
@@ -217,17 +216,17 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
     }
 
     @Override
-    public void updateAvailabilityByDate(Date date, boolean status) throws DaoException {
+    public void updateAvailabilityById(Long id, boolean status) throws DaoException {
         ProxyConnection connection = null;
         PreparedStatement statement = null;
         try {
             connection = ConnectionPool.INSTANCE.getConnection();
-            statement = connection.prepareStatement(UPDATE_AVAILABILITY_BY_DATE);
+            statement = connection.prepareStatement(UPDATE_AVAILABILITY_BY_ID);
             statement.setBoolean(1, status);
-            statement.setDate(2, date);
+            statement.setLong(2, id);
             statement.execute();
         } catch (SQLException e) {
-            throw new DaoException(String.format("Failed to update availability by date %s: %s", date, e));
+            throw new DaoException(String.format("Failed to update availability by id %d: %s", id, e));
         } finally {
             close(statement);
             close(connection);
@@ -235,17 +234,17 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
     }
 
     @Override
-    public void updateParticipantAmountByDate(Date date, int newAmount) throws DaoException {
+    public void updateParticipantAmountById(Long id, int newAmount) throws DaoException {
         ProxyConnection connection = null;
         PreparedStatement statement = null;
         try {
             connection = ConnectionPool.INSTANCE.getConnection();
-            statement = connection.prepareStatement(UPDATE_BOOKING_AMOUNT_BY_DATE);
+            statement = connection.prepareStatement(UPDATE_BOOKING_AMOUNT_BY_ID);
             statement.setInt(1, newAmount);
-            statement.setDate(2, date);
+            statement.setLong(2, id);
             statement.execute();
         } catch (SQLException e) {
-            throw new DaoException(String.format("Failed to update booking amount by date %s: %s", date, e));
+            throw new DaoException(String.format("Failed to update booking amount by id %d: %s", id, e));
         } finally {
             close(statement);
             close(connection);
@@ -257,16 +256,16 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
     }
 
     @Override
-    public void deleteByDate(Date date) throws DaoException {
+    public void deleteById(Long id) throws DaoException {
         ProxyConnection connection = null;
         PreparedStatement statement = null;
         try {
             connection = ConnectionPool.INSTANCE.getConnection();
-            statement = connection.prepareStatement(DELETE_BY_DATE);
-            statement.setDate(1, date);
+            statement = connection.prepareStatement(DELETE_BY_ID);
+            statement.setLong(1, id);
             statement.execute();
         } catch (SQLException e) {
-            throw new DaoException(String.format("Failed to delete movie session by date %s: %s", date, e));
+            throw new DaoException(String.format("Failed to delete movie session by id %d: %s", id, e));
         } finally {
             close(statement);
             close(connection);

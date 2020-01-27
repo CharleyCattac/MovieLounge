@@ -1,7 +1,4 @@
-package com.lobach.movielounge.model.factory;
-
-import com.lobach.movielounge.model.entity.UserRole;
-import com.lobach.movielounge.model.entity.User;
+package com.lobach.movielounge.model;
 
 public enum UserFactory {
     INSTANCE;
@@ -15,6 +12,15 @@ public enum UserFactory {
         user.setPassword(password);
         user.setActive(active);
         user.setUserRole(userRole);
+        return user;
+    }
+
+    public User createFullNoId(String email, String password, UserRole userRole, boolean active,
+                               String name, String phoneNumber, String avatarUrl) {
+        User user = this.createBasic(email, password, userRole, active);
+        user.setName(name);
+        user.setPhoneNumber(phoneNumber);
+        user.setAvatarURL(avatarUrl);
         return user;
     }
 

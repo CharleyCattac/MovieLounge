@@ -1,6 +1,4 @@
-package com.lobach.movielounge.model.factory;
-
-import com.lobach.movielounge.model.entity.MovieSession;
+package com.lobach.movielounge.model;
 
 import java.sql.Date;
 import java.util.List;

@@ -1,9 +1,10 @@
 package com.lobach.movielounge.database.connection;
 
+import com.lobach.movielounge.exception.PoolException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayDeque;
 import java.util.Queue;
@@ -26,21 +27,22 @@ public enum ConnectionPool {
     public void setUpPool() {
         if (!connectionManager.init()) {
             logger.fatal("Failed to set up connection pool");
-            return;
+            throw new PoolException();
         }
         poolSize = connectionManager.getPoolSize();
         availableConnections = new LinkedBlockingDeque<>(poolSize);
         occupiedConnections = new ArrayDeque<>();
-        try {
-            for (int i = 0; i < poolSize; i++) {
+        for (int i = 0; i < poolSize; i++) {
+            try {
                 ProxyConnection connection = connectionManager.createConnection();
                 if (!availableConnections.offer(connection)) {
                     logger.error("Failed to add connection to the pool");
+                    throw new PoolException();
                 }
+            } catch (SQLException e) {
+                logger.fatal("Failed to fill the pool: ", e);
+                throw new PoolException();
             }
-        } catch (SQLException e) {
-            logger.fatal(String.format("Failed to fill the pool: %s", e));
-            return;
         }
         logger.info("Connection pool is set up");
     }
@@ -51,7 +53,8 @@ public enum ConnectionPool {
             connection = availableConnections.take();
             occupiedConnections.offer(connection);
         } catch (InterruptedException e) {
-            logger.error(String.format("Failed to retrieve connection: %s", e.getMessage()));
+            logger.error("Failed to retrieve connection: ", e);
+            Thread.currentThread().interrupt();
         }
         return connection;
     }
@@ -66,14 +69,25 @@ public enum ConnectionPool {
     public void destroyPool() {
         for (int i = 0; i < poolSize; i++) {
             try {
-                availableConnections.take().close();
+                availableConnections.take().reallyClose();
             } catch (InterruptedException e) {
-                logger.error(String.format("Failed to retrieve connection: %s", e.getMessage()));
+                logger.error("Failed to retrieve connection: ", e);
             } catch (SQLException e) {
-                logger.error(String.format("Failed to close connection: %s", e.getMessage()));
+                logger.error("Failed to close connection: ", e);
             }
         }
+        deregisterDrivers();
         logger.info("Connection pool is destroyed");
+    }
+
+    private void deregisterDrivers() {
+        DriverManager.getDrivers().asIterator().forEachRemaining(driver -> {
+            try {
+                DriverManager.deregisterDriver(driver);
+            } catch (SQLException e) {
+                logger.error("Failed to deregister drivers: ", e);
+            }
+        });
     }
 
 }

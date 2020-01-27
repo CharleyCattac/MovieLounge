@@ -3,7 +3,7 @@ package com.lobach.movielounge.database.dao;
 import com.lobach.movielounge.database.connection.ConnectionPool;
 import com.lobach.movielounge.database.dao.impl.MovieDaoImpl;
 import com.lobach.movielounge.exception.DaoException;
-import com.lobach.movielounge.model.entity.Movie;
+import com.lobach.movielounge.model.Movie;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.testng.Assert;

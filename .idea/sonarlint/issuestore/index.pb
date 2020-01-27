@@ -1,8 +1,6 @@
 
 7
 pom.xml,4\4\442292b8a7efeabbe4cc176709b833b1792140ec
-Ä
-Psrc/main/java/com/lobach/movielounge/servlet/service/PoolManagementListener.java,7\9\79c224ebff192f9606d0ccbdbda108eff7cee45c
 
 Osrc/main/java/com/lobach/movielounge/database/connection/ConnectionManager.java,d\1\d1bce0ae53600ad42165bb49911ab636ecbae53d
 l
@@ -53,7 +51,31 @@ t
 Dsrc/main/java/com/lobach/movielounge/model/factory/MovieFactory.java,0\d\0d7a35ea125e1196b37daef870dc6d47670942ca
 {
 Ksrc/main/java/com/lobach/movielounge/model/factory/MovieSessionFactory.java,a\c\ac2d0ad9a2803ba309fc8f3cc69468dd4c7d38c5
-x
-Hsrc/main/java/com/lobach/movielounge/model/validator/MessageManager.java,7\c\7c61426cc35078e230eafd18ccaa491d316159c8
 s
 Csrc/main/java/com/lobach/movielounge/model/factory/UserFactory.java,4\5\45c12cc5fed2beca695f01edb3d950c1f873a48e
+p
+@src/main/java/com/lobach/movielounge/control/MessageManager.java,d\0\d041e87c3712d3d3b583d67f0654ca649ba71907
+Å
+Qsrc/main/java/com/lobach/movielounge/servlet/listener/PoolManagementListener.java,c\8\c87a6321bd239bc745420500874c29e498c26d11
+o
+?src/main/java/com/lobach/movielounge/model/entity/UserRole.java,a\a\aa689fd9a83f6b52ce0a5e32bdcf66ec692b08b9
+V
+&src/main/resources/messages.properties,7\7\77906e46f0e91702a3d64a15647ee2a5325bdab6
+Y
+)src/main/resources/messages_by.properties,1\1\11c70f9e46fd7af8d8bd4c83b600dc6fabef712d
+Y
+)src/main/resources/messages_ru.properties,c\9\c99ae9ddb03868c984bc481ce75a86c1da7381e4
+P
+ src/main/resources/ui.properties,0\e\0e652a984c5832ee533ffd7e0e4e02eb603d9c57
+S
+#src/main/resources/ui_by.properties,b\e\beebf089f0860785e9a1166d0a623a458d2a81e3
+S
+#src/main/resources/ui_ru.properties,a\4\a4f482b191ed22a4a433d152902b06e98192a4f1
+t
+Dsrc/main/java/com/lobach/movielounge/exception/CommandException.java,a\8\a81b11b7902f8e6bb1488cf40c431d7853f335af
+t
+Dsrc/main/java/com/lobach/movielounge/exception/ServiceException.java,0\3\03e06293aec946d9c1541c7a7f816a3fbdf54ca3
+~
+Nsrc/main/java/com/lobach/movielounge/control/service/impl/UserServiceImpl.java,7\a\7ae3015b0779cb9b2e280e533e3c27bf7f5039b9
+u
+Esrc/main/java/com/lobach/movielounge/control/service/UserService.java,3\3\33bffbe41db6453e4301e9c376ec8db80f1c3354

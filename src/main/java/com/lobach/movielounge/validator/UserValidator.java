@@ -1,4 +1,4 @@
-package com.lobach.movielounge.model.validator;
+package com.lobach.movielounge.validator;
 
 public class UserValidator {
     private static final String EMAIL_REGEX = "^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$";

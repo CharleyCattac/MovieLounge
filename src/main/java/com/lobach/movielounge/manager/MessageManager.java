@@ -1,4 +1,4 @@
-package com.lobach.movielounge.control;
+package com.lobach.movielounge.manager;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

@@ -1,7 +1,7 @@
-package com.lobach.movielounge.model.validator;
+package com.lobach.movielounge.validator;
 
-import com.lobach.movielounge.control.MessageManager;
-import com.lobach.movielounge.model.entity.MovieSession;
+import com.lobach.movielounge.manager.MessageManager;
+import com.lobach.movielounge.model.MovieSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -9,7 +9,7 @@ import java.util.Date;
 
 public class MovieSessionValidator {
     private static final Logger logger = LogManager.getLogger();
-    private static final String BUNDLE_STARTUP_NAME = "startup";
+    private static final String BUNDLE_STARTUP_NAME = "config";
     private static final String PROPERTY_MAX_AMOUNT = "max_booking_amount";
 
     private static int maxBookingAmount;
@@ -30,5 +30,9 @@ public class MovieSessionValidator {
 
     public boolean isFulled(MovieSession movieSession) {
         return movieSession.getBookingAmount() < maxBookingAmount;
+    }
+
+    public static int getMaxBookingAmount() {
+        return maxBookingAmount;
     }
 }

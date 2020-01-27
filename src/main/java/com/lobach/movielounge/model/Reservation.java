@@ -1,6 +1,4 @@
-package com.lobach.movielounge.model.entity;
-
-import com.lobach.movielounge.database.dao.BaseDao;
+package com.lobach.movielounge.model;
 
 import java.util.Objects;
 

@@ -4,35 +4,37 @@ import com.lobach.movielounge.database.connection.ConnectionPool;
 import com.lobach.movielounge.database.connection.ProxyConnection;
 import com.lobach.movielounge.database.dao.UserDao;
 import com.lobach.movielounge.exception.DaoException;
-import com.lobach.movielounge.model.entity.User;
-import com.lobach.movielounge.model.entity.UserRole;
-import com.lobach.movielounge.model.factory.UserFactory;
+import com.lobach.movielounge.model.User;
+import com.lobach.movielounge.model.UserRole;
+import com.lobach.movielounge.model.UserFactory;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public enum UserDaoImpl implements UserDao {
-    INSTANCE;
+public class UserDaoImpl implements UserDao {
 
     private static final String INSERT_USER =
-                    "INSERT INTO users (email,password,role,name,phone_number) "
+            "INSERT INTO users (email,password,role,name,phone_number) "
                     + "VALUES (?,?,?,?,?)";
     private static final String SELECT_USER_BY_ID =
-                    "SELECT users.id,email,password,active,role,name,phone_number,avatar_url " +
+            "SELECT users.id,email,password,active,role,name,phone_number,avatar_url " +
                     "FROM users WHERE users.id=?";
     private static final String SELECT_USER_BY_EMAIL =
-                    "SELECT users.id,email,password,active,role,name,phone_number,avatar_url " +
+            "SELECT users.id,email,password,active,role,name,phone_number,avatar_url " +
                     "FROM users WHERE email=?";
+    private static final String SELECT_USER_BY_EMAIL_AND_PASSWORD =
+            "SELECT users.id,email,password FROM users WHERE email=? AND password=?";
     private static final String UPDATE_USER_DATA_BY_EMAIL =
-                    "UPDATE users " +
-                    "SET name=?,phone_number=?,avatar_url=? " +
+            "UPDATE users SET name=?,phone_number=?,avatar_url=? " +
                     "WHERE email=?";
     private static final String UPDATE_PASSWORD_BY_EMAIL =
-                    "UPDATE users SET password=? WHERE email=?";
+            "UPDATE users SET password=? WHERE email=?";
     private static final String UPDATE_STATUS_BY_EMAIL =
-                    "UPDATE users SET active=? WHERE email=?";
+            "UPDATE users SET active=? WHERE email=?";
+    private static final String UPDATE_ROLE_BY_EMAIL =
+            "UPDATE users SET role=? WHERE email=?";
 
 
     @Override
@@ -57,20 +59,26 @@ public enum UserDaoImpl implements UserDao {
         }
     }
 
-    @Override
+    @Override @Deprecated
     public void update(User object) throws DaoException {
+    }
+
+    @Override
+    public void updateByEmail(String email, String newName,
+                              String newPhoneNumber, String newAvatarUrl)
+                throws DaoException {
         ProxyConnection connection = null;
         PreparedStatement statement = null;
         try {
             connection = ConnectionPool.INSTANCE.getConnection();
             statement = connection.prepareStatement(UPDATE_USER_DATA_BY_EMAIL);
-            statement.setString(1, object.getName());
-            statement.setString(2, object.getPhoneNumber());
-            statement.setString(3, object.getAvatarURL());
-            statement.setString(4, object.getEmail());
+            statement.setString(1, newName);
+            statement.setString(2, newPhoneNumber);
+            statement.setString(3, newAvatarUrl);
+            statement.setString(4, email);
             statement.execute();
         } catch (SQLException e) {
-            throw new DaoException(String.format("Failed to update user data by email %s: %s", object.getEmail(), e));
+            throw new DaoException(String.format("Failed to update user data by email %s: %s", email, e));
         } finally {
             close(statement);
             close(connection);
@@ -103,6 +111,24 @@ public enum UserDaoImpl implements UserDao {
             connection = ConnectionPool.INSTANCE.getConnection();
             statement = connection.prepareStatement(UPDATE_STATUS_BY_EMAIL);
             statement.setBoolean(1, newStatus);
+            statement.setString(2, email);
+            statement.execute();
+        } catch (SQLException e) {
+            throw new DaoException(String.format("Failed to change status by email %s: %s", email, e));
+        } finally {
+            close(statement);
+            close(connection);
+        }
+    }
+
+    @Override
+    public void updateRole(String email, UserRole newRole) throws DaoException {
+        ProxyConnection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = ConnectionPool.INSTANCE.getConnection();
+            statement = connection.prepareStatement(UPDATE_ROLE_BY_EMAIL);
+            statement.setString(1, newRole.value);
             statement.setString(2, email);
             statement.execute();
         } catch (SQLException e) {
@@ -185,5 +211,26 @@ public enum UserDaoImpl implements UserDao {
             close(connection);
         }
         return user;
+    }
+
+    @Override
+    public boolean passwordMatchesEmail(String emailKey, String passwordKey) throws DaoException {
+        ProxyConnection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = ConnectionPool.INSTANCE.getConnection();
+            statement = connection.prepareStatement(SELECT_USER_BY_EMAIL_AND_PASSWORD);
+            statement.setString(1, emailKey);
+            statement.setString(2, passwordKey);
+            resultSet = statement.executeQuery();
+        } catch (SQLException e) {
+            throw new DaoException(String.format("Given email %s does not match the password %s: %s", emailKey, passwordKey, e));
+        } finally {
+            close(resultSet);
+            close(statement);
+            close(connection);
+        }
+        return true;
     }
 }

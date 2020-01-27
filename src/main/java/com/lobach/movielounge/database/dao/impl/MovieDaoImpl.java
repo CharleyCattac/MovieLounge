@@ -4,15 +4,14 @@ import com.lobach.movielounge.database.connection.ConnectionPool;
 import com.lobach.movielounge.database.connection.ProxyConnection;
 import com.lobach.movielounge.database.dao.MovieDao;
 import com.lobach.movielounge.exception.DaoException;
-import com.lobach.movielounge.model.entity.Movie;
-import com.lobach.movielounge.model.factory.MovieFactory;
+import com.lobach.movielounge.model.Movie;
+import com.lobach.movielounge.model.MovieFactory;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public enum MovieDaoImpl implements MovieDao {
-    INSTANCE;
+public class MovieDaoImpl implements MovieDao {
 
     private static final String INSERT_MOVIE =
             "INSERT INTO movies (title,description,release_year,director,rating) "

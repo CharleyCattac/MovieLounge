@@ -1,4 +1,4 @@
-package com.lobach.movielounge.model.entity;
+package com.lobach.movielounge.model;
 
 import java.util.List;
 import java.util.Objects;

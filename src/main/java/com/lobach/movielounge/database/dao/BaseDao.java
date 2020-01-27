@@ -14,9 +14,13 @@ public interface BaseDao<T> {
     Logger logger = LogManager.getLogger();
 
     void insert(T object) throws DaoException;
+
     void update(T object) throws DaoException;
+
     void delete(T object) throws DaoException;
+
     T selectById(Long id) throws DaoException;
+
     List<T> selectAll() throws DaoException;
 
     default void close(Statement statement) {

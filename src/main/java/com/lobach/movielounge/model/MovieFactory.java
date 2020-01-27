@@ -1,6 +1,4 @@
-package com.lobach.movielounge.model.factory;
-
-import com.lobach.movielounge.model.entity.Movie;
+package com.lobach.movielounge.model;
 
 public enum MovieFactory {
     INSTANCE;

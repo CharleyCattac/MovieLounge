@@ -1,10 +1,32 @@
 package com.lobach.movielounge.servlet;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
+import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/control_servlet")
+@MultipartConfig()
 
 public class ControlServlet extends HttpServlet {
-    private static final Logger logger = LogManager.getLogger();
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) {
+        processRequest(request, response);
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) {
+        processRequest(request, response);
+    }
+
+    private void processRequest(HttpServletRequest request, HttpServletResponse response) {
+        //TODO finish method after some commands and k.o. are created
+        /*
+        String page;
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
+        dispatcher.forward(request, response);
+         */
+    }
 }

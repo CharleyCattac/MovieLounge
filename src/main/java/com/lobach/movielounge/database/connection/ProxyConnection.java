@@ -58,6 +58,10 @@ public class ProxyConnection implements Connection {
         ConnectionPool.INSTANCE.releaseConnection(this);
     }
 
+    public void reallyClose() throws SQLException {
+        connection.close();
+    }
+
     @Override
     public boolean isClosed() throws SQLException {
         return connection.isClosed();

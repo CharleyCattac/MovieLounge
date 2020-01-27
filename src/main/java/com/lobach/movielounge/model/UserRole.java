@@ -1,4 +1,4 @@
-package com.lobach.movielounge.model.entity;
+package com.lobach.movielounge.model;
 
 public enum UserRole {
     USER("user"), ADMIN("admin");

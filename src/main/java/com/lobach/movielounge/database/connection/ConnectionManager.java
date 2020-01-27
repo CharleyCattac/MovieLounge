@@ -3,7 +3,6 @@ package com.lobach.movielounge.database.connection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.MissingResourceException;
@@ -14,7 +13,7 @@ enum ConnectionManager {
 
     private static final Logger logger = LogManager.getLogger();
 
-    private static final String BUNDLE_NAME = "startup";
+    private static final String BUNDLE_NAME = "config";
     private static final String PROPERTY_DB_URL = "database.url";
     private static final String PROPERTY_DB_DRIVER = "database.driver";
     private static final String PROPERTY_DB_USER = "database.user";
@@ -36,10 +35,9 @@ enum ConnectionManager {
             String driverUrl = bundle.getString(PROPERTY_DB_DRIVER);
             userName = bundle.getString(PROPERTY_DB_USER);
             userPassword = bundle.getString(PROPERTY_DB_PASSWORD);
-            String pSize = bundle.getString(PROPERTY_DB_POOL_SIZE);
-
+            String poolSizeString = bundle.getString(PROPERTY_DB_POOL_SIZE);
             Class.forName(driverUrl);
-            poolSize = Integer.parseInt(pSize);
+            poolSize = Integer.parseInt(poolSizeString);
 
             return true;
         } catch (MissingResourceException e) {
