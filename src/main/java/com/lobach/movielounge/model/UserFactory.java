@@ -6,27 +6,27 @@ public enum UserFactory {
     UserFactory() {
     }
 
-    public User createBasic(String email, String password, UserRole userRole, boolean active) {
+    public User createBasic(String email, String password, UserRole userRole, UserStatus status) {
         User user = new User();
         user.setEmail(email);
         user.setPassword(password);
-        user.setActive(active);
+        user.setStatus(status);
         user.setUserRole(userRole);
         return user;
     }
 
-    public User createFullNoId(String email, String password, UserRole userRole, boolean active,
+    public User createFullNoId(String email, String password, UserRole userRole, UserStatus status,
                                String name, String phoneNumber, String avatarUrl) {
-        User user = this.createBasic(email, password, userRole, active);
+        User user = this.createBasic(email, password, userRole, status);
         user.setName(name);
         user.setPhoneNumber(phoneNumber);
         user.setAvatarURL(avatarUrl);
         return user;
     }
 
-    public User createFull(long id, String email, String password, UserRole userRole, boolean active,
+    public User createFull(long id, String email, String password, UserRole userRole, UserStatus status,
                            String name, String phoneNumber, String avatarUrl) {
-        User user = this.createBasic(email, password, userRole, active);
+        User user = this.createBasic(email, password, userRole, status);
         user.setId(id);
         user.setName(name);
         user.setPhoneNumber(phoneNumber);

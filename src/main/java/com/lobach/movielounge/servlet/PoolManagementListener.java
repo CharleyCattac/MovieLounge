@@ -8,7 +8,6 @@ import javax.servlet.annotation.WebListener;
 
 @WebListener
 public class PoolManagementListener implements ServletContextListener {
-
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
         ConnectionPool.INSTANCE.setUpPool();

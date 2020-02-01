@@ -7,6 +7,7 @@ import com.lobach.movielounge.exception.DaoException;
 import com.lobach.movielounge.model.User;
 import com.lobach.movielounge.model.UserRole;
 import com.lobach.movielounge.model.UserFactory;
+import com.lobach.movielounge.model.UserStatus;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,10 +20,10 @@ public class UserDaoImpl implements UserDao {
             "INSERT INTO users (email,password,role,name,phone_number) "
                     + "VALUES (?,?,?,?,?)";
     private static final String SELECT_USER_BY_ID =
-            "SELECT users.id,email,password,active,role,name,phone_number,avatar_url " +
+            "SELECT users.id,email,password,status,role,name,phone_number,avatar_url " +
                     "FROM users WHERE users.id=?";
     private static final String SELECT_USER_BY_EMAIL =
-            "SELECT users.id,email,password,active,role,name,phone_number,avatar_url " +
+            "SELECT users.id,email,password,status,role,name,phone_number,avatar_url " +
                     "FROM users WHERE email=?";
     private static final String SELECT_USER_BY_EMAIL_AND_PASSWORD =
             "SELECT users.id,email,password FROM users WHERE email=? AND password=?";
@@ -32,7 +33,7 @@ public class UserDaoImpl implements UserDao {
     private static final String UPDATE_PASSWORD_BY_EMAIL =
             "UPDATE users SET password=? WHERE email=?";
     private static final String UPDATE_STATUS_BY_EMAIL =
-            "UPDATE users SET active=? WHERE email=?";
+            "UPDATE users SET status=? WHERE email=?";
     private static final String UPDATE_ROLE_BY_EMAIL =
             "UPDATE users SET role=? WHERE email=?";
 
@@ -104,13 +105,13 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public void updateStatus(String email, Boolean newStatus) throws DaoException {
+    public void updateStatus(String email, String newStatus) throws DaoException {
         ProxyConnection connection = null;
         PreparedStatement statement = null;
         try {
             connection = ConnectionPool.INSTANCE.getConnection();
             statement = connection.prepareStatement(UPDATE_STATUS_BY_EMAIL);
-            statement.setBoolean(1, newStatus);
+            statement.setString(1, newStatus);
             statement.setString(2, email);
             statement.execute();
         } catch (SQLException e) {
@@ -122,13 +123,13 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public void updateRole(String email, UserRole newRole) throws DaoException {
+    public void updateRole(String email, String newRole) throws DaoException {
         ProxyConnection connection = null;
         PreparedStatement statement = null;
         try {
             connection = ConnectionPool.INSTANCE.getConnection();
             statement = connection.prepareStatement(UPDATE_ROLE_BY_EMAIL);
-            statement.setString(1, newRole.value);
+            statement.setString(1, newRole);
             statement.setString(2, email);
             statement.execute();
         } catch (SQLException e) {
@@ -163,7 +164,7 @@ public class UserDaoImpl implements UserDao {
                 int index = 2;
                 String email = resultSet.getString(index++);
                 String password = resultSet.getString(index++);
-                Boolean status = resultSet.getBoolean(index++);
+                UserStatus status = UserStatus.valueOf(resultSet.getString(index++).toUpperCase());
                 UserRole role = UserRole.valueOf(resultSet.getString(index++).toUpperCase());
                 String name = resultSet.getString(index++);
                 String phoneNumber = resultSet.getString(index++);
@@ -196,7 +197,7 @@ public class UserDaoImpl implements UserDao {
                 long id = resultSet.getLong(index++);
                 String email = resultSet.getString(index++);
                 String password = resultSet.getString(index++);
-                boolean status = resultSet.getBoolean(index++);
+                UserStatus status = UserStatus.valueOf(resultSet.getString(index++).toUpperCase());
                 UserRole role = UserRole.valueOf(resultSet.getString(index++).toUpperCase());
                 String name = resultSet.getString(index++);
                 String phoneNumber = resultSet.getString(index++);

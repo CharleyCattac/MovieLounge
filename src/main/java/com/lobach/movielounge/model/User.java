@@ -7,7 +7,7 @@ public class User {
     private Long id;
     private String email;
     private String password;
-    private Boolean active;
+    private UserStatus status;
     private UserRole userRole;
 
     private String name;
@@ -44,12 +44,12 @@ public class User {
         this.password = password;
     }
 
-    public Boolean isActive() {
-        return active;
+    public UserStatus getStatus() {
+        return status;
     }
 
-    public void setActive(Boolean active) {
-        this.active = active;
+    public void setStatus(UserStatus status) {
+        this.status = status;
     }
 
     public UserRole getUserRole() {
@@ -100,6 +100,7 @@ public class User {
         return Objects.equals(id, user.id) &&
                 Objects.equals(email, user.email) &&
                 Objects.equals(password, user.password) &&
+                status == user.status &&
                 userRole == user.userRole &&
                 Objects.equals(name, user.name) &&
                 Objects.equals(phoneNumber, user.phoneNumber) &&
@@ -109,7 +110,7 @@ public class User {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, email, password, userRole, name, phoneNumber, avatarURL, reservations);
+        return Objects.hash(id, email, password, status, userRole, name, phoneNumber, avatarURL, reservations);
     }
 
     @Override
@@ -118,8 +119,8 @@ public class User {
                 "id=" + id +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", active=" + active +
-                ", role=" + userRole +
+                ", status=" + status +
+                ", userRole=" + userRole +
                 ", name='" + name + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", avatarURL='" + avatarURL + '\'' +

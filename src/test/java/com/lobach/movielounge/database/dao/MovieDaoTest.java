@@ -62,7 +62,7 @@ public class MovieDaoTest {
 
     @Test(dataProvider = "movie_provider")
     public void insertMoviesTest(Movie testMovie) throws DaoException {
-        MovieDaoImpl dao = MovieDaoImpl.INSTANCE;
+        MovieDao dao = new MovieDaoImpl();
         dao.insert(testMovie);
     }
 
@@ -77,7 +77,7 @@ public class MovieDaoTest {
 
     @Test (dataProvider = "title_provider")
     public void getMoviesByTitleTest(String title, Float rating) throws DaoException {
-        MovieDaoImpl dao = MovieDaoImpl.INSTANCE;
+        MovieDao dao = new MovieDaoImpl();
         Movie movie = dao.selectByTitle(title);
         logger.info(String.format("Movie found: %s", movie));
         Assert.assertEquals(movie.getRating(), rating);
@@ -85,7 +85,7 @@ public class MovieDaoTest {
 
     @Test
     public void getAllMoviesTest() throws DaoException {
-        MovieDaoImpl dao = MovieDaoImpl.INSTANCE;
+        MovieDao dao = new MovieDaoImpl();
         List<Movie> movies = dao.selectAll();
         Assert.assertEquals(movies.size(), 4);
     }
@@ -101,7 +101,7 @@ public class MovieDaoTest {
 
     @Test (dataProvider = "rating_provider")
     public void updateRatingTest(String title, Float newRating) throws DaoException {
-        MovieDaoImpl dao = MovieDaoImpl.INSTANCE;
+        MovieDao dao = new MovieDaoImpl();
         dao.updateRating(title, newRating);
 
         Movie movie = dao.selectByTitle(title);
@@ -120,7 +120,7 @@ public class MovieDaoTest {
 
     @Test (dataProvider = "remove_title_provider")
     public void removeByTitleTest(String title, int newAmount) throws DaoException {
-        MovieDaoImpl dao = MovieDaoImpl.INSTANCE;
+        MovieDao dao = new MovieDaoImpl();
         dao.deleteByTitle(title);
 
         List<Movie> movies = dao.selectAll();
@@ -129,7 +129,7 @@ public class MovieDaoTest {
 
     @Test
     public void removeAllTest() throws DaoException {
-        MovieDaoImpl dao = MovieDaoImpl.INSTANCE;
+        MovieDao dao = new MovieDaoImpl();
         dao.deleteAll();
 
         List<Movie> movies = dao.selectAll();

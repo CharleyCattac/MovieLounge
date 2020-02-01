@@ -1,7 +1,7 @@
 package com.lobach.movielounge.model;
 
 public enum UserRole {
-    USER("user"), ADMIN("admin");
+    GUEST("guest"), USER("user"), ADMIN("admin");
 
     public final String value;
 

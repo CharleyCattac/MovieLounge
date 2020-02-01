@@ -2,7 +2,6 @@ package com.lobach.movielounge.database.dao;
 
 import com.lobach.movielounge.exception.DaoException;
 import com.lobach.movielounge.model.User;
-import com.lobach.movielounge.model.UserRole;
 
 public interface UserDao extends BaseDao<User> {
 
@@ -10,9 +9,9 @@ public interface UserDao extends BaseDao<User> {
 
     void updatePassword(String email, String newPassword) throws DaoException;
 
-    void updateStatus(String email, Boolean newStatus) throws DaoException;
+    void updateStatus(String email, String newStatus) throws DaoException;
 
-    void updateRole(String email, UserRole newRole) throws DaoException;
+    void updateRole(String email, String newRole) throws DaoException;
 
     User selectById(Long key) throws DaoException;
 
