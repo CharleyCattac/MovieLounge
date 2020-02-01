@@ -10,8 +10,8 @@
     <meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
     <title><fmt:message key="main_page.title"/></title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
-    <link href="<c:url value="/jsp/css/style.css"/>" rel="stylesheet">
-    <link href="<c:url value="/jsp/css/main.css"/>" rel="stylesheet">
+    <link href="<c:url value="/css/style1.css"/>" rel="stylesheet">
+    <link href="<c:url value="/css/main.css"/>" rel="stylesheet">
 </head>
 <body>
 <div class="app">

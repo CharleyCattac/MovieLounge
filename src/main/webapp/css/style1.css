@@ -38,6 +38,7 @@
 .header_item {
     vertical-align: middle;
     display: table-cell;
+    color: #fff;
 }
 
 .header-menu {
@@ -48,6 +49,7 @@
     text-overflow: ellipsis;
     display: flex;
     flex-wrap: wrap;
+    color: #fff;
 }
 
 .header-menu_item {
@@ -63,6 +65,7 @@
     font-size: 14px;
     line-height: 64px;
     font-weight: 500;
+    color: whitesmoke;
 }
 
 .header-right-menu {
@@ -134,7 +137,6 @@
 .main {
     width: 70%;
     float: left;
-    padding-right: 12px;
 }
 
 .main_inner {
