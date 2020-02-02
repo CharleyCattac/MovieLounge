@@ -57,8 +57,6 @@ v
 Fsrc/main/java/com/lobach/movielounge/command/impl/RegisterCommand.java,8\e\8ef4084e64373e2c8154276316dc549ceacce3cd
 q
 Asrc/main/java/com/lobach/movielounge/exception/PoolException.java,9\2\9276204b414b8491ba19b8a582c92f00a40297c7
-p
-@src/main/java/com/lobach/movielounge/manager/MessageManager.java,b\9\b9513954126ab0fc6010ff905d600e1222a37cce
 e
 5src/main/java/com/lobach/movielounge/model/Movie.java,6\6\666c806bec6cb61a3518d7e00c517ca4655bc04b
 l
@@ -113,12 +111,6 @@ m
 =src/main/java/com/lobach/movielounge/service/UserService.java,7\4\7409b79476714da72f9ef0d07d13ae11767dba1f
 v
 Fsrc/main/java/com/lobach/movielounge/service/impl/UserServiceImpl.java,1\7\17d258c70b4f31dafbe0f78ee39b0fd2dda7dc14
-P
- src/main/webapp/jsp/css/main.css,1\3\1346c98fb7f09b24cc496e473efbae300a5009b7
-Q
-!src/main/webapp/jsp/css/error.css,4\c\4c954b7d5ee46d486278e9cf811dbef059656b75
-Q
-!src/main/webapp/jsp/css/style.css,b\0\b0cafc230948fe68122768a6de0c07ded5c0b427
 I
 src/main/webapp/index.jsp,8\e\8e6d3b70c9f5b02570779b0441540d45eceb0ded
 N
@@ -127,8 +119,6 @@ T
 $src/main/webapp/jsp/sidebarGuest.jsp,1\0\1026e7e153e9a55d0a9486e5a4bfed31af581872
 S
 #src/main/webapp/jsp/sidebarUser.jsp,c\b\cb20c355951e65984e2b901b8f70a9949545d3b3
-O
-src/main/webapp/jsp/sidebar.jsp,f\a\fa1626d6cfc80c9643daf251ade55fa3da9a77ef
 m
 =src/main/java/com/lobach/movielounge/filter/LocaleFilter.java,0\b\0bbb80a2b79f541a750654f0a7727f8678b576d4
 o
@@ -139,3 +129,27 @@ i
 9src/main/java/com/lobach/movielounge/tag/MarkRoleTag.java,2\1\21366ad7c6a6b37d5a39657c9766804361a6ab0b
 S
 #src/main/webapp/jsp/languageBar.jsp,5\e\5e6ab26a83da9ee28915f79b3b3ca3bc3bd93f81
+W
+'.idea/libraries/Java_EE_6_Java_EE_6.xml,d\e\de547daf4b9e3e50cc4e8f5d80bd27749df7c357
+M
+src/main/resources/log4j2.xml,3\6\36b9f0d33e4b7e602e3cd701314fae81543db66f
+M
+src/main/webapp/css/error.css,e\1\e1c46cbf3d1a44922068c29ea9fa352fbaf24394
+L
+src/main/webapp/css/main.css,e\5\e541d2083b92473d29b1b970745c43bc2d2439f6
+S
+#src/main/webapp/js/bootstrap.min.js,1\8\1889f9b14c3ebc945fcc5e57e57acfd4fba5aea9
+[
++src/main/webapp/js/jquery-3.2.1.slim.min.js,5\4\54b7e22587aa36f9e0cbfce912eb02dc1ccac583
+P
+ src/main/webapp/js/popper.min.js,8\4\84e38e03b73ad3fda291468e265284d9c65130db
+q
+Asrc/main/java/com/lobach/movielounge/manager/PropertyManager.java,3\c\3cdc0d764d67bf539be9b5068735c1e8222c24ab
+z
+Jsrc/main/java/com/lobach/movielounge/command/impl/ChangeLocaleCommand.java,3\e\3e9c95e68247e16c5eac7d165b49c0c937d737b7
+p
+@src/main/java/com/lobach/movielounge/command/CommandManager.java,7\0\7078f986b1aec18bae2a39a2932b4fa8646bbd88
+T
+$src/main/resources/config.properties,f\a\fac4e92d770a0a6287eaad0e53c4efa350987f47
+M
+src/main/webapp/css/style.css,2\c\2c1f525046eaa5ad3e39cc3d3b2f4c4fab4ff318

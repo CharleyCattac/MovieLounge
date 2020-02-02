@@ -1,6 +1,6 @@
 package com.lobach.movielounge.service.impl;
 
-import com.lobach.movielounge.manager.MessageManager;
+import com.lobach.movielounge.manager.PropertyManager;
 import com.lobach.movielounge.model.UserStatus;
 import com.lobach.movielounge.service.UserService;
 import com.lobach.movielounge.database.dao.UserDao;
@@ -111,48 +111,48 @@ public enum UserServiceImpl implements UserService {
         try {
             return dao.passwordMatchesEmail(email, password);
         } catch (DaoException e) {
-            String message = MessageManager.getMessage(MESSAGE_BUNDLE, MESSAGE_MATCH);
+            String message = PropertyManager.getProperty(MESSAGE_BUNDLE, MESSAGE_MATCH);
             throw new ServiceException(message);
         }
     }
 
     private String validatePassword(String password) {
         if (!UserValidator.validatePassword(password)) {
-            return MessageManager.getMessage(MESSAGE_BUNDLE, MESSAGE_PASSWORD);
+            return PropertyManager.getProperty(MESSAGE_BUNDLE, MESSAGE_PASSWORD);
         }
         return null;
     }
 
     private String validateRole(String roleString) {
         if (!UserValidator.validateRole(roleString)) {
-            return MessageManager.getMessage(MESSAGE_BUNDLE, MESSAGE_ROLE);
+            return PropertyManager.getProperty(MESSAGE_BUNDLE, MESSAGE_ROLE);
         }
         return null;
     }
 
     private String validateStatus(String statusString) {
         if (!UserValidator.validateStatus(statusString)) {
-            return MessageManager.getMessage(MESSAGE_BUNDLE, MESSAGE_STATUS);
+            return PropertyManager.getProperty(MESSAGE_BUNDLE, MESSAGE_STATUS);
         }
         return null;
     }
 
     private String signInValidation(String email, String password) {
         if (!UserValidator.validateEmail(email)) {
-            return MessageManager.getMessage(MESSAGE_BUNDLE, MESSAGE_EMAIL);
+            return PropertyManager.getProperty(MESSAGE_BUNDLE, MESSAGE_EMAIL);
         }
         if (!UserValidator.validatePassword(password)) {
-            return MessageManager.getMessage(MESSAGE_BUNDLE, MESSAGE_PASSWORD);
+            return PropertyManager.getProperty(MESSAGE_BUNDLE, MESSAGE_PASSWORD);
         }
         return null;
     }
 
     private String updateDataValidation(String name, String phoneNumber) {
         if (!UserValidator.validateName(name)) {
-            return MessageManager.getMessage(MESSAGE_BUNDLE, MESSAGE_NAME);
+            return PropertyManager.getProperty(MESSAGE_BUNDLE, MESSAGE_NAME);
         }
         if (!UserValidator.validatePhoneNumber(phoneNumber)) {
-            return MessageManager.getMessage(MESSAGE_BUNDLE, MESSAGE_PHONE_NUMBER);
+            return PropertyManager.getProperty(MESSAGE_BUNDLE, MESSAGE_PHONE_NUMBER);
         }
         return null;
     }

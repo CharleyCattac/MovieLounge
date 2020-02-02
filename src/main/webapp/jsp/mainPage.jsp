@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
-         pageEncoding="utf-8" %>
+         pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page isELIgnored="false" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
@@ -10,7 +10,7 @@
     <meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
     <title><fmt:message key="main_page.title"/></title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
-    <link href="<c:url value="/css/style1.css"/>" rel="stylesheet">
+    <link href="<c:url value="/css/style.css"/>" rel="stylesheet">
     <link href="<c:url value="/css/main.css"/>" rel="stylesheet">
 </head>
 <body>
@@ -18,19 +18,18 @@
     <jsp:include page="/jsp/header.jsp"/>
     <div class="app_inner" style="padding-top: 64px">
         <div class="main">
-            <div class="main_inner">
-                <article class="news news_main">
+            <div class="main_inner">                <article class="news news_main">
                     <header class="news_header">
                         <h2 class="news_title"><fmt:message key="main_page.label.title"/></h2>
                     </header>
-                    <div class="news_content news_typography ">
+                    <div class="news_content news_typography">
                         <div class="news_content-inner">
                             <div class="news-block_text">
                                 <p><fmt:message key="main_page.text.description"/></p>
                             </div>
                             <div class="news-block_img">
                                 <img src="<fmt:message key="main_page.picture_url.audience"/>" class="rounded mx-auto d-block"
-                                     alt="satisfied audience">
+                                     alt="audience">
                             </div>
                             <div class="news-block_text">
                                 <p><fmt:message key="main_page.label.address"/></p>

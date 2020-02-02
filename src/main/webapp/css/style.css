@@ -49,7 +49,6 @@
     text-overflow: ellipsis;
     display: flex;
     flex-wrap: wrap;
-    color: #fff;
 }
 
 .header-menu_item {
@@ -60,12 +59,17 @@
     margin-right: 29px;
     align-items: center;
 }
+
+.header-menu_item_text {
+    font-size: 14px;
+    color: whitesmoke;
+}
+
 .header-menu_item h2 {
     transition: color 200ms ease-out;
     font-size: 14px;
     line-height: 64px;
     font-weight: 500;
-    color: whitesmoke;
 }
 
 .header-right-menu {
@@ -102,14 +106,28 @@
 
 .logo {
     margin-right: 30px;
+    margin-top: -10px;
+    margin-bottom: -10px;
 }
 
 .logo_img {
     width: 100px;
 }
 
+.lang_bar-item {
+    margin-left: -45px;
+    margin-top: 6px;
+    display: inline-flex;
+    text-transform: uppercase;
+    position: relative;
+    white-space: nowrap;
+    align-items: center;
+    cursor: default;
+}
+
 .lang_img {
-    width: 31px;
+    width: 30px;
+    background-color: transparent;
 }
 
 .app {
@@ -135,26 +153,13 @@
 }
 
 .main {
-    width: 70%;
+    width: 95%;
     float: left;
 }
 
 .main_inner {
-    margin-top: 15px;
+    margin-top: 30px;
     margin-bottom: 30px;
-}
-
-.sidebar-block {
-    margin-top: 15px;
-    font-size: 13px;
-    line-height: 20px;
-    font-weight: 400;
-}
-
-.sidebar-block_border {
-    border: transparent;
-    border-radius: 2px;
-    background-color: transparent;
 }
 
 .tabs_tab {
@@ -288,27 +293,25 @@
     position: relative;
 }
 
-.sidebar {
-    padding-left: 10px;
-    width: 100%;
-    position: relative;
-    float: start;
-    margin-right: 0;
-    overflow: hidden;
-}
-
 .button_success {
     background-color: #C8C438;
     color: #fff;
-}
-
-.button_fit_content {
     width: max-content;
     height: fit-content;
 }
 
+.button_transparent {
+    background-color: transparent;
+    font-family: "Arial Unicode MS";
+}
+
+.button_fit_content {
+    width: fit-content;
+    height: fit-content;
+}
+
 .button_width_30 {
-    width: 30%;
+    width: 30px;
     text-align: center;
 }
 

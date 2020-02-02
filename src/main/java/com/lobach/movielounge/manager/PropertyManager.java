@@ -6,16 +6,16 @@ import org.apache.logging.log4j.Logger;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-public class MessageManager {
+public class PropertyManager {
     private static final Logger logger = LogManager.getLogger();
 
-    public static String getMessage(String bundleName, String propertyName) {
+    public static String getProperty(String bundleName, String propertyName) {
         String message = "";
         try {
             ResourceBundle bundle = ResourceBundle.getBundle(bundleName);
             message = bundle.getString(propertyName);
         } catch (MissingResourceException e) {
-            logger.error(String.format("Resource not found: %s", bundleName));
+            logger.error("Resource not found: ", e);
         }
         return message;
     }

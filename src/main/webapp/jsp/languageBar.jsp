@@ -6,39 +6,40 @@
 <fmt:setLocale value="${locale}" scope="session"/>
 <fmt:setBundle basename="interface"/>
 <html>
-<head>
-    <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
-</head>
-<body>
+    <head>
+        <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+    </head>
+    <body>
+        <div class="lang_bar-item">
+            <div>
+                <form id="to_en" action="control_servlet" method="GET">
+                    <input type="hidden" name="command" value="change_locale"/>
+                    <input type="hidden" name="locale" value="EN"/>
+                    <button type="submit" class="button_width_30 button_transparent">
+                        <img class="lang_img" src="img/lang/en.jpg"/>
+                    </button>
+                </form>
+            </div>
 
-<div class="">
-    <a href="javascript: void(0)" id="en">
-        <img src="img/lang/en.jpg" class="lang_img">
-    </a>
-    <form id="to_en" action="controller" method="GET">
-        <input type="hidden" name="command" value="change_locale"/>
-        <input type="hidden" name="locale" value="en"/>
-    </form>
-</div>
+            <div>
+                <form id="to_ru" action="control_servlet" method="GET">
+                    <input type="hidden" name="command" value="change_locale"/>
+                    <input type="hidden" name="locale" value="RU"/>
+                    <button type="submit" class="button_width_30 button_transparent">
+                        <img class="lang_img" src="img/lang/ru.jpg"/>
+                    </button>
+                </form>
+            </div>
 
-<div>
-    <a href="javascript: void(0)" id="ru">
-        <img src="img/lang/ru.jpg" class="lang_img">
-    </a>
-    <form id="to_ru" action="controller" method="GET">
-        <input type="hidden" name="command" value="change_locale"/>
-        <input type="hidden" name="locale" value="ru"/>
-    </form>
-</div>
-
-<div>
-    <a href="javascript: void(0)" id="by">
-        <img src="img/lang/by.jpg" class="lang_img">
-    </a>
-    <form id="to_by" action="controller" method="GET">
-        <input type="hidden" name="command" value="change_locale"/>
-        <input type="hidden" name="locale" value="by"/>
-    </form>
-</div>
-</body>
+            <div>
+                <form id="to_by" action="control_servlet" method="GET">
+                    <input type="hidden" name="command" value="change_locale"/>
+                    <input type="hidden" name="locale" value="BY"/>
+                    <button type="submit" class="button_width_30 button_transparent">
+                        <img class="lang_img" src="img/lang/by.jpg"/>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </body>
 </html>

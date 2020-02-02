@@ -1,13 +1,14 @@
 
-ysquid:S2068!"V'PASSWORD' detected in this expression, review this potentially hard-coded credential.(–¤ÅÔÿÿÿÿÿ8¬Ûôÿü-
-tsquid:S2068""V'password' detected in this expression, review this potentially hard-coded credential.(Ÿ‚…‰8¬Ûôÿü-
-Ÿsquid:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(æôò78šÈ·€ı-
-Ssquid:S1133"5Do not forget to remove this deprecated code someday.(æôò78¾´éı-
-Jsquid:S1168•"+Return an empty collection instead of null.(¥¹ï8Üğ†…ı-
-tsquid:S2068"V'PASSWORD' detected in this expression, review this potentially hard-coded credential.(ùÛÌ”8š¶¶ùı-
-Xsquid:S1133@"5Do not forget to remove this deprecated code someday.(”Ìííúÿÿÿÿ8‹ÀÑ¡ş-
 Xsquid:MissingDeprecatedCheck”"(Add the missing @deprecated Javadoc tag.(„ŞÕø8¿œ‡…ı-
-Wsquid:MissingDeprecatedCheck"(Add the missing @deprecated Javadoc tag.(æôò78¾´éı-
+tsquid:S2068""V'password' detected in this expression, review this potentially hard-coded credential.(Ÿ‚…‰8¬Ûôÿü-
+Xsquid:S1133@"5Do not forget to remove this deprecated code someday.(”Ìííúÿÿÿÿ8‹ÀÑ¡ş-
 Tsquid:S1133”"5Do not forget to remove this deprecated code someday.(„ŞÕø8¿œ‡…ı-
+Jsquid:S1168•"+Return an empty collection instead of null.(¥¹ï8Üğ†…ı-
 \squid:MissingDeprecatedCheck@"(Add the missing @deprecated Javadoc tag.(”Ìííúÿÿÿÿ8‹ÀÑ¡ş-
+Ÿsquid:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(æôò78šÈ·€ı-
 ¤squid:S1186@"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(”Ìííúÿÿÿÿ8†äÑ¡ş-
+ysquid:S2068!"V'PASSWORD' detected in this expression, review this potentially hard-coded credential.(–¤ÅÔÿÿÿÿÿ8¬Ûôÿü-
+Ssquid:S1133"5Do not forget to remove this deprecated code someday.(æôò78¾´éı-
+tsquid:S2068"V'PASSWORD' detected in this expression, review this potentially hard-coded credential.(ùÛÌ”8š¶¶ùı-
+Asquid:S26296"$Invoke method(s) only conditionally.(¯Ğ„8ş’Ä…€.
+Wsquid:MissingDeprecatedCheck"(Add the missing @deprecated Javadoc tag.(æôò78¾´éı-
