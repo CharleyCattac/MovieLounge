@@ -1,9 +1,14 @@
 .header {
     min-width: 900px;
     min-height: 80px;
-    z-index: 5000;
-    top: 0;
     color: #d1a8f4;
+}
+
+.hr {
+    top: 0;
+    z-index: 5000;
+    border: none; /* Убираем границу */
+    height: 4px; /* Толщина линии */
 }
 
 .header_absolute {
@@ -30,7 +35,7 @@
     position: relative;
     z-index: 1;
     padding-left: 0px;
-    padding-right: 35px;
+    padding-right: 55px;
     display: table;
     width: 100%;
 }
@@ -76,7 +81,7 @@
     display: table-cell;
     align-items: center;
     margin-top: 10px;
-    padding-left: 40px;
+    padding-left: 60px;
 }
 
 .avatar_default {
@@ -305,7 +310,6 @@
 
 .news {
     position: relative;
-    width: 100%;
     margin-top: 15px;
 }
 
@@ -314,11 +318,10 @@
     overflow: hidden;
     min-height: 75px;
     width: 100%;
+    height: max-content;
     border: 1px solid #e9e9e9;
     background-color: #fff;
     box-sizing: border-box;
-    animation-duration: 2000ms;
-    animation-fill-mode: forwards;
 }
 
 .news_title {
@@ -327,7 +330,6 @@
     max-width: 100%;
     font-weight: 400;
     font-size: 20px;
-    line-height: 24px;
     cursor: pointer;
     text-overflow: ellipsis;
     white-space: nowrap;

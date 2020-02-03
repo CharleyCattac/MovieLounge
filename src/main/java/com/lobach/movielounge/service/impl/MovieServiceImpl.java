@@ -7,7 +7,6 @@ import com.lobach.movielounge.exception.DaoException;
 import com.lobach.movielounge.exception.ServiceException;
 import com.lobach.movielounge.model.Movie;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MovieServiceImpl implements MovieService {

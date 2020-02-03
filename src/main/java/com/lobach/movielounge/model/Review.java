@@ -3,12 +3,13 @@ package com.lobach.movielounge.model;
 import java.util.Objects;
 
 public class Review {
-    private Long id;
-    private Long userId;
-    private Long movieId;
+    private long id;
+    private long userId;
+    private long movieEventId;
     private User user;
-    private Movie movie;
-    private Integer rating;
+    private MovieEvent movieEvent;
+    private int rating;
+    private String shortOverallText;
     private String reviewText;
 
     public Long getId() {
@@ -19,20 +20,20 @@ public class Review {
         this.id = id;
     }
 
-    public Long getUserId() {
+    public long getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(long userId) {
         this.userId = userId;
     }
 
-    public Long getMovieId() {
-        return movieId;
+    public long getMovieEventId() {
+        return movieEventId;
     }
 
-    public void setMovieId(Long movieId) {
-        this.movieId = movieId;
+    public void setMovieEventId(long movieEventId) {
+        this.movieEventId = movieEventId;
     }
 
     public User getUser() {
@@ -43,20 +44,28 @@ public class Review {
         this.user = user;
     }
 
-    public Movie getMovie() {
-        return movie;
+    public MovieEvent getMovieEvent() {
+        return movieEvent;
     }
 
-    public void setMovie(Movie movie) {
-        this.movie = movie;
+    public void setMovieEvent(MovieEvent movieEvent) {
+        this.movieEvent = movieEvent;
     }
 
-    public Integer getRating() {
+    public int getRating() {
         return rating;
     }
 
-    public void setRating(Integer rating) {
+    public void setRating(int rating) {
         this.rating = rating;
+    }
+
+    public String getShortOverallText() {
+        return shortOverallText;
+    }
+
+    public void setShortOverallText(String shortOverallText) {
+        this.shortOverallText = shortOverallText;
     }
 
     public String getReviewText() {
@@ -72,18 +81,19 @@ public class Review {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Review review = (Review) o;
-        return Objects.equals(id, review.id) &&
-                Objects.equals(userId, review.userId) &&
-                Objects.equals(movieId, review.movieId) &&
+        return id == review.id &&
+                userId == review.userId &&
+                movieEventId == review.movieEventId &&
+                rating == review.rating &&
                 Objects.equals(user, review.user) &&
-                Objects.equals(movie, review.movie) &&
-                Objects.equals(rating, review.rating) &&
+                Objects.equals(movieEvent, review.movieEvent) &&
+                Objects.equals(shortOverallText, review.shortOverallText) &&
                 Objects.equals(reviewText, review.reviewText);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, userId, movieId, user, movie, rating, reviewText);
+        return Objects.hash(id, userId, movieEventId, user, movieEvent, rating, shortOverallText, reviewText);
     }
 
     @Override
@@ -91,10 +101,11 @@ public class Review {
         return "Review{" +
                 "id=" + id +
                 ", userId=" + userId +
-                ", movieId=" + movieId +
+                ", movieEventId=" + movieEventId +
                 ", user=" + user +
-                ", movie=" + movie +
+                ", movieEvent=" + movieEvent +
                 ", rating=" + rating +
+                ", shortOverallText='" + shortOverallText + '\'' +
                 ", reviewText='" + reviewText + '\'' +
                 '}';
     }

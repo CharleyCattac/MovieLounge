@@ -9,7 +9,7 @@ public interface ActionCommand {
     String execute(RequestContent contentManager);
 
     default LocaleType defineLocale(RequestContent content) {
-        String locale = (String) content.getSessionAttribute(ATTRIBUTE_LOCALE); // FIXME: 03/02/2020
+        String locale = (String) content.getSessionAttribute(ATTRIBUTE_LOCALE);
         return LocaleType.valueOf(locale.toUpperCase());
     }
 }

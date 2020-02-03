@@ -10,10 +10,10 @@ import java.io.IOException;
 
 @SuppressWarnings("serial")
 public class MarkRoleTag extends TagSupport {
-    private static final String COLOR_RED = Color.RED.toString();
-    private static final String COLOR_GREEN = Color.GREEN.toString();
-    private static final String COLOR_BLUE = Color.BLUE.toString();
-    private static final String COLOR_BLACK = Color.BLACK.toString();
+    private static final String COLOR_RED = "ff0000";
+    private static final String COLOR_GREEN = "008000";
+    private static final String COLOR_BLUE = "0000ff";
+    private static final String COLOR_BLACK = "000000";
     private UserRole role;
 
     public void setRole(UserRole role) {
@@ -39,7 +39,8 @@ public class MarkRoleTag extends TagSupport {
                         color = COLOR_BLACK;
                         break;
                 }
-                pageContext.getOut().write(" <i class=\"fas fa-user-tag\"></i><b style=\"color: " + color + "\">" + role.value + "</b>");
+                pageContext.getOut().write(" <div class=\"hr\" style=\"background-color: " + color
+                        + "\"; color: " + color + " ></div>");
             } catch (IOException e) {
                 throw new JspException(e);
             }

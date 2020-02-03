@@ -1,8 +1,8 @@
 package com.lobach.movielounge.database.dao.impl;
 
+import com.lobach.movielounge.database.dao.UserDao;
 import com.lobach.movielounge.database.connection.ConnectionPool;
 import com.lobach.movielounge.database.connection.ProxyConnection;
-import com.lobach.movielounge.database.dao.UserDao;
 import com.lobach.movielounge.exception.DaoException;
 import com.lobach.movielounge.model.User;
 import com.lobach.movielounge.model.UserRole;

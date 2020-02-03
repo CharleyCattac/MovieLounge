@@ -36,7 +36,7 @@ public class MovieEventServiceImpl implements MovieEventService {
     @Override
     public List<MovieEvent> findSessionsByMovieId(long movieId) throws ServiceException {
         try {
-            return dao.getByMovieId(movieId);
+            return dao.selectByMovieId(movieId);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
@@ -60,7 +60,7 @@ public class MovieEventServiceImpl implements MovieEventService {
     @Override
     public MovieEvent findSessionByDate(Date date) throws ServiceException {
         try {
-            return dao.getByDate(date);
+            return dao.selectByDate(date);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }

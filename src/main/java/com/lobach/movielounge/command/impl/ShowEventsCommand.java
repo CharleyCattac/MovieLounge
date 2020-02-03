@@ -21,10 +21,11 @@ public class ShowEventsCommand implements ActionCommand {
 
     private static final String BUNDLE_CONFIG = "config";
     private static final String BUNDLE_INTERFACE = "interface";
-    private static final String PROPERTY_EVENTS = "path.events";
+    private static final String PROPERTY_EVENTS = "path.movieEvents";
     private static final String PROPERTY_ERROR_MESSAGE = "message.error.default";
 
     private static final String ATTRIBUTE_EVENTS = "events";
+    private static final String ATTRIBUTE_EVENTS_SIZE = "events_size";
     private static final String ATTRIBUTE_ERROR_MESSAGE = "error_message";
 
     private MovieEventService movieEventService;
@@ -48,6 +49,7 @@ public class ShowEventsCommand implements ActionCommand {
                 }
             }
             content.setRequestAttribute(ATTRIBUTE_EVENTS, movieEvents);
+            content.setRequestAttribute(ATTRIBUTE_EVENTS_SIZE, movieEvents.size());
             content.setRequestAttribute(ATTRIBUTE_ERROR_MESSAGE, null);
         } catch (ServiceException e) {
             logger.error("Failed to retrieve events from db: ", e);

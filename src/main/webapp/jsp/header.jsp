@@ -3,11 +3,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page isELIgnored="false" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib prefix="ctg" uri="customtags" %>
 <fmt:setLocale value="${locale}" scope="session" />
 <fmt:setBundle basename="interface"/>
 <html>
     <body>
-
+    <ctg:role role="${userRole}"/>
     <div class="header header_absolute">
         <div class="header_main">
             <div class="header_inner">
@@ -32,6 +33,14 @@
                                 <input type="hidden" name="command" value="show_events"/>
                                 <button type="submit" class="button_success button_transparent">
                                     <span class="button_title"><fmt:message key="header.label.movieEvents"/></span>
+                                </button>
+                            </form>
+                        </div>
+                        <div class="header-menu_item">
+                            <form id="reviewsButton" action="control_servlet" method="POST">
+                                <input type="hidden" name="command" value="show_reviews"/>
+                                <button type="submit" class="button_success button_transparent">
+                                    <span class="button_title"><fmt:message key="header.label.reviews"/></span>
                                 </button>
                             </form>
                         </div>

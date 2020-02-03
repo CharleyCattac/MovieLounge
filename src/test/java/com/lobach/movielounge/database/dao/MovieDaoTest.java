@@ -119,23 +119,25 @@ public class MovieDaoTest {
         testMovie8.setDirector("Бэн Стылер");
         testMovie8.setRating(9.8F);
 
-        return new Object[][] {{testMovie1}, {testMovie2}, {testMovie3}, {testMovie4}, {testMovie5}, {testMovie6}, {testMovie8}};
+        return new Object[][] {{testMovie1}, {testMovie2}, {testMovie3}, {testMovie4},
+                                {testMovie5}, {testMovie6}, {testMovie7}, {testMovie8}};
     }
 
     @DataProvider(name = "movie_provider1")
     public Object[][] passMovie() {
-        Movie testMovie1 = new Movie();
-        testMovie1.setTitle("Avengers");
-        testMovie1.setDescription("Earth's mightiest heroes must come together and learn to fight as a team if they are going to stop the mischievous Loki and his alien army from enslaving humanity. ");
-        testMovie1.setPoster("https://upload.wikimedia.org/wikipedia/en/f/f9/TheAvengers2012Poster.jpg");
-        testMovie1.setReleaseYear(2012);
-        testMovie1.setDirector("Anthony Russo");
-        testMovie1.setRating(8.0F);
+        Movie testMovie7 = new Movie();
+        testMovie7.setTitle("Pulp Fiction");
+        testMovie7.setDescription("The lives of two mob hitmen, a boxer, a gangster and his wife, and a pair "
+                + "of diner bandits intertwine in four tales of violence and redemption. ");
+        testMovie7.setPoster("https://m.media-amazon.com/images/M/MV5BNGNhMDIzZTUtNTBlZi00MTRlLWFjM2ItYzViMjE3YzI5MjljXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_SY1000_CR0,0,686,1000_AL_.jpg");
+        testMovie7.setReleaseYear(1994);
+        testMovie7.setDirector("Quentin Tarantino");
+        testMovie7.setRating(8.9F);
 
-        return new Object[][] {{testMovie1}};
+        return new Object[][] {{testMovie7}};
     }
 
-    @Test(dataProvider = "movie_provider")
+    @Test(dataProvider = "movie_provider1")
     public void insertMoviesTest(Movie testMovie) throws DaoException {
         MovieDao dao = new MovieDaoImpl();
         dao.insert(testMovie);
@@ -162,7 +164,10 @@ public class MovieDaoTest {
     public void selectAllMoviesTest() throws DaoException {
         MovieDao dao = new MovieDaoImpl();
         List<Movie> movies = dao.selectAll(0, 0);
-        Assert.assertEquals(movies.size(), 8);
+        for (Movie movie : movies) {
+            logger.debug(movie + "\n");
+        }
+        Assert.assertEquals(movies.size(), 9);
     }
 
     @DataProvider(name = "rating_provider")

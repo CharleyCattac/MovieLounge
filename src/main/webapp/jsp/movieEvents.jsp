@@ -8,7 +8,7 @@
 <html>
 <head>
     <meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
-    <title><fmt:message key="movies_page.title"/></title>
+    <title><fmt:message key="events_page.title"/></title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/3.2.1/jquery.datetimepicker.css"
           rel="stylesheet">
@@ -27,15 +27,16 @@
                 <c:if test="${error_message == null}">
                     <article class="news news_main">
                         <header class="news_header">
-                            <h2 class="news_title"><fmt:message key="movies_page.description"/></h2>
+                            <h2 class="news_title"><fmt:message key="events_page.description"/></h2>
                         </header>
                     </article>
                     <article class="news news_main">
-                        <c:if test="${movies_size == 0}">
-                            <div class="tab-block_text">
+                        <c:if test="${events_size == 0}">
+                            <div class="tab_content tab_typography tab-block_text">
                                 <p><fmt:message key="message.error.empty_list"/></p>
                             </div>
                         </c:if>
+                        <!--
                         <c:forEach items="${movies}" var="movie">
                             <div class="tab_content">
                                 <div class="tab_content-item">
@@ -73,6 +74,7 @@
                                 </div>
                             </div>
                         </c:forEach>
+                        -->
                     </article>
                 </c:if>
                 <c:if test="${error_message != null}">
