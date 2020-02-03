@@ -1,11 +1,10 @@
 package com.lobach.movielounge.command;
 
-import com.lobach.movielounge.command.impl.ChangeLocaleCommand;
-import com.lobach.movielounge.command.impl.RegisterCommand;
+import com.lobach.movielounge.command.impl.*;
 
 public enum CommandType {
     CHANGE_LOCALE(new ChangeLocaleCommand()),
-    REGISTER(new RegisterCommand());
+    SHOW_MOVIES(new ShowMoviesCommand());
 
     public final ActionCommand command;
 

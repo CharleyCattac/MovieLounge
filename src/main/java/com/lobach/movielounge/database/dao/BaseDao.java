@@ -21,7 +21,7 @@ public interface BaseDao<T> {
 
     T selectById(Long id) throws DaoException;
 
-    List<T> selectAll() throws DaoException;
+    List<T> selectAll(int offset, int limit) throws DaoException;
 
     default void close(Statement statement) {
         try {

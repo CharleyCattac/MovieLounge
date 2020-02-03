@@ -1,12 +1,12 @@
 package com.lobach.movielounge.service.impl;
 
-import com.lobach.movielounge.service.MovieSessionService;
-import com.lobach.movielounge.database.dao.MovieSessionDao;
-import com.lobach.movielounge.database.dao.impl.MovieSessionDaoImpl;
+import com.lobach.movielounge.model.MovieEvent;
+import com.lobach.movielounge.service.MovieEventService;
+import com.lobach.movielounge.database.dao.MovieEventDao;
+import com.lobach.movielounge.database.dao.impl.MovieEventDaoImpl;
 import com.lobach.movielounge.exception.DaoException;
 import com.lobach.movielounge.exception.ServiceException;
 import com.lobach.movielounge.model.Movie;
-import com.lobach.movielounge.model.MovieSession;
 import com.lobach.movielounge.validator.MovieSessionValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,27 +15,26 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-public enum MovieSessionServiceImpl implements MovieSessionService {
-    INSTANCE;
+public class MovieEventServiceImpl implements MovieEventService {
 
     private static final Logger logger = LogManager.getLogger();
-    private MovieSessionDao dao;
+    private MovieEventDao dao;
 
-    MovieSessionServiceImpl() {
-        dao = new MovieSessionDaoImpl();
+    public MovieEventServiceImpl() {
+        dao = new MovieEventDaoImpl();
     }
 
     @Override
-    public List<MovieSession> findAllSessions() throws ServiceException {
+    public List<MovieEvent> findAllEvents(int offset, int limit) throws ServiceException {
         try {
-            return dao.selectAll();
+            return dao.selectAll(offset, limit);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
     }
 
     @Override
-    public List<MovieSession> findSessionsByMovieId(long movieId) throws ServiceException {
+    public List<MovieEvent> findSessionsByMovieId(long movieId) throws ServiceException {
         try {
             return dao.getByMovieId(movieId);
         } catch (DaoException e) {
@@ -44,22 +43,22 @@ public enum MovieSessionServiceImpl implements MovieSessionService {
     }
 
     @Override
-    public List<MovieSession> findSessionsByMovieTitle(List<MovieSession> initialList,
-                                                       String title) {
-        List<MovieSession> movieSessions = new ArrayList<>();
-        for (MovieSession session : initialList) {
+    public List<MovieEvent> findSessionsByMovieTitle(List<MovieEvent> initialList,
+                                                     String title) {
+        List<MovieEvent> movieEvents = new ArrayList<>();
+        for (MovieEvent session : initialList) {
             for (Movie movie : session.getMovies()) {
                 if (movie.getTitle().equals(title)) {
-                    movieSessions.add(session);
+                    movieEvents.add(session);
                     break;
                 }
             }
         }
-        return movieSessions;
+        return movieEvents;
     }
 
     @Override
-    public MovieSession findSessionByDate(Date date) throws ServiceException {
+    public MovieEvent findSessionByDate(Date date) throws ServiceException {
         try {
             return dao.getByDate(date);
         } catch (DaoException e) {

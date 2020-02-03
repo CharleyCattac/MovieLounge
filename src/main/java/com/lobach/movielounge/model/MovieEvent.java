@@ -5,7 +5,7 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Objects;
 
-public class MovieSession {
+public class MovieEvent {
     private long id;
     private Date date;
     private List<Long> movieIds;
@@ -13,7 +13,7 @@ public class MovieSession {
     private int bookingAmount;
     private boolean available;
 
-    public MovieSession() {
+    public MovieEvent() {
         movieIds = new ArrayList<>(3);
         movies = new ArrayList<>(3);
     }
@@ -70,7 +70,7 @@ public class MovieSession {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        MovieSession that = (MovieSession) o;
+        MovieEvent that = (MovieEvent) o;
         return bookingAmount == that.bookingAmount &&
                 available == that.available &&
                 Objects.equals(id, that.id) &&

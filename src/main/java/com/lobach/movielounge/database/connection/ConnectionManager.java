@@ -1,5 +1,6 @@
 package com.lobach.movielounge.database.connection;
 
+import com.lobach.movielounge.exception.PoolException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -8,9 +9,7 @@ import java.sql.SQLException;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-enum ConnectionManager {
-    INSTANCE;
-
+class ConnectionManager {
     private static final Logger logger = LogManager.getLogger();
 
     private static final String BUNDLE_NAME = "config";
@@ -26,9 +25,6 @@ enum ConnectionManager {
     private int poolSize;
 
     ConnectionManager() {
-    }
-
-    boolean init() {
         try {
             ResourceBundle bundle = ResourceBundle.getBundle(BUNDLE_NAME);
             databaseUrl = bundle.getString(PROPERTY_DB_URL);
@@ -38,16 +34,15 @@ enum ConnectionManager {
             String poolSizeString = bundle.getString(PROPERTY_DB_POOL_SIZE);
             Class.forName(driverUrl);
             poolSize = Integer.parseInt(poolSizeString);
-
-            return true;
+            return;
         } catch (MissingResourceException e) {
             logger.fatal(String.format("Resource not found: %s", BUNDLE_NAME));
         } catch (ClassNotFoundException e) {
-            logger.fatal("No drivers found by given url");
+            logger.fatal("No drivers found by given url", e);
         } catch (IllegalArgumentException e) {
             logger.fatal("Invalid pool size given");
         }
-        return false;
+        throw new PoolException();
     }
 
     ProxyConnection createConnection() throws SQLException {

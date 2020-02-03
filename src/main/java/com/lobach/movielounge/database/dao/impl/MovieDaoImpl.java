@@ -14,16 +14,19 @@ import java.util.List;
 public class MovieDaoImpl implements MovieDao {
 
     private static final String INSERT_MOVIE =
-            "INSERT INTO movies (title,description,release_year,director,rating) "
-                    + "VALUES (?,?,?,?,?)";
+            "INSERT INTO movies (title,description,poster_url,release_year,director,rating) "
+                    + "VALUES (?,?,?,?,?,?)";
     private static final String SELECT_ALL_MOVIES =
-            "SELECT movies.id,title,description,release_year,director,rating " +
-                    "FROM movies";
+            "SELECT movies.id,title,description,poster_url,release_year,director,rating " +
+                    "FROM movies ORDER BY title";
+    private static final String SELECT_ALL_MOVIES_LIMITED =
+            "SELECT movies.id,title,description,poster_url,release_year,director,rating " +
+                    "FROM movies ORDER BY title LIMIT ?,?";
     private static final String SELECT_MOVIE_BY_ID =
-            "SELECT movies.id,title,description,release_year,director,rating " +
+            "SELECT movies.id,title,description,poster_url,release_year,director,rating " +
                     "FROM movies WHERE movies.id=?";
     private static final String SELECT_MOVIE_BY_TITLE =
-            "SELECT movies.id,title,description,release_year,director,rating " +
+            "SELECT movies.id,title,description,poster_url,release_year,director,rating " +
                     "FROM movies WHERE title=?";
     private static final String UPDATE_RATING_BY_TITLE =
             "UPDATE movies SET rating=? WHERE title=?";
@@ -39,9 +42,10 @@ public class MovieDaoImpl implements MovieDao {
             statement = connection.prepareStatement(INSERT_MOVIE);
             statement.setString(1, object.getTitle());
             statement.setString(2, object.getDescription());
-            statement.setInt(3, object.getReleaseYear());
-            statement.setString(4, object.getDirector());
-            statement.setFloat(5, object.getRating());
+            statement.setString(3, object.getPoster());
+            statement.setInt(4, object.getReleaseYear());
+            statement.setString(5, object.getDirector());
+            statement.setFloat(6, object.getRating());
             statement.executeUpdate();
             logger.info(String.format("Added new movie: %s", object.getTitle()));
         } catch (SQLException e) {
@@ -112,24 +116,31 @@ public class MovieDaoImpl implements MovieDao {
     }
 
     @Override
-    public List<Movie> selectAll() throws DaoException {
+    public List<Movie> selectAll(int offset, int limit) throws DaoException {
         List<Movie> movies = new ArrayList<>();
         ProxyConnection connection = null;
-        Statement statement = null;
+        PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
             connection = ConnectionPool.INSTANCE.getConnection();
-            statement = connection.createStatement();
-            resultSet = statement.executeQuery(SELECT_ALL_MOVIES);
+            if (limit != 0) {
+                statement = connection.prepareStatement(SELECT_ALL_MOVIES_LIMITED);
+                statement.setInt(1, offset);
+                statement.setInt(2, limit);
+            } else {
+                statement = connection.prepareStatement(SELECT_ALL_MOVIES);
+            }
+            resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 int index = 1;
                 long id = resultSet.getLong(index++);
                 String title = resultSet.getString(index++);
                 String description = resultSet.getString(index++);
+                String posterUrl = resultSet.getString(index++);
                 int releaseYear = resultSet.getInt(index++);
                 String director = resultSet.getString(index++);
                 float rating = resultSet.getFloat(index);
-                movies.add(MovieFactory.INSTANCE.createFull(id, title, description, releaseYear, director, rating));
+                movies.add(MovieFactory.INSTANCE.createWithId(id, title, description, posterUrl, releaseYear, director, rating));
             }
         } catch (SQLException e) {
             throw new DaoException(String.format("Failed to create movie list: %s", e));
@@ -157,10 +168,12 @@ public class MovieDaoImpl implements MovieDao {
                 int index = 2;
                 String title = resultSet.getString(index++);
                 String description = resultSet.getString(index++);
+                String posterUrl = resultSet.getString(index++);
                 int releaseYear = resultSet.getInt(index++);
                 String director = resultSet.getString(index++);
                 float rating = resultSet.getFloat(index);
-                movie = MovieFactory.INSTANCE.createFull(idKey, title, description, releaseYear, director, rating);
+                movie = MovieFactory.INSTANCE
+                        .createWithId(idKey, title, description, posterUrl, releaseYear, director, rating);
             }
         } catch (SQLException e) {
             throw new DaoException(String.format("Failed to find movie with id %d: %s", idKey, e));
@@ -188,10 +201,12 @@ public class MovieDaoImpl implements MovieDao {
                 Long id = resultSet.getLong(index++);
                 index++;
                 String description = resultSet.getString(index++);
+                String posterUrl = resultSet.getString(index++);
                 int releaseYear = resultSet.getInt(index++);
                 String director = resultSet.getString(index++);
                 float rating = resultSet.getFloat(index);
-                movie = MovieFactory.INSTANCE.createFull(id, titleKey, description, releaseYear, director, rating);
+                movie = MovieFactory.INSTANCE
+                        .createWithId(id, titleKey, description, posterUrl, releaseYear, director, rating);
             }
         } catch (SQLException e) {
             throw new DaoException(String.format("Failed to find movie with title %s: %s", titleKey, e));

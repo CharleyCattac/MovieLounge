@@ -1,7 +1,7 @@
 package com.lobach.movielounge.validator;
 
 import com.lobach.movielounge.manager.PropertyManager;
-import com.lobach.movielounge.model.MovieSession;
+import com.lobach.movielounge.model.MovieEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -23,13 +23,13 @@ public class MovieSessionValidator {
         }
     }
 
-    public boolean isOutdated(MovieSession movieSession) {
+    public boolean isOutdated(MovieEvent movieEvent) {
         Date currentDate = new Date();
-        return currentDate.after(movieSession.getDate());
+        return currentDate.after(movieEvent.getDate());
     }
 
-    public boolean isFulled(MovieSession movieSession) {
-        return movieSession.getBookingAmount() < maxBookingAmount;
+    public boolean isFulled(MovieEvent movieEvent) {
+        return movieEvent.getBookingAmount() < maxBookingAmount;
     }
 
     public static int getMaxBookingAmount() {

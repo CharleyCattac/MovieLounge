@@ -12,8 +12,7 @@ import com.lobach.movielounge.model.UserRole;
 import com.lobach.movielounge.model.UserFactory;
 import com.lobach.movielounge.validator.UserValidator;
 
-public enum UserServiceImpl implements UserService {
-    INSTANCE;
+public class UserServiceImpl implements UserService {
 
     private static final String MESSAGE_BUNDLE = "properties/messages";
     private static final String MESSAGE_EMAIL = "user.invalid.email";
@@ -26,7 +25,7 @@ public enum UserServiceImpl implements UserService {
 
     private UserDao dao;
 
-    UserServiceImpl() {
+    public UserServiceImpl() {
         dao = new UserDaoImpl();
     }
 

@@ -15,20 +15,16 @@ public enum ConnectionPool {
     INSTANCE;
 
     private static final Logger logger = LogManager.getLogger();
-    private static final ConnectionManager connectionManager = ConnectionManager.INSTANCE;
+    private static final ConnectionManager connectionManager = new ConnectionManager();
 
     private BlockingQueue<ProxyConnection> availableConnections;
     private Queue<ProxyConnection> occupiedConnections;
     private int poolSize;
 
-    ConnectionPool() {
+    ConnectionPool() { // FIXME: 03/02/2020  locker + atomic boolean!!!
     }
 
     public void setUpPool() {
-        if (!connectionManager.init()) {
-            logger.fatal("Failed to set up connection pool");
-            throw new PoolException();
-        }
         poolSize = connectionManager.getPoolSize();
         availableConnections = new LinkedBlockingDeque<>(poolSize);
         occupiedConnections = new ArrayDeque<>();

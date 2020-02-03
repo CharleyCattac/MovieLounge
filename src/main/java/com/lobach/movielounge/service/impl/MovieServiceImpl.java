@@ -6,42 +6,34 @@ import com.lobach.movielounge.database.dao.impl.MovieDaoImpl;
 import com.lobach.movielounge.exception.DaoException;
 import com.lobach.movielounge.exception.ServiceException;
 import com.lobach.movielounge.model.Movie;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public enum MovieServiceImpl implements MovieService {
-    INSTANCE;
+public class MovieServiceImpl implements MovieService {
 
-    private static final Logger logger = LogManager.getLogger();
     private MovieDao dao;
 
-    MovieServiceImpl() {
+    public MovieServiceImpl() {
         dao = new MovieDaoImpl();
     }
 
     @Override
-    public List<Movie> findAllMovies() throws ServiceException {
+    public List<Movie> findAllMovies(int offset, int limit) throws ServiceException {
         try {
-            return dao.selectAll();
+            return dao.selectAll(offset, limit);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
     }
 
     @Override
-    public List<Movie> findByIdList(List<Long> ids) throws ServiceException {
-        List<Movie> movies = new ArrayList<>();
+    public Movie findById(Long id) throws ServiceException {
         try {
-            for (Long id : ids) {
-                movies.add(dao.selectById(id));
-            }
+            return dao.selectById(id);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
-        return movies;
     }
 
     @Override

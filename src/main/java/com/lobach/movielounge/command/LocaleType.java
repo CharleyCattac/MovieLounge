@@ -1,9 +1,9 @@
 package com.lobach.movielounge.command;
 
 public enum LocaleType {
-    EN("interface"),
-    RU("interface_ru"),
-    BY("interface_by");
+    EN("EN"),
+    RU("RU"),
+    BY("BY");
 
     public final String property;
 

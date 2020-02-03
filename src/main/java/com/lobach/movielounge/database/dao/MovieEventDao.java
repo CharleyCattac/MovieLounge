@@ -1,16 +1,16 @@
 package com.lobach.movielounge.database.dao;
 
 import com.lobach.movielounge.exception.DaoException;
-import com.lobach.movielounge.model.MovieSession;
+import com.lobach.movielounge.model.MovieEvent;
 
 import java.sql.Date;
 import java.util.List;
 
-public interface MovieSessionDao extends BaseDao<MovieSession> {
+public interface MovieEventDao extends BaseDao<MovieEvent> {
 
-    MovieSession getByDate(Date date) throws DaoException;
+    MovieEvent getByDate(Date date) throws DaoException;
 
-    List<MovieSession> getByMovieId(long movieId) throws DaoException;
+    List<MovieEvent> getByMovieId(long movieId) throws DaoException;
 
     void updateAvailabilityById(Long id, boolean status) throws DaoException;
 

@@ -145,7 +145,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override @Deprecated
-    public List<User> selectAll() throws DaoException {
+    public List<User> selectAll(int offset, int limit) throws DaoException {
         return null;
     }
 

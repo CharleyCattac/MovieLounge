@@ -6,6 +6,7 @@ public class Movie {
     private long id;
     private String title;
     private String description;
+    private String poster;
     private int releaseYear;
     private String director;
     private float rating;
@@ -32,6 +33,14 @@ public class Movie {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getPoster() {
+        return poster;
+    }
+
+    public void setPoster(String poster) {
+        this.poster = poster;
     }
 
     public int getReleaseYear() {
@@ -68,12 +77,13 @@ public class Movie {
                 Float.compare(movie.rating, rating) == 0 &&
                 Objects.equals(title, movie.title) &&
                 Objects.equals(description, movie.description) &&
+                Objects.equals(poster, movie.poster) &&
                 Objects.equals(director, movie.director);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, description, releaseYear, director, rating);
+        return Objects.hash(id, title, description, poster, releaseYear, director, rating);
     }
 
     @Override

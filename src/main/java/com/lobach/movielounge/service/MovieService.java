@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface MovieService {
 
-    List<Movie> findAllMovies() throws ServiceException;
+    List<Movie> findAllMovies(int offset, int limit) throws ServiceException;
 
-    List<Movie> findByIdList(List<Long> ids) throws ServiceException;
+    Movie findById(Long id) throws ServiceException;
 
     Movie findByTitle(String title) throws ServiceException;
 

@@ -2,38 +2,41 @@ package com.lobach.movielounge.database.dao.impl;
 
 import com.lobach.movielounge.database.connection.ConnectionPool;
 import com.lobach.movielounge.database.connection.ProxyConnection;
-import com.lobach.movielounge.database.dao.MovieSessionDao;
+import com.lobach.movielounge.database.dao.MovieEventDao;
 import com.lobach.movielounge.exception.DaoException;
-import com.lobach.movielounge.model.MovieSession;
+import com.lobach.movielounge.model.MovieEvent;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MovieSessionDaoImpl implements MovieSessionDao {
+public class MovieEventDaoImpl implements MovieEventDao {
     private static final String INSERT_SESSION =
-            "INSERT INTO movie_sessions (date,booking_amount,available,movie1_id,movie2_id,movie3_id) "
+            "INSERT INTO events (date,booking_amount,available,movie1_id,movie2_id,movie3_id) "
                     + "VALUES (?,?,?,?,?,?)";
     private static final String SELECT_ALL_SESSIONS =
-            "SELECT movie_sessions.id,date,booking_amount,available,movie1_id,movie2_id,movie3_id " +
-                    "FROM movie_sessions";
+            "SELECT events.id,date,booking_amount,available,movie1_id,movie2_id,movie3_id " +
+                    "FROM events ORDER BY date";
+    private static final String SELECT_ALL_SESSIONS_LIMITED =
+            "SELECT events.id,date,booking_amount,available,movie1_id,movie2_id,movie3_id " +
+                    "FROM events ORDER BY date LIMIT ?,?";
     private static final String SELECT_SESSION_BY_ID =
-            "SELECT movie_sessions.id,date,booking_amount,available,movie1_id,movie2_id,movie3_id " +
-                    "FROM movie_sessions WHERE movie_sessions.id=?";
+            "SELECT events.id,date,booking_amount,available,movie1_id,movie2_id,movie3_id " +
+                    "FROM events WHERE events.id=?";
     private static final String SELECT_SESSION_BY_DATE =
-            "SELECT movie_sessions.id,date,booking_amount,available,movie1_id,movie2_id,movie3_id " +
-                    "FROM movie_sessions WHERE date=?";
+            "SELECT events.id,date,booking_amount,available,movie1_id,movie2_id,movie3_id " +
+                    "FROM events WHERE date=?";
     private static final String SELECT_SESSIONS_BY_MOVIE_ID =
-            "SELECT movie_sessions.id,date,booking_amount,available,movie1_id,movie2_id,movie3_id " +
-                    "FROM movie_sessions WHERE movie1_id=? OR movie2_id=? OR movie3_id=?";
+            "SELECT events.id,date,booking_amount,available,movie1_id,movie2_id,movie3_id " +
+                    "FROM events WHERE movie1_id=? OR movie2_id=? OR movie3_id=? LIMIT ?,?";
     private static final String UPDATE_BOOKING_AMOUNT_BY_ID =
-            "UPDATE movie_sessions SET booking_amount=? WHERE movie_session.id=?";
+            "UPDATE events SET booking_amount=? WHERE movie_session.id=?";
     private static final String UPDATE_AVAILABILITY_BY_ID =
-            "UPDATE movie_sessions SET available=? WHERE movie_session.id=?";
-    private static final String DELETE_BY_ID = "DELETE FROM movie_sessions WHERE movie_session.id=?";
+            "UPDATE events SET available=? WHERE movie_session.id=?";
+    private static final String DELETE_BY_ID = "DELETE FROM events WHERE movie_session.id=?";
 
     @Override
-    public void insert(MovieSession object) throws DaoException {
+    public void insert(MovieEvent object) throws DaoException {
         ProxyConnection connection = null;
         PreparedStatement statement = null;
         try {
@@ -56,8 +59,8 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
     }
 
     @Override
-    public MovieSession selectById(Long id) throws DaoException {
-        MovieSession movieSession = new MovieSession();
+    public MovieEvent selectById(Long id) throws DaoException {
+        MovieEvent movieEvent = new MovieEvent();
         ProxyConnection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -67,20 +70,20 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
             statement.setLong(1, id);
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                movieSession.setId(id);
+                movieEvent.setId(id);
                 int index = 2;
                 Date date = resultSet.getDate(index++);
-                movieSession.setDate(date);
+                movieEvent.setDate(date);
                 int bookingAmount = resultSet.getInt(index++);
-                movieSession.setBookingAmount(bookingAmount);
+                movieEvent.setBookingAmount(bookingAmount);
                 boolean available = resultSet.getBoolean(index++);
-                movieSession.setAvailable(available);
+                movieEvent.setAvailable(available);
                 long movie1Id = resultSet.getInt(index++);
-                movieSession.getMovieIds().set(0,movie1Id);
+                movieEvent.getMovieIds().set(0,movie1Id);
                 long movie2Id = resultSet.getInt(index++);
-                movieSession.getMovieIds().set(1,movie2Id);
+                movieEvent.getMovieIds().set(1,movie2Id);
                 long movie3Id = resultSet.getInt(index);
-                movieSession.getMovieIds().set(2,movie3Id);
+                movieEvent.getMovieIds().set(2,movie3Id);
             }
         } catch (SQLException e) {
             throw new DaoException(String.format("Failed to find movieSession with id %d: %s", id, e));
@@ -89,37 +92,43 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
             close(statement);
             close(connection);
         }
-        return movieSession;
+        return movieEvent;
     }
 
     @Override
-    public List<MovieSession> selectAll() throws DaoException {
-        List<MovieSession> movieSessions = new ArrayList<>();
+    public List<MovieEvent> selectAll(int offset, int limit) throws DaoException {
+        List<MovieEvent> movieEvents = new ArrayList<>();
         ProxyConnection connection = null;
-        Statement statement = null;
+        PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
             connection = ConnectionPool.INSTANCE.getConnection();
-            statement = connection.createStatement();
-            resultSet = statement.executeQuery(SELECT_ALL_SESSIONS);
+            if (limit != 0) {
+                statement = connection.prepareStatement(SELECT_ALL_SESSIONS_LIMITED);
+                statement.setInt(1, offset);
+                statement.setInt(2, limit);
+            } else {
+                statement = connection.prepareStatement(SELECT_ALL_SESSIONS);
+            }
+            resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                MovieSession movieSession = new MovieSession();
+                MovieEvent movieEvent = new MovieEvent();
                 int index = 1;
-                Long id = resultSet.getLong(index++);
-                movieSession.setId(id);
+                long id = resultSet.getLong(index++);
+                movieEvent.setId(id);
                 Date date = resultSet.getDate(index++);
-                movieSession.setDate(date);
+                movieEvent.setDate(date);
                 int bookingAmount = resultSet.getInt(index++);
-                movieSession.setBookingAmount(bookingAmount);
+                movieEvent.setBookingAmount(bookingAmount);
                 boolean available = resultSet.getBoolean(index++);
-                movieSession.setAvailable(available);
+                movieEvent.setAvailable(available);
                 long movie1Id = resultSet.getInt(index++);
-                movieSession.getMovieIds().set(0,movie1Id);
+                movieEvent.getMovieIds().set(0,movie1Id);
                 long movie2Id = resultSet.getInt(index++);
-                movieSession.getMovieIds().set(1,movie2Id);
+                movieEvent.getMovieIds().set(1,movie2Id);
                 long movie3Id = resultSet.getInt(index);
-                movieSession.getMovieIds().set(2,movie3Id);
-                movieSessions.add(movieSession);
+                movieEvent.getMovieIds().set(2,movie3Id);
+                movieEvents.add(movieEvent);
             }
         } catch (SQLException e) {
             throw new DaoException(String.format("Failed to create movie session list: %s", e));
@@ -128,12 +137,12 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
             close(statement);
             close(connection);
         }
-        return movieSessions;
+        return movieEvents;
     }
 
     @Override
-    public MovieSession getByDate(Date dateKey) throws DaoException {
-        MovieSession movieSession = new MovieSession();
+    public MovieEvent getByDate(Date dateKey) throws DaoException {
+        MovieEvent movieEvent = new MovieEvent();
         ProxyConnection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -145,19 +154,19 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
             while (resultSet.next()) {
                 int index = 1;
                 long id = resultSet.getLong(index++);
-                movieSession.setId(id);
+                movieEvent.setId(id);
                 index++;
-                movieSession.setDate(dateKey);
+                movieEvent.setDate(dateKey);
                 int bookingAmount = resultSet.getInt(index++);
-                movieSession.setBookingAmount(bookingAmount);
+                movieEvent.setBookingAmount(bookingAmount);
                 boolean available = resultSet.getBoolean(index++);
-                movieSession.setAvailable(available);
+                movieEvent.setAvailable(available);
                 long movie1Id = resultSet.getInt(index++);
-                movieSession.getMovieIds().set(0,movie1Id);
+                movieEvent.getMovieIds().set(0,movie1Id);
                 long movie2Id = resultSet.getInt(index++);
-                movieSession.getMovieIds().set(1,movie2Id);
+                movieEvent.getMovieIds().set(1,movie2Id);
                 long movie3Id = resultSet.getInt(index);
-                movieSession.getMovieIds().set(2,movie3Id);
+                movieEvent.getMovieIds().set(2,movie3Id);
             }
         } catch (SQLException e) {
             throw new DaoException(String.format("Failed to find movieSession with date %s: %s", dateKey, e));
@@ -166,12 +175,12 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
             close(statement);
             close(connection);
         }
-        return movieSession;
+        return movieEvent;
     }
 
     @Override
-    public List<MovieSession> getByMovieId(long movieId) throws DaoException {
-        List<MovieSession> movieSessions = new ArrayList<>();
+    public List<MovieEvent> getByMovieId(long movieId) throws DaoException {
+        List<MovieEvent> movieEvents = new ArrayList<>();
         ProxyConnection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -183,23 +192,23 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
             }
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                MovieSession movieSession = new MovieSession();
+                MovieEvent movieEvent = new MovieEvent();
                 int index = 1;
                 Long id = resultSet.getLong(index++);
-                movieSession.setId(id);
+                movieEvent.setId(id);
                 Date date = resultSet.getDate(index++);
-                movieSession.setDate(date);
+                movieEvent.setDate(date);
                 int bookingAmount = resultSet.getInt(index++);
-                movieSession.setBookingAmount(bookingAmount);
+                movieEvent.setBookingAmount(bookingAmount);
                 boolean available = resultSet.getBoolean(index++);
-                movieSession.setAvailable(available);
+                movieEvent.setAvailable(available);
                 long movie1Id = resultSet.getInt(index++);
-                movieSession.getMovieIds().set(0,movie1Id);
+                movieEvent.getMovieIds().set(0,movie1Id);
                 long movie2Id = resultSet.getInt(index++);
-                movieSession.getMovieIds().set(1,movie2Id);
+                movieEvent.getMovieIds().set(1,movie2Id);
                 long movie3Id = resultSet.getInt(index);
-                movieSession.getMovieIds().set(2,movie3Id);
-                movieSessions.add(movieSession);
+                movieEvent.getMovieIds().set(2,movie3Id);
+                movieEvents.add(movieEvent);
             }
         } catch (SQLException e) {
             throw new DaoException(String.format("Failed to create movie session list with id %d: %s", movieId, e));
@@ -208,11 +217,11 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
             close(statement);
             close(connection);
         }
-        return movieSessions;
+        return movieEvents;
     }
 
     @Override @Deprecated
-    public void update(MovieSession object) throws DaoException {
+    public void update(MovieEvent object) throws DaoException {
     }
 
     @Override
@@ -252,7 +261,7 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
     }
 
     @Override @Deprecated
-    public void delete(MovieSession object) throws DaoException {
+    public void delete(MovieEvent object) throws DaoException {
     }
 
     @Override

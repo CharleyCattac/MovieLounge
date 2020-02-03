@@ -18,7 +18,8 @@
     <jsp:include page="/jsp/header.jsp"/>
     <div class="app_inner" style="padding-top: 64px">
         <div class="main">
-            <div class="main_inner">                <article class="news news_main">
+            <div class="main_inner">
+                <article class="news news_main">
                     <header class="news_header">
                         <h2 class="news_title"><fmt:message key="main_page.label.title"/></h2>
                     </header>

@@ -6,7 +6,8 @@ public enum MovieFactory {
     MovieFactory() {
     }
 
-    public Movie create(String title, String description, int releaseYear, String director, float rating) {
+    public Movie create(String title, String description, String posterUrl,
+                        int releaseYear, String director, float rating) {
         Movie movie = new Movie();
         movie.setTitle(title);
         movie.setDescription(description);
@@ -16,8 +17,9 @@ public enum MovieFactory {
         return movie;
     }
 
-    public Movie createFull (long id, String title, String description, int releaseYear, String director, float rating) {
-        Movie movie = this.create(title, description, releaseYear, director, rating);
+    public Movie createWithId(long id, String title, String description, String posterUrl,
+                              int releaseYear, String director, float rating) {
+        Movie movie = this.create(title, description, posterUrl, releaseYear, director, rating);
         movie.setId(id);
         return movie;
     }

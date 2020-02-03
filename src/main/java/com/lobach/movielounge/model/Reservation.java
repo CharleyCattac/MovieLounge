@@ -7,13 +7,13 @@ public class Reservation {
     private long userId;
     private long movieSessionId;
     private User user;
-    private MovieSession movieSession;
+    private MovieEvent movieEvent;
     private boolean active;
     private boolean paid;
 
-    public Reservation(User user, MovieSession movieSession) {
+    public Reservation(User user, MovieEvent movieEvent) {
         this.user = user;
-        this.movieSession = movieSession;
+        this.movieEvent = movieEvent;
     }
 
     public long getId() {
@@ -48,12 +48,12 @@ public class Reservation {
         this.user = user;
     }
 
-    public MovieSession getMovieSession() {
-        return movieSession;
+    public MovieEvent getMovieEvent() {
+        return movieEvent;
     }
 
-    public void setMovieSession(MovieSession movieSession) {
-        this.movieSession = movieSession;
+    public void setMovieEvent(MovieEvent movieEvent) {
+        this.movieEvent = movieEvent;
     }
 
     public Boolean getActive() {
@@ -81,14 +81,14 @@ public class Reservation {
                 Objects.equals(userId, that.userId) &&
                 Objects.equals(movieSessionId, that.movieSessionId) &&
                 Objects.equals(user, that.user) &&
-                Objects.equals(movieSession, that.movieSession) &&
+                Objects.equals(movieEvent, that.movieEvent) &&
                 Objects.equals(active, that.active) &&
                 Objects.equals(paid, that.paid);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, userId, movieSessionId, user, movieSession, active, paid);
+        return Objects.hash(id, userId, movieSessionId, user, movieEvent, active, paid);
     }
 
     @Override
@@ -98,7 +98,7 @@ public class Reservation {
                 ", userId=" + userId +
                 ", movieSessionId=" + movieSessionId +
                 ", user=" + user +
-                ", movieSession=" + movieSession +
+                ", movieSession=" + movieEvent +
                 ", active=" + active +
                 ", paid=" + paid +
                 '}';

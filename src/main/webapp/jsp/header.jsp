@@ -11,7 +11,6 @@
     <div class="header header_absolute">
         <div class="header_main">
             <div class="header_inner">
-
                 <div class="header_item header_logo">
                     <div class="logo">
                         <a href="control_servlet"> <img src="img/logo.png" class="logo_img"></a>
@@ -21,22 +20,18 @@
                 <div class="header_item">
                     <div class="header-menu">
                         <div class="header-menu_item">
-                            <form id="openMovies" action="control_servlet" method="POST">
+                            <form id="moviesButton" action="control_servlet" method="POST">
                                 <input type="hidden" name="command" value="show_movies"/>
-                                <button type="submit" class="button_fit_content button_transparent">
-                                    <a class="header-menu_item_text" href="javascript: void(0)" id="movies">
-                                        <fmt:message key="header.label.movies"/>
-                                    </a>
+                                <button type="submit" class="button_success button_transparent">
+                                    <span class="button_title"><fmt:message key="header.label.movies"/></span>
                                 </button>
                             </form>
                         </div>
                         <div class="header-menu_item">
-                            <form id="openEvents" action="control_servlet" method="POST">
+                            <form id="eventsButton" action="control_servlet" method="POST">
                                 <input type="hidden" name="command" value="show_events"/>
-                                <button type="submit" class="button_fit_content button_transparent">
-                                    <a class="header-menu_item_text" href="javascript: void(0)" id="events">
-                                        <fmt:message key="header.label.events"/>
-                                    </a>
+                                <button type="submit" class="button_success button_transparent">
+                                    <span class="button_title"><fmt:message key="header.label.movieEvents"/></span>
                                 </button>
                             </form>
                         </div>

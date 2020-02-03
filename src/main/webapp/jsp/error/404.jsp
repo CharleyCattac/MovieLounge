@@ -3,7 +3,7 @@
 <head>
     <title>HTTP Status 404</title>
     <style type="text/css">
-        body{font-family: Tahoma, Arial, sans-serif;} h1, h2, h3, b {color: white; background-color: darkmagenta}
+        body{font-family: Tahoma, Arial, sans-serif;} h1, h2, h3, b {color: white; background-color: #73068b                                                      }
         h1{font-size: large} h2{font-size: medium} h3{font-size: small} p{font-size: smaller} a{color: black;}
         line{height: 1px; background-color: aqua; border: none;}
     </style>
