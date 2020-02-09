@@ -3,20 +3,26 @@ package com.lobach.movielounge.service;
 import com.lobach.movielounge.exception.ServiceException;
 import com.lobach.movielounge.model.User;
 
+import java.util.List;
+import java.util.Optional;
+
 public interface UserService {
 
-    void registerUser(String eMail, String password) throws ServiceException;
-
-    void updateUserData(String email, String newName, String newPhoneNumber, String newAvatarUrl)
+    void registerUser(String email, String password, String name, String phoneNumber, String avatarUrl)
             throws ServiceException;
 
-    void changeUserPassword(String email, String newPassword) throws ServiceException;
+    void updateUserData(long id, String newEmail, String newName, String newPhoneNumber, String newAvatarUrl)
+            throws ServiceException;
 
-    void changeUserRole(String email, String newRole) throws ServiceException;
+    void changeUserPassword(long id, String newPassword) throws ServiceException;
 
-    void changeUserStatus(String email, String userStatus) throws ServiceException;
+    void changeUserRole(long id, String newRole) throws ServiceException;
 
-    User findUserByEmail(String email) throws ServiceException;
+    void changeUserStatus(long id, String userStatus) throws ServiceException;
 
-    boolean checkIfPasswordMatchesEmail(String email, String password) throws ServiceException;
+    User findUserById(long id) throws ServiceException;
+
+    Optional<User> findUserByEmailAndPassword(String email, String password) throws ServiceException;
+
+    List<User> findAllUsers(int offset, int limit) throws ServiceException;
 }

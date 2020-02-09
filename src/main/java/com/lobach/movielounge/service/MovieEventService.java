@@ -10,15 +10,15 @@ public interface MovieEventService {
 
     List<MovieEvent> findAllEvents(int offset, int limit) throws ServiceException;
 
-    List<MovieEvent> findSessionsByMovieId(long movieId) throws ServiceException;
+    MovieEvent findEventById(long id) throws ServiceException;
 
-    List<MovieEvent> findSessionsByMovieTitle(List<MovieEvent> initialList, String title);
-
-    MovieEvent findSessionByDate(Date date) throws ServiceException;
+    void switchAvailabilityById(long id, boolean currentAvailability) throws ServiceException;
 
     void incrementBookingAmountById(long id, int currentAmount) throws ServiceException;
 
     void decrementBookingAmountById(long id, int currentAmount) throws ServiceException;
 
     void deleteSessionById(long id) throws ServiceException;
+
+    List<MovieEvent> findSessionsByMovieId(long movieId) throws ServiceException;
 }

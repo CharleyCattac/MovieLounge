@@ -1,11 +1,10 @@
 package com.lobach.movielounge.database.dao;
 
 import com.lobach.movielounge.database.connection.ConnectionPool;
-import com.lobach.movielounge.database.dao.impl.MovieDaoImpl;
 import com.lobach.movielounge.database.dao.impl.MovieEventDaoImpl;
 import com.lobach.movielounge.exception.DaoException;
-import com.lobach.movielounge.model.Movie;
 import com.lobach.movielounge.model.MovieEvent;
+import com.lobach.movielounge.model.MovieEventFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
@@ -14,7 +13,10 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class MovieEventDaoTest {
@@ -31,24 +33,46 @@ public class MovieEventDaoTest {
     }
 
     @DataProvider(name = "event_provider")
-    public Object[][] passEvents() {
-        MovieEvent event1 = new MovieEvent();
-        event1.setDate(Date.valueOf("2020-02-13"));
-        event1.getMovieIds().add(38L);
-        event1.getMovieIds().add(39L);
-        event1.getMovieIds().add(47L);
+    public Object[][] passEvents() throws ParseException {
+        String sDate1="09/02/2020";
+        Date date = new SimpleDateFormat("dd/MM/yyyy").parse(sDate1);
 
-        MovieEvent event2 = new MovieEvent();
-        event2.setDate(Date.valueOf("2020-02-16"));
-        event2.getMovieIds().add(38L);
-        event2.getMovieIds().add(39L);
-        event2.getMovieIds().add(47L);
+        List<Long> movieIds = new ArrayList<>(3);
+        movieIds.add(38L);
+        movieIds.add(39L);
+        movieIds.add(47L);
 
-        MovieEvent event3 = new MovieEvent();
-        event3.setDate(Date.valueOf("2020-02-19"));
-        event3.getMovieIds().add(48L);
-        event3.getMovieIds().add(35L);
-        event3.getMovieIds().add(36L);
+        MovieEvent event1 = MovieEventFactory.INSTANCE.createBasic(
+                date,
+                movieIds,
+                0,
+                true,
+                "Первый мститель");
+
+        String sDate2="23/02/2020";
+        date = new SimpleDateFormat("dd/MM/yyyy").parse(sDate2);
+
+        MovieEvent event2 = MovieEventFactory.INSTANCE.createBasic(
+                date,
+                movieIds,
+                0,
+                true,
+                "Первый мститель: День защитница отчества EDITION");
+
+        String sDate3="19/02/2020";
+        date = new SimpleDateFormat("dd/MM/yyyy").parse(sDate3);
+
+        List<Long> movieIds3 = new ArrayList<>(3);
+        movieIds3.add(48L);
+        movieIds3.add(35L);
+        movieIds3.add(36L);
+
+        MovieEvent event3 = MovieEventFactory.INSTANCE.createBasic(
+                date,
+                movieIds3,
+                0,
+                true,
+                "Tarantino masterpieces");
 
         return new Object[][] {{event1}, {event2}, {event3}};
     }
@@ -56,16 +80,25 @@ public class MovieEventDaoTest {
     @Test(dataProvider = "event_provider")
     public void insertEventsTest(MovieEvent event) throws DaoException {
         MovieEventDao dao = new MovieEventDaoImpl();
-        dao.insert(event);
+        dao.add(event);
     }
 
     @Test
     public void selectAllEventsTest() throws DaoException {
         MovieEventDao dao = new MovieEventDaoImpl();
-        List<MovieEvent> events = dao.selectAll(0, 0);
+        List<MovieEvent> events = dao.findAll(0, 0);
         for (MovieEvent event1 : events) {
             logger.debug(event1 + "\n");
         }
         Assert.assertEquals(events.size(), 3);
+    }
+
+    @Test
+    public void deleteAllEventsTest() throws DaoException {
+        MovieEventDao dao = new MovieEventDaoImpl();
+        dao.deleteAll();
+
+        List<MovieEvent> events = dao.findAll(0, 0);
+        Assert.assertEquals(events.size(), 0);
     }
 }

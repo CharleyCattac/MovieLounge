@@ -8,7 +8,7 @@
 <html>
 <head>
     <meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
-    <title><fmt:message key="events_page.title"/></title>
+    <title><fmt:message key="reviews_page.title"/></title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/3.2.1/jquery.datetimepicker.css"
           rel="stylesheet">
@@ -27,20 +27,21 @@
                 <c:if test="${fatalMessage == null}">
                     <article class="news news_main">
                         <header class="news_header">
-                            <h2 class="news_title"><fmt:message key="events_page.description"/></h2>
+                            <h2 class="news_title"><fmt:message key="reviews_page.description"/></h2>
                         </header>
                     </article>
                     <article class="news news_main">
-                        <c:if test="${eventSize == 0}">
-                            <div class="tab_content tab_typography tab-block_text">
-                                <p>${errorMessage}</p>
+                        <c:if test="${reviewsSize == 0}">
+                            <div class="tab_content tab_typography tab-block_text" style="padding-top: -5px">
+                                <p><c:out value="${errorMessage}"/></p>
                             </div>
                         </c:if>
-                        <c:forEach items="${events}" var="movieEvent">
+                        <c:forEach items="${reviews}" var="review">
                             <div class="tab_content">
                                 <div class="tab_content-item">
                                     <div class="tab_typography">
                                         <div class="container">
+                                            <!--
                                             <div class="flex-column" style="align-content: center">
                                                 <div class="row" style="display: flow; margin-bottom: -20px;align-content: space-evenly" >
                                                     <div class="event_title" style="margin-left: -10px">
@@ -131,6 +132,7 @@
                                                     </div>
                                                 </c:if>
                                             </div>
+                                            -->
                                         </div>
                                     </div>
                                 </div>

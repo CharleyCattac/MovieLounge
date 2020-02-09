@@ -16,8 +16,7 @@ public class User {
 
     private List<Reservation> reservations;
 
-    public User() {
-        this.userRole = UserRole.USER;
+    User() {
     }
 
     public Long getId() {

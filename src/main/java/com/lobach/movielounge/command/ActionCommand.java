@@ -1,8 +1,12 @@
 package com.lobach.movielounge.command;
 
 import com.lobach.movielounge.servlet.RequestContent;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public interface ActionCommand {
+
+    Logger logger = LogManager.getLogger();
 
     String ATTRIBUTE_LOCALE = "locale";
 

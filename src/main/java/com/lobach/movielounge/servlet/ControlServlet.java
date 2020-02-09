@@ -44,6 +44,7 @@ public class ControlServlet extends HttpServlet {
         try {
             ActionCommand command = CommandManager.defineCommand(request);
             RequestContent content = new RequestContent(request);
+            logger.debug(content.getRequestParameter("command"));
             page = command.execute(content);
             content.passContent(request);
         } catch (CommandException e) {

@@ -11,8 +11,8 @@ import java.io.IOException;
 @SuppressWarnings("serial")
 public class MarkRoleTag extends TagSupport {
     private static final String COLOR_RED = "ff0000";
-    private static final String COLOR_GREEN = "008000";
-    private static final String COLOR_BLUE = "0000ff";
+    private static final String COLOR_GREEN = "83be54";
+    private static final String COLOR_BLUE = "00a7e3";
     private static final String COLOR_BLACK = "000000";
     private UserRole role;
 
@@ -22,9 +22,11 @@ public class MarkRoleTag extends TagSupport {
 
     @Override
     public int doStartTag() throws JspException {
-        if (role != null) {
-            try {
-                String color;
+        String color;
+        try {
+            if (role == null) {
+                color = COLOR_BLACK;
+            } else {
                 switch (role) {
                     case GUEST:
                         color = COLOR_RED;
@@ -39,12 +41,13 @@ public class MarkRoleTag extends TagSupport {
                         color = COLOR_BLACK;
                         break;
                 }
-                pageContext.getOut().write(" <div class=\"hr\" style=\"background-color: " + color
-                        + "\"; color: " + color + " ></div>");
+            }
+            pageContext.getOut().write(" <div class=\"hr\" style=\"background-color: " + color
+                    + "\"; color: " + color + " ></div>");
             } catch (IOException e) {
                 throw new JspException(e);
-            }
         }
+
         return SKIP_BODY;
     }
 }

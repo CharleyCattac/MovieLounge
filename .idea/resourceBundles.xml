@@ -3,11 +3,20 @@
   <component name="ResourceBundleManager">
     <file url="file://$PROJECT_DIR$/src/main/resources/interface.properties" />
     <file url="file://$PROJECT_DIR$/src/main/resources/interface_by.properties" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/message.properties" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/message_by.properties" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/message_ru.properties" />
     <custom-resource-bundle>
       <file value="file://$PROJECT_DIR$/src/main/resources/interface.properties" />
       <file value="file://$PROJECT_DIR$/src/main/resources/interface_by.properties" />
       <file value="file://$PROJECT_DIR$/src/main/resources/interface_ru.properties" />
       <base-name>interface</base-name>
+    </custom-resource-bundle>
+    <custom-resource-bundle>
+      <file value="file://$PROJECT_DIR$/src/main/resources/message.properties" />
+      <file value="file://$PROJECT_DIR$/src/main/resources/message_by.properties" />
+      <file value="file://$PROJECT_DIR$/src/main/resources/message_ru.properties" />
+      <base-name>message</base-name>
     </custom-resource-bundle>
   </component>
 </project>

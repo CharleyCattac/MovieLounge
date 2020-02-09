@@ -24,60 +24,63 @@
     <div class="app_inner" style="padding-top: 64px">
         <div class="main">
             <div class="main_inner">
-                <c:if test="${error_message == null}">
+                <c:if test="${fatalMessage == null}">
                     <article class="news news_main">
                         <header class="news_header">
                             <h2 class="news_title"><fmt:message key="movies_page.description"/></h2>
                         </header>
                     </article>
                     <article class="news news_main">
-                        <c:if test="${movies_size == 0}">
+                        <c:if test="${moviesSize == 0}">
                             <div class="tab-block_text">
-                                <p><fmt:message key="message.error.empty_list"/></p>
+                                <p>${errorMessage == null}</p>
                             </div>
                         </c:if>
                         <c:forEach items="${movies}" var="movie">
                             <div class="tab_content">
-                                <div class="tab_content-item">
-                                    <div class="tab_typography">
-                                        <div class="tab_title" onfocus="">
-                                            <p><c:out value="${movie.title}"/></p>
+                                <div class="tab_content-item" style="padding-top: 10px;padding-bottom: 10px;
+                                height: fit-content">
+                                    <div class="container">
+                                        <div class="row" style="margin-left: 15px;align-items: center">
+                                            <div class="tab_typography" style="max-width: 65%">
+                                                <div class="tab_title">
+                                                    <p><c:out value="${movie.title}"/></p>
+                                                </div>
+                                                <div class="tab-block_text">
+                                                    <p><c:out value="${movie.description}"/></p>
+                                                </div>
+                                                <div class="tab-block_text">
+                                                    <p><fmt:message key="movies_page.item.director"/>
+                                                        <c:out value="${movie.director}"/>
+                                                    </p>
+                                                </div>
+                                                <div class="tab-block_text">
+                                                    <p><fmt:message key="movies_page.item.release_year"/>
+                                                        <c:out value="${movie.releaseYear}"/>
+                                                    </p>
+                                                </div>
+                                                <div class="tab-block_text">
+                                                    <p><fmt:message key="movies_page.item.rating"/>
+                                                        <c:out value="${movie.rating}"/>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="poster_url poster_url-medium" style="margin-left: 20px">
+                                                <img class="img-fluid"
+                                                     src="<c:out value="${movie.poster}"/>"
+                                                     alt="<c:out value="${movie.poster}"/>"
+                                                >
+                                            </div>
                                         </div>
-                                        <div class="tab-block_text">
-                                            <p><c:out value="${movie.description}"/></p>
-                                        </div>
-                                        <div class="tab-block_text">
-                                            <p><fmt:message key="movies_page.item.director"/>
-                                                <c:out value="${movie.director}"/>
-                                            </p>
-                                        </div>
-                                        <div class="tab-block_text">
-                                            <p><fmt:message key="movies_page.item.release_year"/>
-                                                <c:out value="${movie.releaseYear}"/>
-                                            </p>
-                                        </div>
-                                        <div class="tab-block_text">
-                                            <p><fmt:message key="movies_page.item.rating"/>
-                                                <c:out value="${movie.rating}"/>
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="poster_url-medium">
-                                        <picture>
-                                            <source srcset="<c:out value="${movie.poster}"/>" type="image/svg+xml">
-                                            <img src="<c:out value="${movie.poster}"/>" class="img-fluid"
-                                                 alt="<c:out value="${movie.poster}"/>"
-                                            >
-                                        </picture>
                                     </div>
                                 </div>
                             </div>
                         </c:forEach>
                     </article>
                 </c:if>
-                <c:if test="${error_message != null}">
+                <c:if test="${fatalMessage != null}">
                     <div class="auth_field">
-                        <div class="auth_error"> ${error_message}</div>
+                        <div class="auth_error"> ${fatalMessage}</div>
                     </div>
                 </c:if>
             </div>

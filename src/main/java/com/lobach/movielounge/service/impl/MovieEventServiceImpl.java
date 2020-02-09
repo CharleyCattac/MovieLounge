@@ -17,7 +17,6 @@ import java.util.List;
 
 public class MovieEventServiceImpl implements MovieEventService {
 
-    private static final Logger logger = LogManager.getLogger();
     private MovieEventDao dao;
 
     public MovieEventServiceImpl() {
@@ -27,7 +26,25 @@ public class MovieEventServiceImpl implements MovieEventService {
     @Override
     public List<MovieEvent> findAllEvents(int offset, int limit) throws ServiceException {
         try {
-            return dao.selectAll(offset, limit);
+            return dao.findAll(offset, limit);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public MovieEvent findEventById(long id) throws ServiceException {
+        try {
+            return dao.findById(id);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public void switchAvailabilityById(long id, boolean currentAvailability) throws ServiceException {
+        try {
+            dao.updateAvailabilityById(id, !currentAvailability);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
@@ -36,31 +53,7 @@ public class MovieEventServiceImpl implements MovieEventService {
     @Override
     public List<MovieEvent> findSessionsByMovieId(long movieId) throws ServiceException {
         try {
-            return dao.selectByMovieId(movieId);
-        } catch (DaoException e) {
-            throw new ServiceException(e);
-        }
-    }
-
-    @Override
-    public List<MovieEvent> findSessionsByMovieTitle(List<MovieEvent> initialList,
-                                                     String title) {
-        List<MovieEvent> movieEvents = new ArrayList<>();
-        for (MovieEvent session : initialList) {
-            for (Movie movie : session.getMovies()) {
-                if (movie.getTitle().equals(title)) {
-                    movieEvents.add(session);
-                    break;
-                }
-            }
-        }
-        return movieEvents;
-    }
-
-    @Override
-    public MovieEvent findSessionByDate(Date date) throws ServiceException {
-        try {
-            return dao.selectByDate(date);
+            return dao.findByMovieId(movieId);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }

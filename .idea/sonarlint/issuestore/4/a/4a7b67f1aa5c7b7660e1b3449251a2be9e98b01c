@@ -1,14 +1,12 @@
 
-tsquid:S2068"V'PASSWORD' detected in this expression, review this potentially hard-coded credential.(ùÛÌ”8š¶¶ùı-
-Xsquid:S1133@"5Do not forget to remove this deprecated code someday.(”Ìííúÿÿÿÿ8‹ÀÑ¡ş-
-Wsquid:MissingDeprecatedCheck"(Add the missing @deprecated Javadoc tag.(æôò78¾´éı-
-¤squid:S1186@"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(”Ìííúÿÿÿÿ8†äÑ¡ş-
-Ÿsquid:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(æôò78šÈ·€ı-
-ysquid:S2068!"V'PASSWORD' detected in this expression, review this potentially hard-coded credential.(–¤ÅÔÿÿÿÿÿ8¬Ûôÿü-
-tsquid:S2068""V'password' detected in this expression, review this potentially hard-coded credential.(Ÿ‚…‰8¬Ûôÿü-
-Tsquid:S1133”"5Do not forget to remove this deprecated code someday.(èã¼ğ8¿œ‡…ı-
-Asquid:S26296"$Invoke method(s) only conditionally.(¯Ğ„8ş’Ä…€.
-Jsquid:S1168•"+Return an empty collection instead of null.(¥¹ï8Üğ†…ı-
-\squid:MissingDeprecatedCheck@"(Add the missing @deprecated Javadoc tag.(”Ìííúÿÿÿÿ8‹ÀÑ¡ş-
-Ssquid:S1133"5Do not forget to remove this deprecated code someday.(æôò78¾´éı-
-Xsquid:MissingDeprecatedCheck”"(Add the missing @deprecated Javadoc tag.(èã¼ğ8¿œ‡…ı-
+Asquid:S2629:"$Invoke method(s) only conditionally.(¯Ğ„8ş’Ä…€.
+Tsquid:S1133½"5Do not forget to remove this deprecated code someday.(Æı‘¹8±Ë.
+Xsquid:MissingDeprecatedCheck½"(Add the missing @deprecated Javadoc tag.(Æı‘¹8±Ë.
+Xsquid:MissingDeprecatedCheck¸"(Add the missing @deprecated Javadoc tag.(¬°€½8İÍœË.
+tsquid:S2068 "V'PASSWORD' detected in this expression, review this potentially hard-coded credential.(¦¡ò¯8•¢·‚.
+Tsquid:S1133¸"5Do not forget to remove this deprecated code someday.(¬°€½8İÍœË.
+¨squid:S1192"‰Define a constant instead of duplicating this literal "SELECT users.id,email,password,status,role,name,phone_number,avatar_url " 3 times.(ŠÜç8ğ¿ÄÔ.
+ssquid:S2068&"V'password' detected in this expression, review this potentially hard-coded credential.(ûİ…8¬Ûôÿü-
+ squid:S1186¸"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(¬°€½8ä™Ë.
+ysquid:S2068%"V'PASSWORD' detected in this expression, review this potentially hard-coded credential.(ò¹ŠÎøÿÿÿÿ8¬Ûôÿü-
+ squid:S1186½"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(Æı‘¹8ä™Ë.

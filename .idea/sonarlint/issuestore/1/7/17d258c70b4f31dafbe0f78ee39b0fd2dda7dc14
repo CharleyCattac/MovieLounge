@@ -1,2 +1,6 @@
 
-tsquid:S2068"V'PASSWORD' detected in this expression, review this potentially hard-coded credential.(à¬‰¨8öÕ°ş-
+Osquid:S1068"1Remove this unused "MESSAGE_MATCH" private field.(‰€Û…8‰ö»·‚.
+Osquid:S1068"2Remove this unused "MESSAGE_BUNDLE" private field.(¯ê¹68‰ö»·‚.
+ysquid:S2068"V'PASSWORD' detected in this expression, review this potentially hard-coded credential.(…ßŠÑøÿÿÿÿ8öÕ°ş-
+vsquid:UselessImportCheck"KRemove this unused import 'com.lobach.movielounge.manager.PropertyManager'.(ö¸’ô8‰ö»·‚.
+Psquid:S1135„"2Complete the task associated to this TODO comment.(¸×¯t8‚Ëİ­‚.

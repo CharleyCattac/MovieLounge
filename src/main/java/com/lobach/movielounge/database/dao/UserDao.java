@@ -5,17 +5,14 @@ import com.lobach.movielounge.model.User;
 
 public interface UserDao extends BaseDao<User> {
 
-    void updateByEmail(String email, String newName, String newPhoneNumber, String newAvatarUrl) throws DaoException;
+    void updateById(long id, String newEmail, String newName, String newPhoneNumber, String newAvatarUrl)
+            throws DaoException;
 
-    void updatePassword(String email, String newPassword) throws DaoException;
+    void updatePassword(long id, String newPassword) throws DaoException;
 
-    void updateStatus(String email, String newStatus) throws DaoException;
+    void updateStatus(long id, String newStatus) throws DaoException;
 
-    void updateRole(String email, String newRole) throws DaoException;
+    void updateRole(long id, String newRole) throws DaoException;
 
-    User selectById(Long key) throws DaoException;
-
-    User selectByEmail(String emailKey) throws DaoException;
-
-    boolean passwordMatchesEmail(String email, String password) throws DaoException;
+    User findByEmailPassword(String email, String password) throws DaoException;
 }

@@ -13,15 +13,15 @@ import java.util.List;
 public interface BaseDao<T> {
     Logger logger = LogManager.getLogger();
 
-    void insert(T object) throws DaoException;
+    void add(T object) throws DaoException;
 
-    void update(T object) throws DaoException;
+    T findById(Long id) throws DaoException;
 
-    void delete(T object) throws DaoException;
+    List<T> findAll(int offset, int limit) throws DaoException;
 
-    T selectById(Long id) throws DaoException;
+    void deleteById(Long id) throws DaoException;
 
-    List<T> selectAll(int offset, int limit) throws DaoException;
+    void deleteAll() throws DaoException;
 
     default void close(Statement statement) {
         try {
@@ -29,7 +29,7 @@ public interface BaseDao<T> {
                 statement.close();
             }
         } catch (SQLException e) {
-            logger.error(String.format("Failed to close statement: %s", e));
+            logger.error("Failed to close statement: ", e);
         }
     }
 
@@ -39,7 +39,7 @@ public interface BaseDao<T> {
                 resultSet.close();
             }
         } catch (SQLException e) {
-            logger.error(String.format("Failed to close result set: %s", e));
+            logger.error("Failed to close result set: ", e);
         }
     }
 
@@ -49,7 +49,7 @@ public interface BaseDao<T> {
                 connection.close();
             }
         } catch (SQLException e) {
-            logger.error(String.format("Failed to close connection: %s", e));
+            logger.error("Failed to close connection: ", e);
         }
     }
 }

@@ -1,5 +1,6 @@
 
-SWeb:ImgWithoutAltCheck"%Add an "alt" attribute to this image.(×¹…Îúÿÿÿÿ8‚ı¾²€.
-a	Web:S5254"@Add "lang" and/or "xml:lang" attributes to this "<html>" element(œ÷Ãûÿÿÿÿ8‚ı¾²€.
-jWeb:DoctypePresenceCheck":Insert a <!DOCTYPE> declaration to before this <html> tag.(œ÷Ãûÿÿÿÿ8‚ı¾²€.
-PWeb:PageWithoutTitleCheck"Add a <title> tag to this page.(œ÷Ãûÿÿÿÿ8‚ı¾²€.
+SWeb:ImgWithoutAltCheck"%Add an "alt" attribute to this image.(×¹…Îúÿÿÿÿ8‚ı¾²€.
+UWeb:AvoidCommentedOutCodeCheck>"Remove this commented out code.(¹ù—†ÿÿÿÿÿ8²ğ³‚.
+jWeb:DoctypePresenceCheck	":Insert a <!DOCTYPE> declaration to before this <html> tag.(œ÷Ãûÿÿÿÿ8‚ı¾²€.
+PWeb:PageWithoutTitleCheck	"Add a <title> tag to this page.(œ÷Ãûÿÿÿÿ8‚ı¾²€.
+a	Web:S5254	"@Add "lang" and/or "xml:lang" attributes to this "<html>" element(œ÷Ãûÿÿÿÿ8‚ı¾²€.

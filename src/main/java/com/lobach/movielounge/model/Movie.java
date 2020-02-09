@@ -11,6 +11,9 @@ public class Movie {
     private String director;
     private float rating;
 
+    Movie() {
+    }
+
     public long getId() {
         return id;
     }

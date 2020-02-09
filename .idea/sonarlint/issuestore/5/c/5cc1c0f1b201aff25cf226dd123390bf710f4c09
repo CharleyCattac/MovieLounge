@@ -1,8 +1,3 @@
 
-¤squid:S1186S"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(—õõ“üÿÿÿÿ8Ÿ¦Àìı-
-squid:UselessImportCheck	"TRemove this unused import 'org.apache.taglibs.standard.tag.common.xml.ParseSupport'.(ÒÍãÉ8—†Â¸€.
-Gsquid:S26293"$Invoke method(s) only conditionally.(¤¤Áüÿÿÿÿ8òîà·€.
-\squid:MissingDeprecatedCheckS"(Add the missing @deprecated Javadoc tag.(—õõ“üÿÿÿÿ8Ÿ¦Àìı-
-«squid:S1192"ŒDefine a constant instead of duplicating this literal "SELECT movies.id,title,description,poster_url,release_year,director,rating " 4 times.(‚ÊêÀ8–şã·€.
-¤squid:S1186="€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(²Çè‘üÿÿÿÿ8õ½—ı-
-Xsquid:S1133S"5Do not forget to remove this deprecated code someday.(—õõ“üÿÿÿÿ8Ÿ¦Àìı-
+ªsquid:S1192"ŒDefine a constant instead of duplicating this literal "SELECT movies.id,title,description,poster_url,release_year,director,rating " 3 times.(ÊĞÂ[8 êñË.
+Gsquid:S2629/"$Invoke method(s) only conditionally.(¤¤Áüÿÿÿÿ8 êñË.

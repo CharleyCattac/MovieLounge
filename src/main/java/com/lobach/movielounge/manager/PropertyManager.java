@@ -9,8 +9,11 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 public class PropertyManager {
+
     private static final Logger logger = LogManager.getLogger();
     private static LocaleType defaultLocaleType = LocaleType.EN;
+
+    private PropertyManager() {}
 
     public static String getProperty(String bundleName, String propertyName) {
         return getProperty(bundleName, propertyName, defaultLocaleType);
@@ -19,7 +22,7 @@ public class PropertyManager {
     public static String getProperty(String bundleName, String propertyName,
                                      LocaleType localeType) {
         Locale locale = Locale.forLanguageTag(localeType.property);
-        String message = "";
+        String message = null;
         try {
             ResourceBundle bundle;
             if (locale != null) {

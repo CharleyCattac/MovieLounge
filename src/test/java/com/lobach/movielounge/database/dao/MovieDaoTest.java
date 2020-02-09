@@ -4,6 +4,7 @@ import com.lobach.movielounge.database.connection.ConnectionPool;
 import com.lobach.movielounge.database.dao.impl.MovieDaoImpl;
 import com.lobach.movielounge.exception.DaoException;
 import com.lobach.movielounge.model.Movie;
+import com.lobach.movielounge.model.MovieFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
@@ -27,6 +28,7 @@ public class MovieDaoTest {
         ConnectionPool.INSTANCE.destroyPool();
     }
 
+    /*
     @DataProvider(name = "movie_provider")
     public Object[][] passMovies() {
         Movie testMovie1 = new Movie();
@@ -122,17 +124,19 @@ public class MovieDaoTest {
         return new Object[][] {{testMovie1}, {testMovie2}, {testMovie3}, {testMovie4},
                                 {testMovie5}, {testMovie6}, {testMovie7}, {testMovie8}};
     }
+     */
 
     @DataProvider(name = "movie_provider1")
     public Object[][] passMovie() {
-        Movie testMovie7 = new Movie();
-        testMovie7.setTitle("Pulp Fiction");
-        testMovie7.setDescription("The lives of two mob hitmen, a boxer, a gangster and his wife, and a pair "
-                + "of diner bandits intertwine in four tales of violence and redemption. ");
-        testMovie7.setPoster("https://m.media-amazon.com/images/M/MV5BNGNhMDIzZTUtNTBlZi00MTRlLWFjM2ItYzViMjE3YzI5MjljXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_SY1000_CR0,0,686,1000_AL_.jpg");
-        testMovie7.setReleaseYear(1994);
-        testMovie7.setDirector("Quentin Tarantino");
-        testMovie7.setRating(8.9F);
+        Movie testMovie7 = MovieFactory.INSTANCE.createBasic(
+            "Pulp Fiction",
+            "The lives of two mob hitmen, a boxer, a gangster and his wife, and a pair "
+            + "of diner bandits intertwine in four tales of violence and redemption. ",
+            "https://m.media-amazon.com/images/M/MV5BNGNhMDIzZTUtNTBlZi00MTRlLWFjM2ItYzViMjE3YzI5MjljXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_SY1000_CR0,0,686,1000_AL_.jpg",
+            1994,
+            "Quentin Tarantino",
+            8.9F
+        );
 
         return new Object[][] {{testMovie7}};
     }
@@ -140,70 +144,34 @@ public class MovieDaoTest {
     @Test(dataProvider = "movie_provider1")
     public void insertMoviesTest(Movie testMovie) throws DaoException {
         MovieDao dao = new MovieDaoImpl();
-        dao.insert(testMovie);
-    }
-
-    @DataProvider(name = "title_provider")
-    public Object[][] passTitle() {
-        return new Object[][] {
-                {"Назад в Будущее", 8.626F},
-                {"Kill Bill: Volume 1", 8.1F},
-                {"Kill Bill: Volume 2", 8.0F}
-        };
-    }
-
-    @Test (dataProvider = "title_provider")
-    public void getMoviesByTitleTest(String title, Float rating) throws DaoException {
-        MovieDao dao = new MovieDaoImpl();
-        Movie movie = dao.selectByTitle(title);
-        logger.info(String.format("Movie found: %s", movie));
-        Assert.assertEquals(movie.getRating(), rating);
+        dao.add(testMovie);
     }
 
     @Test
     public void selectAllMoviesTest() throws DaoException {
         MovieDao dao = new MovieDaoImpl();
-        List<Movie> movies = dao.selectAll(0, 0);
+        List<Movie> movies = dao.findAll(0, 0);
         for (Movie movie : movies) {
             logger.debug(movie + "\n");
         }
         Assert.assertEquals(movies.size(), 9);
     }
 
-    @DataProvider(name = "rating_provider")
-    public Object[][] passRating() {
+    @DataProvider(name = "remove_id_provider")
+    public Object[][] passIdToRemove() {
         return new Object[][] {
-                {"Назад в Будущее", 8.7F},
-                {"Kill Bill: Volume 1", 9F},
-                {"Kill Bill: Volume 2", 7F}
+                {47, 3},
+                {48, 2},
+                {50, 1}
         };
     }
 
-    @Test (dataProvider = "rating_provider")
-    public void updateRatingTest(String title, Float newRating) throws DaoException {
+    @Test (dataProvider = "remove_id_provider")
+    public void removeByIdTest(long id, int newAmount) throws DaoException {
         MovieDao dao = new MovieDaoImpl();
-        dao.updateRating(title, newRating);
+        dao.deleteById(id);
 
-        Movie movie = dao.selectByTitle(title);
-        logger.info(String.format("Movie found: %s", movie));
-        Assert.assertEquals(movie.getRating(), newRating);
-    }
-
-    @DataProvider(name = "remove_title_provider")
-    public Object[][] passTitleToRemove() {
-        return new Object[][] {
-                {"Назад в Будущее", 3},
-                {"Kill Bill: Volume 1", 2},
-                {"Kill Bill: Volume 2", 1}
-        };
-    }
-
-    @Test (dataProvider = "remove_title_provider")
-    public void removeByTitleTest(String title, int newAmount) throws DaoException {
-        MovieDao dao = new MovieDaoImpl();
-        dao.deleteByTitle(title);
-
-        List<Movie> movies = dao.selectAll(0,0);
+        List<Movie> movies = dao.findAll(0,0);
         Assert.assertEquals(movies.size(), newAmount);
     }
 
@@ -212,7 +180,7 @@ public class MovieDaoTest {
         MovieDao dao = new MovieDaoImpl();
         dao.deleteAll();
 
-        List<Movie> movies = dao.selectAll(0, 0);
+        List<Movie> movies = dao.findAll(0, 0);
         Assert.assertEquals(movies.size(), 0);
     }
 }

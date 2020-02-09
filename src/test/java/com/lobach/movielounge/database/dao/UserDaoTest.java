@@ -3,6 +3,7 @@ package com.lobach.movielounge.database.dao;
 import com.lobach.movielounge.database.connection.ConnectionPool;
 import com.lobach.movielounge.database.dao.impl.UserDaoImpl;
 import com.lobach.movielounge.exception.DaoException;
+import com.lobach.movielounge.model.UserFactory;
 import com.lobach.movielounge.model.UserRole;
 import com.lobach.movielounge.model.User;
 import com.lobach.movielounge.model.UserStatus;
@@ -11,8 +12,11 @@ import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
+import java.util.List;
+
 public class UserDaoTest {
     private static final Logger logger = LogManager.getLogger();
+    private static final UserFactory factory = UserFactory.INSTANCE;
 
     @BeforeClass
     public void initConnectionPool() {
@@ -21,22 +25,29 @@ public class UserDaoTest {
 
     @AfterClass
     public void destroyConnectionPool() {
-        //ConnectionManager.INSTANCE.destroyPool();
+        ConnectionPool.INSTANCE.destroyPool();
     }
 
     @DataProvider(name = "user_provider")
     public Object[][] passUsers() {
-        User testUser1 = new User();
-        testUser1.setEmail("ren.n.lol.l.sama@gmail.com");
-        testUser1.setPassword("RenHasAdminPass");
-        testUser1.setName("Renata Lobach");
-        testUser1.setUserRole(UserRole.ADMIN);
+        User testUser1 = factory.createFullNoId(
+                "ren.n.lol.l.sama@gmail.com",
+                "RenHasAdminPass",
+                UserRole.ADMIN,
+                UserStatus.ACTIVE,
+                "Renata Lobach",
+                "375291813110",
+                "https://static.grouple.co/uploads/pics/05/72/935.jpg"
+        );
 
-        User testUser2 = new User();
-        testUser2.setEmail("libertyN@gmail.com");
-        testUser2.setPassword("kfdjnvkej4kjnf");
+        User testUser2 = factory.createBasic(
+                "libertyN@gmail.com",
+                "libertyN@gmail.com",
+                UserRole.USER,
+                UserStatus.ACTIVE
+        );
         testUser2.setName("Lora Cringe");
-        testUser2.setUserRole(UserRole.USER);
+        testUser2.setAvatarURL("https://www.doctorsataustraliafair.com.au/wp-content/uploads/2019/07/Unknown-person.png");
 
         return new Object[][] {{testUser1}, {testUser2}};
     }
@@ -44,7 +55,7 @@ public class UserDaoTest {
     @Test (dataProvider = "user_provider", expectedExceptions = DaoException.class)
     public void insertUsersTest(User testUser) throws DaoException {
         UserDao dao = new UserDaoImpl();
-        dao.insert(testUser);
+        dao.add(testUser);
     }
 
     @DataProvider(name = "id_provider")
@@ -55,76 +66,25 @@ public class UserDaoTest {
     @Test (dataProvider = "id_provider")
     public void getUsersByIdTest(long id, String name) throws DaoException {
         UserDao dao = new UserDaoImpl();
-        User user = dao.selectById(id);
+        User user = dao.findById(id);
         logger.info(String.format("User found: %s", user));
         Assert.assertEquals(user.getName(), name);
-    }
-
-    @DataProvider(name = "email_provider")
-    public Object[][] passEmail() {
-        return new Object[][] {
-                {"ren.n.lol.l.sama@gmail.com", "Renata Lobach"},
-                {"libertyN@gmail.com", "Lena Problems"}
-        };
-    }
-
-    @Test (dataProvider = "email_provider")
-    public void getUsersByEmailTest(String email, String name) throws DaoException {
-        UserDao dao = new UserDaoImpl();
-        User user = dao.selectByEmail(email);
-        logger.info(String.format("User found: %s", user));
-        Assert.assertEquals(user.getName(), name);
-    }
-
-    @DataProvider(name = "update_user_provider")
-    public Object[][] passUserData() {
-        User testUser1 = new User();
-        testUser1.setId(1L);
-        testUser1.setEmail("ren.n.lol.l.sama@gmail.com");
-        testUser1.setPassword("123457ren");
-        testUser1.setName("Renata Lobach");
-        testUser1.setPhoneNumber("375291813110");
-        testUser1.setUserRole(UserRole.ADMIN);
-        testUser1.setAvatarURL("https://sun9-10.userapi.com/c848636/v848636681/e353/q1oou2oz-cA.jpg");
-
-        User testUser2 = new User();
-        testUser2.setId(6L);
-        testUser2.setEmail("libertyN@gmail.com");
-        testUser2.setPassword("127lora");
-        testUser2.setName("Lena Problems");
-        testUser2.setPhoneNumber("375331234567");
-        testUser2.setUserRole(UserRole.USER);
-        testUser2.setAvatarURL("https://i1.sndcdn.com/artworks-000362787813-61v4h3-t500x500.jpg");
-        return new Object[][] {
-                {"ren.n.lol.l.sama@gmail.com", testUser1},
-                {"libertyN@gmail.com", testUser2}
-        };
-    }
-
-    @Test (dataProvider = "update_user_provider")
-    public void updateUserDataTest(String email, User userData) throws DaoException {
-        UserDao dao = new UserDaoImpl();
-        dao.updateByEmail(email, userData.getName(), userData.getPhoneNumber(), userData.getAvatarURL());
-
-        User user = dao.selectByEmail(email);
-        logger.info(String.format("User found: %s", user));
-        Assert.assertEquals(user, userData);
     }
 
     @DataProvider(name = "password_provider")
     public Object[][] passPassword() {
         return new Object[][] {
-                {"ren.n.lol.l.sama@gmail.com", "123457ren"},
-                {"libertyN@gmail.com", "127lora"}
+                {1L, "123457ren"},
+                {6L, "127lora"}
         };
     }
 
     @Test (dataProvider = "password_provider")
-    public void updatePasswordTest(String email, String password) throws DaoException {
+    public void updatePasswordTest(long id, String password) throws DaoException {
         UserDao dao = new UserDaoImpl();
-        dao.updatePassword(email, password);
+        dao.updatePassword(id, password);
 
-        User user = dao.selectByEmail(email);
+        User user = dao.findById(id);
         logger.info(String.format("User found: %s", user));
         Assert.assertEquals(user.getPassword(), password);
     }
@@ -132,19 +92,29 @@ public class UserDaoTest {
     @DataProvider(name = "status_provider")
     public Object[][] passStatus() {
         return new Object[][] {
-                {"ren.n.lol.l.sama@gmail.com", UserStatus.ACTIVE},
-                {"libertyN@gmail.com", UserStatus.BANNED},
-                {"libertyN@gmail.com", UserStatus.ACTIVE}
+                {1, UserStatus.ACTIVE},
+                {6, UserStatus.ACTIVE}
         };
     }
 
     @Test (dataProvider = "status_provider")
-    public void updateStatusTest(String email, UserStatus status) throws DaoException {
+    public void updateStatusTest(long id, UserStatus status) throws DaoException {
         UserDao dao = new UserDaoImpl();
-        dao.updateStatus(email, status.value);
+        dao.updateStatus(id, status.value);
 
-        User user = dao.selectByEmail(email);
+        User user = dao.findById(id);
         logger.info(String.format("User found: %s", user));
         Assert.assertEquals(user.getStatus(), status);
+    }
+
+    @Test
+    public void findAllUsersTest() throws DaoException {
+        UserDao dao = new UserDaoImpl();
+        List<User> users = dao.findAll(0, 0);
+
+        for (User user : users) {
+            logger.info(String.format("User found: %s", user));
+        }
+        Assert.assertEquals(users.size(), 2);
     }
 }

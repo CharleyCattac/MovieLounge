@@ -5,15 +5,13 @@ import java.util.Objects;
 public class Reservation {
     private long id;
     private long userId;
-    private long movieSessionId;
+    private long movieEventId;
     private User user;
     private MovieEvent movieEvent;
     private boolean active;
     private boolean paid;
 
-    public Reservation(User user, MovieEvent movieEvent) {
-        this.user = user;
-        this.movieEvent = movieEvent;
+    Reservation() {
     }
 
     public long getId() {
@@ -32,12 +30,12 @@ public class Reservation {
         this.userId = userId;
     }
 
-    public Long getMovieSessionId() {
-        return movieSessionId;
+    public Long getMovieEventId() {
+        return movieEventId;
     }
 
-    public void setMovieSessionId(Long movieSessionId) {
-        this.movieSessionId = movieSessionId;
+    public void setMovieEventId(Long movieEventId) {
+        this.movieEventId = movieEventId;
     }
 
     public User getUser() {
@@ -79,7 +77,7 @@ public class Reservation {
         Reservation that = (Reservation) o;
         return Objects.equals(id, that.id) &&
                 Objects.equals(userId, that.userId) &&
-                Objects.equals(movieSessionId, that.movieSessionId) &&
+                Objects.equals(movieEventId, that.movieEventId) &&
                 Objects.equals(user, that.user) &&
                 Objects.equals(movieEvent, that.movieEvent) &&
                 Objects.equals(active, that.active) &&
@@ -88,7 +86,7 @@ public class Reservation {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, userId, movieSessionId, user, movieEvent, active, paid);
+        return Objects.hash(id, userId, movieEventId, user, movieEvent, active, paid);
     }
 
     @Override
@@ -96,7 +94,7 @@ public class Reservation {
         return "Reservation{" +
                 "id=" + id +
                 ", userId=" + userId +
-                ", movieSessionId=" + movieSessionId +
+                ", movieSessionId=" + movieEventId +
                 ", user=" + user +
                 ", movieSession=" + movieEvent +
                 ", active=" + active +

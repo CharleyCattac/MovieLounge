@@ -1,5 +1,6 @@
 package com.lobach.movielounge.service.impl;
 
+import com.lobach.movielounge.model.MovieFactory;
 import com.lobach.movielounge.service.MovieService;
 import com.lobach.movielounge.database.dao.MovieDao;
 import com.lobach.movielounge.database.dao.impl.MovieDaoImpl;
@@ -18,9 +19,21 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
+    public void addMovie(String title, String description, String posterUrl,
+                         int releaseYear, String director, float rating) throws ServiceException {
+        try {
+            Movie movie = MovieFactory
+                    .INSTANCE.createBasic(title, description, posterUrl, releaseYear, director, rating);
+            dao.add(movie);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
     public List<Movie> findAllMovies(int offset, int limit) throws ServiceException {
         try {
-            return dao.selectAll(offset, limit);
+            return dao.findAll(offset, limit);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
@@ -29,25 +42,16 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public Movie findById(Long id) throws ServiceException {
         try {
-            return dao.selectById(id);
+            return dao.findById(id);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
     }
 
     @Override
-    public Movie findByTitle(String title) throws ServiceException {
+    public void deleteById(long id) throws ServiceException {
         try {
-            return dao.selectByTitle(title);
-        } catch (DaoException e) {
-            throw new ServiceException(e);
-        }
-    }
-
-    @Override
-    public void deleteByTitle(String title) throws ServiceException {
-        try {
-            dao.deleteByTitle(title);
+            dao.deleteById(id);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }

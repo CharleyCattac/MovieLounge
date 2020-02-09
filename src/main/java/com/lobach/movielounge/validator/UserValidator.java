@@ -7,7 +7,9 @@ public class UserValidator {
     private static final String EMAIL_REGEX = "^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$";
     private static final String PASS_REGEX = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).{5,15}$";
     private static final String NAME_REGEX = "(?=^.{0,40}$)^[a-zа-яA-ZА-Я-]+\\s[a-zа-яA-ZА-Я-]+$";
-    private static final String PHONE_NUMBER_REGEX = "^[0-9]*$";
+    private static final String PHONE_NUMBER_REGEX = "^[0-9]{11,12}$";
+
+    private UserValidator() {}
 
     public static boolean validateEmail(String email) {
         return email.matches(EMAIL_REGEX);

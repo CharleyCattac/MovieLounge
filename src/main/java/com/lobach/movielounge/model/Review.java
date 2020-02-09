@@ -8,9 +8,12 @@ public class Review {
     private long movieEventId;
     private User user;
     private MovieEvent movieEvent;
-    private int rating;
+    private int rate;
     private String shortOverallText;
     private String reviewText;
+
+    Review() {
+    }
 
     public Long getId() {
         return id;
@@ -52,12 +55,12 @@ public class Review {
         this.movieEvent = movieEvent;
     }
 
-    public int getRating() {
-        return rating;
+    public int getRate() {
+        return rate;
     }
 
-    public void setRating(int rating) {
-        this.rating = rating;
+    public void setRate(int rate) {
+        this.rate = rate;
     }
 
     public String getShortOverallText() {
@@ -84,7 +87,7 @@ public class Review {
         return id == review.id &&
                 userId == review.userId &&
                 movieEventId == review.movieEventId &&
-                rating == review.rating &&
+                rate == review.rate &&
                 Objects.equals(user, review.user) &&
                 Objects.equals(movieEvent, review.movieEvent) &&
                 Objects.equals(shortOverallText, review.shortOverallText) &&
@@ -93,7 +96,7 @@ public class Review {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, userId, movieEventId, user, movieEvent, rating, shortOverallText, reviewText);
+        return Objects.hash(id, userId, movieEventId, user, movieEvent, rate, shortOverallText, reviewText);
     }
 
     @Override
@@ -104,7 +107,7 @@ public class Review {
                 ", movieEventId=" + movieEventId +
                 ", user=" + user +
                 ", movieEvent=" + movieEvent +
-                ", rating=" + rating +
+                ", rating=" + rate +
                 ", shortOverallText='" + shortOverallText + '\'' +
                 ", reviewText='" + reviewText + '\'' +
                 '}';

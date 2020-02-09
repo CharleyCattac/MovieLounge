@@ -10,18 +10,23 @@ import com.lobach.movielounge.exception.ServiceException;
 import com.lobach.movielounge.model.User;
 import com.lobach.movielounge.model.UserRole;
 import com.lobach.movielounge.model.UserFactory;
+import com.lobach.movielounge.validator.URLValidator;
 import com.lobach.movielounge.validator.UserValidator;
+
+import java.util.List;
+import java.util.Optional;
 
 public class UserServiceImpl implements UserService {
 
-    private static final String MESSAGE_BUNDLE = "properties/messages";
-    private static final String MESSAGE_EMAIL = "user.invalid.email";
-    private static final String MESSAGE_PASSWORD = "user.invalid.password";
-    private static final String MESSAGE_NAME = "user.invalid.name";
-    private static final String MESSAGE_PHONE_NUMBER = "user.invalid.phone_number";
-    private static final String MESSAGE_ROLE = "user.invalid.role";
-    private static final String MESSAGE_STATUS = "user.invalid.status";
-    private static final String MESSAGE_MATCH = "user.invalid.email_password_do_not_match";
+    private static final String MESSAGE_BUNDLE = "message";
+    private static final String MESSAGE_EMAIL = "user.email";
+    private static final String MESSAGE_PASSWORD = "user.password";
+    private static final String MESSAGE_NAME = "user.name";
+    private static final String MESSAGE_PHONE_NUMBER = "user.phone_number";
+    private static final String MESSAGE_AVATAR = "user.avatar";
+    private static final String MESSAGE_ROLE = "user.role";
+    private static final String MESSAGE_STATUS = "user.status";
+    private static final String MESSAGE_MATCH = "user.email_password_do_not_match";
 
     private UserDao dao;
 
@@ -30,128 +35,153 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void registerUser(String eMail, String password) throws ServiceException {
-        String validationResult = signInValidation(eMail, password);
-        if (validationResult != null) {
-            throw new ServiceException(validationResult);
+    public void registerUser(String email, String password, String name, String phoneNumber, String avatarUrl)
+            throws ServiceException {
+        String possibleErrorMessage = registerValidation(email, password, name, phoneNumber, avatarUrl);
+        if (possibleErrorMessage != null) {
+            throw new ServiceException(possibleErrorMessage);
         }
-        User user = UserFactory.INSTANCE.createBasic(eMail, password, UserRole.USER, UserStatus.ACTIVE);
+        User user = UserFactory.INSTANCE
+                .createFullNoId(email, password, UserRole.USER, UserStatus.ACTIVE, name, phoneNumber, avatarUrl);
         try {
-            dao.insert(user);
+            dao.add(user);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
     }
 
     @Override
-    public void updateUserData(String email, String newName,
+    public void updateUserData(long id, String newEmail, String newName,
                                String newPhoneNumber, String newAvatarUrl) throws ServiceException {
-        String validationResult = updateDataValidation(newName, newPhoneNumber);
-        if (validationResult != null) {
-            throw new ServiceException(validationResult);
+        String possibleErrorMessage = updateDataValidation(newEmail, newName, newPhoneNumber, newAvatarUrl);
+        if (possibleErrorMessage != null) {
+            throw new ServiceException(possibleErrorMessage);
         }
         try {
-            dao.updateByEmail(email, newName, newPhoneNumber, newAvatarUrl);
+            dao.updateById(id, newEmail, newName, newPhoneNumber, newAvatarUrl);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
     }
 
     @Override
-    public void changeUserPassword(String email, String newPassword) throws ServiceException {
-        String validationResult = validatePassword(newPassword);
-        if (validationResult != null) {
-            throw new ServiceException(validationResult);
+    public void changeUserPassword(long id, String newPassword) throws ServiceException {
+        String possibleErrorMessage = validatePassword(newPassword);
+        if (possibleErrorMessage != null) {
+            throw new ServiceException(possibleErrorMessage);
         }
         try {
-            dao.updatePassword(email, newPassword);
+            dao.updatePassword(id, newPassword);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
     }
 
     @Override
-    public void changeUserRole(String email, String newRole) throws ServiceException {
-        String validationResult = validateRole(newRole);
-        if (validationResult != null) {
-            throw new ServiceException(validationResult);
+    public void changeUserRole(long id, String newRole) throws ServiceException {
+        String possibleErrorMessage = validateRole(newRole);
+        if (possibleErrorMessage != null) {
+            throw new ServiceException(possibleErrorMessage);
         }
         try {
-            dao.updateRole(email, newRole);
+            dao.updateRole(id, newRole);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
     }
 
     @Override
-    public void changeUserStatus(String email, String newStatus) throws ServiceException {
-        String validationResult = validateStatus(newStatus);
-        if (validationResult != null) {
-            throw new ServiceException(validationResult);
+    public void changeUserStatus(long id, String newStatus) throws ServiceException {
+        String possibleErrorMessage = validateStatus(newStatus);
+        if (possibleErrorMessage != null) {
+            throw new ServiceException(possibleErrorMessage);
         }
         try {
-            dao.updateStatus(email, newStatus);
+            dao.updateStatus(id, newStatus);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
     }
 
     @Override
-    public User findUserByEmail(String email) throws ServiceException {
+    public User findUserById(long id) throws ServiceException {
         try {
-            return dao.selectByEmail(email);
+            return dao.findById(id);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
     }
 
     @Override
-    public boolean checkIfPasswordMatchesEmail(String email, String password) throws ServiceException {
+    public Optional<User> findUserByEmailAndPassword(String email, String password) throws ServiceException {
         try {
-            return dao.passwordMatchesEmail(email, password);
+            User user = dao.findByEmailPassword(email, password);
+            if (user == null) {
+                return Optional.empty();
+            } else {
+                return Optional.of(user);
+            }
         } catch (DaoException e) {
-            String message = PropertyManager.getProperty(MESSAGE_BUNDLE, MESSAGE_MATCH);
-            throw new ServiceException(message);
+            throw new ServiceException(e);
         }
+    }
+
+    @Override
+    public List<User> findAllUsers(int offset, int limit) throws ServiceException {
+        try {
+            return dao.findAll(offset, limit);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    // TODO: 08/02/2020 оставлять ли приватные мелкие валидаторы или сделать, например, внутренний класс-обертку
+
+    private String registerValidation(String email, String password, String name,
+                                      String phoneNumber, String avatarUrl) {
+        String primaryResult = this.updateDataValidation(email, name, phoneNumber, avatarUrl);
+        if (primaryResult != null) {
+            return primaryResult;
+        }
+        if (!UserValidator.validatePassword(password)) {
+            return MESSAGE_PASSWORD;
+        }
+        return null;
+    }
+
+    private String updateDataValidation(String email, String name, String phoneNumber, String avatarUrl) {
+        if (!UserValidator.validateEmail(email)) {
+            return MESSAGE_EMAIL;
+        }
+        if (!UserValidator.validateName(name)) {
+            return MESSAGE_NAME;
+        }
+        if (!UserValidator.validatePhoneNumber(phoneNumber)) {
+            return MESSAGE_PHONE_NUMBER;
+        }
+        if (!URLValidator.validateUrl(avatarUrl)) {
+            return MESSAGE_AVATAR;
+        }
+        return null;
     }
 
     private String validatePassword(String password) {
         if (!UserValidator.validatePassword(password)) {
-            return PropertyManager.getProperty(MESSAGE_BUNDLE, MESSAGE_PASSWORD);
+            return MESSAGE_PASSWORD;
         }
         return null;
     }
 
     private String validateRole(String roleString) {
         if (!UserValidator.validateRole(roleString)) {
-            return PropertyManager.getProperty(MESSAGE_BUNDLE, MESSAGE_ROLE);
+            return MESSAGE_ROLE;
         }
         return null;
     }
 
     private String validateStatus(String statusString) {
         if (!UserValidator.validateStatus(statusString)) {
-            return PropertyManager.getProperty(MESSAGE_BUNDLE, MESSAGE_STATUS);
-        }
-        return null;
-    }
-
-    private String signInValidation(String email, String password) {
-        if (!UserValidator.validateEmail(email)) {
-            return PropertyManager.getProperty(MESSAGE_BUNDLE, MESSAGE_EMAIL);
-        }
-        if (!UserValidator.validatePassword(password)) {
-            return PropertyManager.getProperty(MESSAGE_BUNDLE, MESSAGE_PASSWORD);
-        }
-        return null;
-    }
-
-    private String updateDataValidation(String name, String phoneNumber) {
-        if (!UserValidator.validateName(name)) {
-            return PropertyManager.getProperty(MESSAGE_BUNDLE, MESSAGE_NAME);
-        }
-        if (!UserValidator.validatePhoneNumber(phoneNumber)) {
-            return PropertyManager.getProperty(MESSAGE_BUNDLE, MESSAGE_PHONE_NUMBER);
+            return MESSAGE_STATUS;
         }
         return null;
     }

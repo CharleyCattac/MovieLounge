@@ -1,7 +1,7 @@
 package com.lobach.movielounge.model;
 
 import java.util.ArrayList;
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -12,8 +12,9 @@ public class MovieEvent {
     private List<Movie> movies;
     private int bookingAmount;
     private boolean available;
+    private String theme;
 
-    public MovieEvent() {
+    MovieEvent() {
         movieIds = new ArrayList<>(3);
         movies = new ArrayList<>(3);
     }
@@ -24,6 +25,14 @@ public class MovieEvent {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getTheme() {
+        return theme;
+    }
+
+    public void setTheme(String theme) {
+        this.theme = theme;
     }
 
     public Date getDate() {
@@ -86,13 +95,14 @@ public class MovieEvent {
 
     @Override
     public String toString() {
-        return "MovieSession{" +
+        return "MovieEvent{" +
                 "id=" + id +
                 ", date=" + date +
                 ", movieIds=" + movieIds +
                 ", movies=" + movies +
                 ", bookingAmount=" + bookingAmount +
                 ", available=" + available +
+                ", theme='" + theme + '\'' +
                 '}';
     }
 }

@@ -6,6 +6,15 @@ public enum UserFactory {
     UserFactory() {
     }
 
+    public User createReduced(long id, UserRole role, String name, String avatarUrl) {
+        User user = new User();
+        user.setId(id);
+        user.setUserRole(role);
+        user.setName(name);
+        user.setAvatarURL(avatarUrl);
+        return user;
+    }
+
     public User createBasic(String email, String password, UserRole userRole, UserStatus status) {
         User user = new User();
         user.setEmail(email);

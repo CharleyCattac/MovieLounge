@@ -34,13 +34,12 @@ public class RoleFilter implements Filter {
             RequestDispatcher dispatcher = request.getServletContext()
                     .getRequestDispatcher(SERVLET_URL);
             dispatcher.forward(request, response);
-            return;
+            //return;
         }
         filterChain.doFilter(request, response);
     }
 
     @Override
     public void destroy() {
-
     }
 }
