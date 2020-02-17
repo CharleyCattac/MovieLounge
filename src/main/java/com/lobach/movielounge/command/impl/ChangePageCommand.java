@@ -14,8 +14,7 @@ public class ChangePageCommand implements ActionCommand {
     @Override
     public String execute(RequestContent contentManager) {
         String pageProperty = contentManager.getRequestParameter(PARAMETER_PAGE);
-        if (pageProperty == null) {
-            logger.debug("Parameter PAGE in null -> forward to main page");
+        if (pageProperty == null || pageProperty.isBlank()) {
             pageProperty = PROPERTY_MAIN_PAGE;
         }
         return PropertyManager.getProperty(BUNDLE_CONFIG, pageProperty);

@@ -1,17 +1,19 @@
 package com.lobach.movielounge.model;
 
+import java.util.Date;
 import java.util.Objects;
 
-public class Reservation {
+public class Booking {
     private long id;
     private long userId;
     private long movieEventId;
     private User user;
     private MovieEvent movieEvent;
-    private boolean active;
     private boolean paid;
+    private int amount;
+    private Date date;
 
-    Reservation() {
+    Booking() {
     }
 
     public long getId() {
@@ -54,14 +56,6 @@ public class Reservation {
         this.movieEvent = movieEvent;
     }
 
-    public Boolean getActive() {
-        return active;
-    }
-
-    public void setActive(Boolean active) {
-        this.active = active;
-    }
-
     public Boolean getPaid() {
         return paid;
     }
@@ -70,35 +64,53 @@ public class Reservation {
         this.paid = paid;
     }
 
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Reservation that = (Reservation) o;
-        return Objects.equals(id, that.id) &&
-                Objects.equals(userId, that.userId) &&
-                Objects.equals(movieEventId, that.movieEventId) &&
-                Objects.equals(user, that.user) &&
-                Objects.equals(movieEvent, that.movieEvent) &&
-                Objects.equals(active, that.active) &&
-                Objects.equals(paid, that.paid);
+        Booking booking = (Booking) o;
+        return id == booking.id &&
+                userId == booking.userId &&
+                movieEventId == booking.movieEventId &&
+                paid == booking.paid &&
+                amount == booking.amount &&
+                Objects.equals(user, booking.user) &&
+                Objects.equals(movieEvent, booking.movieEvent) &&
+                Objects.equals(date, booking.date);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, userId, movieEventId, user, movieEvent, active, paid);
+        return Objects.hash(id, userId, movieEventId, user, movieEvent, paid, amount, date);
     }
 
     @Override
     public String toString() {
-        return "Reservation{" +
+        return "Booking{" +
                 "id=" + id +
                 ", userId=" + userId +
-                ", movieSessionId=" + movieEventId +
+                ", movieEventId=" + movieEventId +
                 ", user=" + user +
-                ", movieSession=" + movieEvent +
-                ", active=" + active +
+                ", movieEvent=" + movieEvent +
                 ", paid=" + paid +
+                ", amount=" + amount +
+                ", date=" + date +
                 '}';
     }
 }

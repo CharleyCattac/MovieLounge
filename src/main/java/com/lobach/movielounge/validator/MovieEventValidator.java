@@ -7,10 +7,11 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.Date;
 
-public class MovieSessionValidator {
+public class MovieEventValidator {
     private static final Logger logger = LogManager.getLogger();
     private static final String BUNDLE_STARTUP_NAME = "config";
     private static final String PROPERTY_MAX_AMOUNT = "config.max_booking_amount";
+    private static final long MILLIS_IN_WEEK = 7 * 24 * 60 * 60 * 1000L;
 
     private static int maxBookingAmount;
 
@@ -23,13 +24,29 @@ public class MovieSessionValidator {
         }
     }
 
-    public boolean isOutdated(MovieEvent movieEvent) {
+    public static boolean isOutdated(MovieEvent movieEvent) {
         Date currentDate = new Date();
         return currentDate.after(movieEvent.getDate());
     }
 
-    public boolean isFulled(MovieEvent movieEvent) {
+    public static boolean isOutdated(Date eventDate) {
+        return eventDate.getTime() < System.currentTimeMillis();
+    }
+
+    public static boolean isAtLeastInAWeek(Date eventDate) {
+        return eventDate.getTime() - MILLIS_IN_WEEK > System.currentTimeMillis();
+    }
+
+    public static boolean isFulled(MovieEvent movieEvent) {
         return movieEvent.getBookingAmount() < maxBookingAmount;
+    }
+
+    public static boolean amountCanBeIncreased(int currentAmount, int add) {
+        return currentAmount + add <= maxBookingAmount;
+    }
+
+    public static boolean amountCanBeDecreased(int currentAmount, int sub) {
+        return currentAmount - sub >= 0;
     }
 
     public static int getMaxBookingAmount() {

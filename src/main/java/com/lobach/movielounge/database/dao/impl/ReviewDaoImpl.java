@@ -18,8 +18,10 @@ public class ReviewDaoImpl implements ReviewDao {
     private static final String INSERT =
             "INSERT INTO reviews (user_id,event_id,rate,overall_text,review_text)"
                     + "VALUES (?,?,?,?,?)";
-    private static final String SELECT_ALL =
+    private static final String SELECT =
             "SELECT reviews.id,user_id,event_id,rate,overall_text,review_text FROM reviews";
+    private static final String DELETE =
+            "DELETE FROM reviews";
     private static final String ORDER_BY =
             " ORDER BY (SELECT date FROM events WHERE events.id=event_id)";
     private static final String LIMIT =
@@ -28,8 +30,6 @@ public class ReviewDaoImpl implements ReviewDao {
             " WHERE reviews.id=?";
     private static final String WHERE_USER_ID =
             " WHERE user_id=%d";
-    private static final String DELETE_ALL =
-            " DELETE FROM reviews";
 
     @Override
     public void add(Review object) throws DaoException {
@@ -60,7 +60,7 @@ public class ReviewDaoImpl implements ReviewDao {
         ResultSet resultSet = null;
         Review review = null;
 
-        StringBuilder queryBuilder = new StringBuilder(SELECT_ALL);
+        StringBuilder queryBuilder = new StringBuilder(SELECT);
         queryBuilder.append(WHERE_ID);
         try {
             connection = ConnectionPool.INSTANCE.getConnection();
@@ -94,7 +94,7 @@ public class ReviewDaoImpl implements ReviewDao {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
 
-        StringBuilder queryBuilder = new StringBuilder(SELECT_ALL);
+        StringBuilder queryBuilder = new StringBuilder(SELECT);
         queryBuilder.append(ORDER_BY);
         try {
             connection = ConnectionPool.INSTANCE.getConnection();
@@ -135,7 +135,7 @@ public class ReviewDaoImpl implements ReviewDao {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
 
-        StringBuilder queryBuilder = new StringBuilder(SELECT_ALL);
+        StringBuilder queryBuilder = new StringBuilder(SELECT);
         queryBuilder.append(String.format(WHERE_USER_ID, userIdKey));
         queryBuilder.append(ORDER_BY);
         try {
@@ -175,9 +175,12 @@ public class ReviewDaoImpl implements ReviewDao {
         ProxyConnection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
+
+        StringBuilder queryBuilder = new StringBuilder(DELETE);
+        queryBuilder.append(WHERE_ID);
         try {
             connection = ConnectionPool.INSTANCE.getConnection();
-            statement = connection.prepareStatement(DELETE_ALL + " " + WHERE_ID);
+            statement = connection.prepareStatement(queryBuilder.toString());
             statement.setLong(1, idKey);
             resultSet = statement.executeQuery();
         } catch (SQLException e) {
@@ -197,7 +200,7 @@ public class ReviewDaoImpl implements ReviewDao {
         try {
             connection = ConnectionPool.INSTANCE.getConnection();
             statement = connection.createStatement();
-            resultSet = statement.executeQuery(DELETE_ALL);
+            resultSet = statement.executeQuery(DELETE);
         } catch (SQLException e) {
             throw new DaoException("Failed to find movie with id: ", e);
         } finally {

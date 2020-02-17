@@ -15,7 +15,7 @@
                 <form id="to_en" action="control_servlet" method="GET">
                     <input type="hidden" name="command" value="change_locale"/>
                     <input type="hidden" name="locale" value="EN"/>
-                    <button type="submit" class="button_width_30 button_transparent">
+                    <button type="submit" class="button_link_like" style="max-width: 30px">
                         <img class="lang_img" src="img/lang/en.jpg"/>
                     </button>
                 </form>
@@ -25,7 +25,7 @@
                 <form id="to_ru" action="control_servlet" method="GET">
                     <input type="hidden" name="command" value="change_locale"/>
                     <input type="hidden" name="locale" value="RU"/>
-                    <button type="submit" class="button_width_30 button_transparent">
+                    <button type="submit" class="button_link_like" style="max-width: 30px">
                         <img class="lang_img" src="img/lang/ru.jpg"/>
                     </button>
                 </form>
@@ -35,7 +35,7 @@
                 <form id="to_by" action="control_servlet" method="GET">
                     <input type="hidden" name="command" value="change_locale"/>
                     <input type="hidden" name="locale" value="BY"/>
-                    <button type="submit" class="button_width_30 button_transparent">
+                    <button type="submit" class="button_link_like" style="max-width: 30px">
                         <img class="lang_img" src="img/lang/by.jpg"/>
                     </button>
                 </form>

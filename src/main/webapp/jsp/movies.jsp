@@ -26,23 +26,23 @@
             <div class="main_inner">
                 <c:if test="${fatalMessage == null}">
                     <article class="news news_main">
-                        <header class="news_header">
+                        <header class="header-padding">
                             <h2 class="news_title"><fmt:message key="movies_page.description"/></h2>
                         </header>
                     </article>
                     <article class="news news_main">
                         <c:if test="${moviesSize == 0}">
-                            <div class="tab-block_text">
-                                <p>${errorMessage == null}</p>
+                            <div class="header-padding single_line_typo">
+                                <p><c:out value="${errorMessage}"/></p>
                             </div>
                         </c:if>
                         <c:forEach items="${movies}" var="movie">
-                            <div class="tab_content">
+                            <div class="tab_content-padding">
                                 <div class="tab_content-item" style="padding-top: 10px;padding-bottom: 10px;
                                 height: fit-content">
                                     <div class="container">
                                         <div class="row" style="margin-left: 15px;align-items: center">
-                                            <div class="tab_typography" style="max-width: 65%">
+                                            <div class="multi_line_typo" style="max-width: 65%">
                                                 <div class="tab_title">
                                                     <p><c:out value="${movie.title}"/></p>
                                                 </div>
@@ -80,7 +80,7 @@
                 </c:if>
                 <c:if test="${fatalMessage != null}">
                     <div class="auth_field">
-                        <div class="auth_error"> ${fatalMessage}</div>
+                        <div class="auth_error_typo"> ${fatalMessage}</div>
                     </div>
                 </c:if>
             </div>

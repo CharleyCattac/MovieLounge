@@ -160,9 +160,7 @@ public class MovieDaoTest {
     @DataProvider(name = "remove_id_provider")
     public Object[][] passIdToRemove() {
         return new Object[][] {
-                {47, 3},
-                {48, 2},
-                {50, 1}
+                {48, 8}
         };
     }
 

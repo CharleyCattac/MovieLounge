@@ -35,6 +35,9 @@ public class MovieEventServiceTest {
         MovieEventService eventService = new MovieEventServiceImpl();
         MovieService movieService = new MovieServiceImpl();
 
+        StringBuilder builder;
+        StringBuffer buffer;
+
         List<MovieEvent> events = eventService.findAllEvents(0,0);
         for (MovieEvent event1 : events) {
             for (Long movieId : event1.getMovieIds()) {

@@ -32,13 +32,12 @@
 <body>
 <div class="app">
     <jsp:include page="/jsp/header.jsp"/>
-    <div class="app_inner">
+    <div class="app_inner"  style="padding-top: 64px; align-content: center">
         <div class="main">
             <div class="main_inner">
-
-                <div class="form_container">
-                    <div class="d-flex justify-content-center h-100">
-                        <div class="login_card">
+                <div class="container row news" style="align-items: center; height: min-content">
+                    <div class="container flex-lg-column" style="max-width: min-content">
+                        <div class="login_card card_width-small">
                             <div class="card-header">
                                 <h3><fmt:message key="login.label.sign_in"/></h3>
                             </div>
@@ -60,31 +59,27 @@
                                                placeholder="<fmt:message key="login.hint.password"/>"/>
                                     </div>
                                     <div class="form-group">
-                                        <button type="submit" class="btn float-right login_btn">
+                                        <button type="submit" class="float-right button_yellow button_font-middle">
                                             <span class="button_title"><fmt:message key="login.button.log_in"/></span>
                                         </button>
                                     </div>
                                 </form>
                             </div>
                             <div class="card-footer">
-                                <div class="d-flex justify-content-center links">
+                                <div class="d-flex justify-content-center links-dark-small">
                                     <fmt:message key="login.label.no_account"/>
-                                    <form id="signInAct" action="control_servlet" method="POST">
-                                        <a href="#">
-                                            <input type="hidden" name="command" value="change_page"/>
-                                            <input type="hidden" name="page" value="path.sign_up"/>
-                                            <fmt:message key="login.label.sign_up"/>
-                                        </a>
-                                    </form>
+                                    <a href="<%=request.getContextPath()%>/control_servlet?command=change_page&page=path.sign_up">
+                                        <fmt:message key="login.label.sign_up"/>
+                                    </a>
                                 </div>
                             </div>
                         </div>
                         <c:if test="${errorMessage != null}">
-                        <div class="auth_field">
-                                <div class="auth_error">
+                            <div class="multi_line_typo-small " style="margin: 5px">
+                                <div class="auth_error_typo">
                                     <h3><c:out value="${errorMessage}"/></h3>
                                 </div>
-                        </div>
+                            </div>
                         </c:if>
                     </div>
                 </div>

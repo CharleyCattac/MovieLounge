@@ -26,20 +26,20 @@
             <div class="main_inner">
                 <c:if test="${fatalMessage == null}">
                     <article class="news news_main">
-                        <header class="news_header">
+                        <header class="header-padding">
                             <h2 class="news_title"><fmt:message key="reviews_page.description"/></h2>
                         </header>
                     </article>
                     <article class="news news_main">
                         <c:if test="${reviewsSize == 0}">
-                            <div class="tab_content tab_typography tab-block_text" style="padding-top: -5px">
+                            <div class="header-padding single_line_typo">
                                 <p><c:out value="${errorMessage}"/></p>
                             </div>
                         </c:if>
                         <c:forEach items="${reviews}" var="review">
-                            <div class="tab_content">
+                            <div class="tab_content-padding">
                                 <div class="tab_content-item">
-                                    <div class="tab_typography">
+                                    <div class="multi_line_typo">
                                         <div class="container">
                                             <!--
                                             <div class="flex-column" style="align-content: center">
@@ -116,7 +116,7 @@
                                                             <button type="submit" class="button_user_type1"
                                                                     aria-pressed="true" style="margin-right: 20px">
                                                                 <span class="button_title" style="width: 150%">
-                                                                    <fmt:message key="events_page.admin.item.button.switch_availability"/>
+                                                                    <fmt:message key="events_page.admin.item.button.set_available"/>
                                                                 </span>
                                                             </button>
                                                         </form>
@@ -142,7 +142,7 @@
                 </c:if>
                 <c:if test="${fatalMessage != null}">
                     <div class="auth_field">
-                        <div class="auth_error"> ${fatalMessage}</div>
+                        <div class="auth_error_typo"> ${fatalMessage}</div>
                     </div>
                 </c:if>
             </div>

@@ -25,8 +25,8 @@ public class MovieDaoImpl implements MovieDao {
     private static final String SELECT_BY_ID =
             "SELECT movies.id,title,description,poster_url,release_year,director,rating "
                     + "FROM movies WHERE movies.id=?";
-    private static final String UPDATE_RATING_BY_TITLE =
-            "UPDATE movies SET rating=? WHERE title=?";
+    private static final String SELECT_BY_TITLE =
+            "SELECT movies.id FROM movies WHERE title=?";
     private static final String DELETE_BY_ID = "DELETE FROM movies WHERE movies.id=?";
     private static final String DELETE_ALL = "DELETE FROM movies";
 
@@ -43,28 +43,10 @@ public class MovieDaoImpl implements MovieDao {
             statement.setInt(4, object.getReleaseYear());
             statement.setString(5, object.getDirector());
             statement.setFloat(6, object.getRating());
-            statement.executeUpdate();
+            logger.debug(statement.executeUpdate());
             logger.info(String.format("Added new movie: %s", object.getTitle()));
         } catch (SQLException e) {
             throw new DaoException(String.format("Failed to add movie: %s", e));
-        } finally {
-            close(statement);
-            close(connection);
-        }
-    }
-
-    @Override
-    public void updateRating(String title, Float newRating) throws DaoException {
-        ProxyConnection connection = null;
-        PreparedStatement statement = null;
-        try {
-            connection = ConnectionPool.INSTANCE.getConnection();
-            statement = connection.prepareStatement(UPDATE_RATING_BY_TITLE);
-            statement.setFloat(1, newRating);
-            statement.setString(2, title);
-            statement.execute();
-        } catch (SQLException e) {
-            throw new DaoException(String.format("Failed to update rating by title %s: %s", title, e));
         } finally {
             close(statement);
             close(connection);
@@ -102,6 +84,31 @@ public class MovieDaoImpl implements MovieDao {
             close(connection);
         }
         return movie;
+    }
+
+    @Override
+    public Long findIdByTitle(String titleKey) throws DaoException {
+        ProxyConnection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        long id = 0L;
+        try {
+            connection = ConnectionPool.INSTANCE.getConnection();
+            statement = connection.prepareStatement(SELECT_BY_TITLE);
+            statement.setString(1, titleKey);
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                int index = 1;
+                id = resultSet.getLong(index);
+            }
+        } catch (SQLException e) {
+            throw new DaoException(String.format("Failed to find movie with id %s: ", titleKey), e);
+        } finally {
+            close(resultSet);
+            close(statement);
+            close(connection);
+        }
+        return id;
     }
 
     @Override

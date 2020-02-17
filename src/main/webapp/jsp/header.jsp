@@ -21,28 +21,19 @@
                 <div class="header_item">
                     <div class="header-menu">
                         <div class="header-menu_item">
-                            <form id="moviesButton" action="control_servlet" method="POST">
-                                <input type="hidden" name="command" value="show_movies"/>
-                                <button type="submit" class="button_head button_transparent">
-                                    <span class="button_title"><fmt:message key="header.label.movies"/></span>
-                                </button>
-                            </form>
+                            <a href="<%=request.getContextPath()%>/control_servlet?command=show_movies" class="links-white-medium">
+                                <fmt:message key="header.label.movies"/>
+                            </a>
                         </div>
                         <div class="header-menu_item">
-                            <form id="eventsButton" action="control_servlet" method="POST">
-                                <input type="hidden" name="command" value="show_events"/>
-                                <button type="submit" class="button_head button_transparent">
-                                    <span class="button_title"><fmt:message key="header.label.movieEvents"/></span>
-                                </button>
-                            </form>
+                            <a href="<%=request.getContextPath()%>/control_servlet?command=show_events" class="links-white-medium">
+                                <fmt:message key="header.label.movieEvents"/>
+                            </a>
                         </div>
                         <div class="header-menu_item">
-                            <form id="reviewsButton" action="control_servlet" method="POST">
-                                <input type="hidden" name="command" value="show_reviews"/>
-                                <button type="submit" class="button_head button_transparent">
-                                    <span class="button_title"><fmt:message key="header.label.reviews"/></span>
-                                </button>
-                            </form>
+                            <a href="<%=request.getContextPath()%>/control_servlet?command=show_reviews" class="links-white-medium">
+                                <fmt:message key="header.label.reviews"/>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -62,19 +53,20 @@
                                 <form id="sighInButton" action="control_servlet" method="POST">
                                     <input type="hidden" name="command" value="change_page"/>
                                     <input type="hidden" name="page" value="path.log_in"/>
-                                    <button type="submit" class="button_success">
+                                    <button type="submit" class="button_green">
                                         <span class="button_title"><fmt:message key="login.button.log_in"/></span>
                                     </button>
                                 </form>
                             </c:if>
                             <c:if test="${currentUser != null}">
-                                <div class="avatar avatar_small">
-                                    <img class="img-fluid" style="cursor: pointer"
-                                         src="<c:out value="${currentUser.avatarURL}"/>"
-                                         alt="<c:out value="${currentUser.avatarURL}"/>"
-                                    >
+                                <div class="avatar avatar_head avatar_small">
                                     <form id="profileOpen" action="control_servlet" method="POST">
-                                        <input type="hidden" name="command" value="show_profile"/>
+                                        <input type="image" class="img-fluid" style="cursor: pointer"
+                                               src="<c:out value="${currentUser.avatarURL}"/>"
+                                               alt="<c:out value="${currentUser.avatarURL}"/>"
+                                        >
+                                        <input type="hidden" name="command" value="change_page"/>
+                                        <input type="hidden" name="page" value="path.profile_page"/>
                                     </form>
                                 </div>
                             </c:if>

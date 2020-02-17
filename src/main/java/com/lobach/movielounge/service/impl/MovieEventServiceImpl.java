@@ -1,32 +1,47 @@
 package com.lobach.movielounge.service.impl;
 
-import com.lobach.movielounge.model.MovieEvent;
-import com.lobach.movielounge.service.MovieEventService;
 import com.lobach.movielounge.database.dao.MovieEventDao;
 import com.lobach.movielounge.database.dao.impl.MovieEventDaoImpl;
 import com.lobach.movielounge.exception.DaoException;
 import com.lobach.movielounge.exception.ServiceException;
-import com.lobach.movielounge.model.Movie;
-import com.lobach.movielounge.validator.MovieSessionValidator;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.lobach.movielounge.model.MovieEvent;
+import com.lobach.movielounge.model.MovieEventFactory;
+import com.lobach.movielounge.service.MovieEventService;
+import com.lobach.movielounge.validator.MovieEventValidator;
 
-import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class MovieEventServiceImpl implements MovieEventService {
 
-    private MovieEventDao dao;
+    private MovieEventDao eventDao;
 
     public MovieEventServiceImpl() {
-        dao = new MovieEventDaoImpl();
+        eventDao = new MovieEventDaoImpl();
+    }
+
+    @Override
+    public void createEvent(Date date, String theme, List<Long> movieIds) throws ServiceException {
+        if (!MovieEventValidator.isAtLeastInAWeek(date)) {
+            throw new ServiceException();
+        }
+        try {
+            MovieEvent event = MovieEventFactory.INSTANCE
+                    .createBasic(date, movieIds, 0,false, theme);
+            eventDao.add(event);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
     }
 
     @Override
     public List<MovieEvent> findAllEvents(int offset, int limit) throws ServiceException {
+        if (offset < 0 || limit < 0) {
+            throw new ServiceException();
+        }
         try {
-            return dao.findAll(offset, limit);
+            return eventDao.findAll(offset, limit);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
@@ -35,7 +50,7 @@ public class MovieEventServiceImpl implements MovieEventService {
     @Override
     public MovieEvent findEventById(long id) throws ServiceException {
         try {
-            return dao.findById(id);
+            return eventDao.findById(id);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
@@ -44,27 +59,30 @@ public class MovieEventServiceImpl implements MovieEventService {
     @Override
     public void switchAvailabilityById(long id, boolean currentAvailability) throws ServiceException {
         try {
-            dao.updateAvailabilityById(id, !currentAvailability);
+            eventDao.updateAvailabilityById(id, !currentAvailability);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
     }
 
     @Override
-    public List<MovieEvent> findSessionsByMovieId(long movieId) throws ServiceException {
+    public List<MovieEvent> findEventByMovieId(long movieId) throws ServiceException {
         try {
-            return dao.findByMovieId(movieId);
+            return eventDao.findByMovieId(movieId);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
     }
 
     @Override
-    public void incrementBookingAmountById(long id, int currentAmount) throws ServiceException {
+    public void increaseBookingAmountById(long id, int currentAmount, int add) throws ServiceException {
+        if (!MovieEventValidator.amountCanBeIncreased(currentAmount, add)) {
+            throw new ServiceException();
+        }
         try {
-            dao.updateParticipantAmountById(id, ++currentAmount);
-            if (currentAmount >= MovieSessionValidator.getMaxBookingAmount()) {
-                dao.updateAvailabilityById(id, false);
+            eventDao.updateParticipantAmountById(id, currentAmount + add);
+            if (currentAmount + add == MovieEventValidator.getMaxBookingAmount()) {
+                eventDao.updateAvailabilityById(id, false);
             }
         } catch (DaoException e) {
             throw new ServiceException(e);
@@ -72,21 +90,24 @@ public class MovieEventServiceImpl implements MovieEventService {
     }
 
     @Override
-    public void decrementBookingAmountById(long id, int currentAmount) throws ServiceException {
+    public void decreaseBookingAmountById(long id, int currentAmount, int sub) throws ServiceException {
+        if (!MovieEventValidator.amountCanBeIncreased(currentAmount, sub)) {
+            throw new ServiceException();
+        }
         try {
-            dao.updateParticipantAmountById(id, --currentAmount);
-            if (currentAmount == MovieSessionValidator.getMaxBookingAmount() - 1) {
-                dao.updateAvailabilityById(id, true);
+            if (currentAmount == MovieEventValidator.getMaxBookingAmount()) {
+                eventDao.updateAvailabilityById(id, true);
             }
+            eventDao.updateParticipantAmountById(id, currentAmount - sub);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
     }
 
     @Override
-    public void deleteSessionById(long id) throws ServiceException {
+    public void deleteEventById(long id) throws ServiceException {
         try {
-            dao.deleteById(id);
+            eventDao.deleteById(id);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }

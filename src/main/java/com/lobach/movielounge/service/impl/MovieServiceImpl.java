@@ -49,6 +49,15 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
+    public Long findIdByTitle(String title) throws ServiceException {
+        try {
+            return dao.findIdByTitle(title);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
     public void deleteById(long id) throws ServiceException {
         try {
             dao.deleteById(id);

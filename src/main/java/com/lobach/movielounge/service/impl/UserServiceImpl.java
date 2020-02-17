@@ -26,7 +26,6 @@ public class UserServiceImpl implements UserService {
     private static final String MESSAGE_AVATAR = "user.avatar";
     private static final String MESSAGE_ROLE = "user.role";
     private static final String MESSAGE_STATUS = "user.status";
-    private static final String MESSAGE_MATCH = "user.email_password_do_not_match";
 
     private UserDao dao;
 

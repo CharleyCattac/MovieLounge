@@ -25,21 +25,37 @@
         <div class="main">
             <div class="main_inner">
                 <c:if test="${fatalMessage == null}">
+                    <div class="container row news">
+                        <article class="news_main"
+                                <c:if test="${userRole == 'ADMIN' }"> style="max-width: 80%" </c:if>>
+                            <header class="header-padding">
+                                <h2 class="news_title"><fmt:message key="events_page.description"/></h2>
+                            </header>
+                        </article>
+                        <c:if test="${userRole == 'ADMIN' }">
+                        <div class="container flex-sm-column"
+                             style="align-content: start; width: max-content; margin-top: 10px">
+                            <form id="addEventButton" action="control_servlet" method="POST">
+                                <input type="hidden" name="command" value="change_page"/>
+                                <input type="hidden" name="page" value="path.create.event"/>
+                                <button type="submit" class="button_red button_font-middle">
+                                    <span class="button_title"><fmt:message key="events_page.admin.item.button.create"/></span>
+                                </button>
+                            </form>
+                        </div>
+                        </c:if>
+                    </div>
+
                     <article class="news news_main">
-                        <header class="news_header">
-                            <h2 class="news_title"><fmt:message key="events_page.description"/></h2>
-                        </header>
-                    </article>
-                    <article class="news news_main">
-                        <c:if test="${eventSize == 0}">
-                            <div class="tab_content tab_typography tab-block_text">
-                                <p>${errorMessage}</p>
+                        <c:if test="${eventsSize == 0}">
+                            <div class="header-padding single_line_typo">
+                                <p><c:out value="${errorMessage}"/></p>
                             </div>
                         </c:if>
                         <c:forEach items="${events}" var="movieEvent">
-                            <div class="tab_content">
+                            <div class="tab_content-padding">
                                 <div class="tab_content-item">
-                                    <div class="tab_typography">
+                                    <div class="multi_line_typo">
                                         <div class="container">
                                             <div class="flex-column" style="align-content: center">
                                                 <div class="row" style="display: flow; margin-bottom: -20px;align-content: space-evenly" >
@@ -93,36 +109,56 @@
                                                 <c:if test="${userRole == 'USER' }">
                                                     <div class="row" style="align-content: flex-start;
                                                     padding-bottom: 15px; padding-top: 7px">
-                                                        <form id="makeReservationButton" action="control_servlet" method="POST">
-                                                            <input type="hidden" name="command" value="make_reservation"/>
+                                                        <form id="bookButton" action="control_servlet" method="POST">
+                                                            <input type="hidden" name="command" value="make_booking"/>
                                                             <input type="hidden" name="event_id" value="${movieEvent.id}"/>
                                                             <input type="hidden" name="user_id" value="${currentUser.id}"/>
-                                                            <button type="submit" class="button_user_type1" aria-pressed="true"
+                                                            <input type="hidden" name="current_amount" value="${movieEvent.bookingAmount}"/>
+                                                            <div class="input-group form-group">
+                                                                <input name="amount" type="number" class="form-control"
+                                                                       min="1" max="20"
+                                                                        <c:if test="${movieEvent.available == false}"> aria-disabled="true" </c:if>
+                                                                       placeholder="<fmt:message key="events_page.user.item.hint.amount"/>"/>
+                                                            </div>
+                                                            <button type="submit" class="button_red button_padding-1" aria-pressed="true"
                                                             <c:if test="${movieEvent.available == false}"> disabled </c:if>>
                                                                 <span class="button_title" style="width: 150%">
                                                                     <fmt:message key="events_page.user.item.button.book"/>
                                                                 </span>
                                                             </button>
                                                         </form>
+                                                        <c:if test="${errorMessage != null}">
+                                                            <div class="multi_line_typo-small " style="margin: 5px">
+                                                                <div class="auth_error_typo">
+                                                                    <h3><c:out value="${errorMessage}"/></h3>
+                                                                </div>
+                                                            </div>
+                                                        </c:if>
                                                     </div>
                                                 </c:if>
                                                 <c:if test="${userRole == 'ADMIN' }">
                                                     <div class="row" style="align-content: center;
                                                     padding-bottom: 15px; padding-top: 7px">
                                                         <form id="switchAvailabilityButton" action="control_servlet" method="POST">
-                                                            <input type="hidden" name="command" value="switch_event_availability"/>
+                                                            <input type="hidden" name="command" value="switch_availability"/>
                                                             <input type="hidden" name="event_id" value="${movieEvent.id}"/>
-                                                            <button type="submit" class="button_user_type1"
+                                                            <input type="hidden" name="event_availability" value="${movieEvent.available}"/>
+                                                            <button type="submit" class="button_red button_padding-1"
                                                                     aria-pressed="true" style="margin-right: 20px">
                                                                 <span class="button_title" style="width: 150%">
-                                                                    <fmt:message key="events_page.admin.item.button.switch_availability"/>
+                                                                    <c:if test="${movieEvent.available == true }">
+                                                                    <fmt:message key="events_page.admin.item.button.disable"/>
+                                                                    </c:if>
+                                                                    <c:if test="${movieEvent.available == false }">
+                                                                        <fmt:message key="events_page.admin.item.button.set_available"/>
+                                                                    </c:if>
                                                                 </span>
                                                             </button>
                                                         </form>
                                                         <form id="deleteEventButton" action="control_servlet" method="POST">
                                                             <input type="hidden" name="command" value="delete_event"/>
                                                             <input type="hidden" name="event_id" value="${movieEvent.id}"/>
-                                                            <button type="submit" class="button_user_type1" aria-pressed="true">
+                                                            <button type="submit" class="button_red button_padding-1" aria-pressed="true">
                                                                 <span class="button_title" style="width: 150%">
                                                                     <fmt:message key="events_page.admin.item.button.delete"/>
                                                                 </span>
@@ -140,7 +176,7 @@
                 </c:if>
                 <c:if test="${fatalMessage != null}">
                     <div class="auth_field">
-                        <div class="auth_error"> ${fatalMessage}</div>
+                        <div class="auth_error_typo"> ${fatalMessage}</div>
                     </div>
                 </c:if>
             </div>

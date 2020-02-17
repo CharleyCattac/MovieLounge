@@ -14,7 +14,7 @@ public class User {
     private String phoneNumber;
     private String avatarURL;
 
-    private List<Reservation> reservations;
+    private List<Booking> bookings;
 
     User() {
     }
@@ -83,12 +83,12 @@ public class User {
         this.avatarURL = avatarURL;
     }
 
-    public List<Reservation> getReservations() {
-        return List.copyOf(reservations);
+    public List<Booking> getBookings() {
+        return List.copyOf(bookings);
     }
 
-    public void setReservations(List<Reservation> reservations) {
-        this.reservations = reservations;
+    public void setBookings(List<Booking> bookings) {
+        this.bookings = bookings;
     }
 
     @Override
@@ -104,12 +104,12 @@ public class User {
                 Objects.equals(name, user.name) &&
                 Objects.equals(phoneNumber, user.phoneNumber) &&
                 Objects.equals(avatarURL, user.avatarURL) &&
-                Objects.equals(reservations, user.reservations);
+                Objects.equals(bookings, user.bookings);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, email, password, status, userRole, name, phoneNumber, avatarURL, reservations);
+        return Objects.hash(id, email, password, status, userRole, name, phoneNumber, avatarURL, bookings);
     }
 
     @Override
@@ -123,7 +123,7 @@ public class User {
                 ", name='" + name + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", avatarURL='" + avatarURL + '\'' +
-                ", reservations=" + reservations +
+                ", reservations=" + bookings +
                 '}';
     }
 }

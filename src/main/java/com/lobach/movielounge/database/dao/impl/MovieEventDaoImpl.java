@@ -39,7 +39,6 @@ public class MovieEventDaoImpl implements MovieEventDao {
     public void add(MovieEvent object) throws DaoException {
         ProxyConnection connection = null;
         PreparedStatement statement = null;
-        //logger.info(String.format("Adding new movie event: %s", object.getDate()));
         try {
             connection = ConnectionPool.INSTANCE.getConnection();
             statement = connection.prepareStatement(INSERT_SESSION);
@@ -48,7 +47,6 @@ public class MovieEventDaoImpl implements MovieEventDao {
                 statement.setLong(2 + i, object.getMovieIds().get(i));
             }
             statement.setString(5, object.getTheme());
-            //logger.debug(statement.toString());
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new DaoException(String.format("Failed to add movie event: %s", e.getMessage()));

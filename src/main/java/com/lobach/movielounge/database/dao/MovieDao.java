@@ -5,5 +5,5 @@ import com.lobach.movielounge.model.Movie;
 
 public interface MovieDao extends BaseDao<Movie> {
 
-    void updateRating(String title, Float newRating) throws DaoException;
+    Long findIdByTitle(String title) throws DaoException;
 }

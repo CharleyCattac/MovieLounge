@@ -14,5 +14,7 @@ public interface MovieService {
 
     Movie findById(Long id) throws ServiceException;
 
+    Long findIdByTitle(String title) throws ServiceException;
+
     void deleteById(long id) throws ServiceException;
 }
