@@ -7,6 +7,7 @@ import com.lobach.movielounge.model.UserFactory;
 import com.lobach.movielounge.model.UserRole;
 import com.lobach.movielounge.model.User;
 import com.lobach.movielounge.model.UserStatus;
+import com.lobach.movielounge.util.Encrypror;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
@@ -74,8 +75,8 @@ public class UserDaoTest {
     @DataProvider(name = "password_provider")
     public Object[][] passPassword() {
         return new Object[][] {
-                {1L, "123457ren"},
-                {6L, "127lora"}
+                {22L, Encrypror.encode("RenHasAdminPass")},
+                {23L, Encrypror.encode("libertyN@gmail.com")}
         };
     }
 
@@ -92,8 +93,8 @@ public class UserDaoTest {
     @DataProvider(name = "status_provider")
     public Object[][] passStatus() {
         return new Object[][] {
-                {1, UserStatus.ACTIVE},
-                {6, UserStatus.ACTIVE}
+                {22, UserStatus.ACTIVE},
+                {23, UserStatus.ACTIVE}
         };
     }
 
