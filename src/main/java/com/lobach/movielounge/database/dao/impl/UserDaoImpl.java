@@ -47,7 +47,7 @@ public class UserDaoImpl implements UserDao {
         ProxyConnection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = ConnectionPool.INSTANCE.getConnection();
+            connection = ConnectionPool.INSTANCE.occupyConnection();
             statement = connection.prepareStatement(INSERT_USER);
             statement.setString(1, object.getEmail());
             statement.setString(2, object.getPassword());
@@ -58,7 +58,7 @@ public class UserDaoImpl implements UserDao {
             statement.executeUpdate();
             logger.info(String.format("Added new user: %s", object.getEmail()));
         } catch (SQLException e) {
-            throw new DaoException("Failed to add user: ", e);
+            throw new DaoException("Failed to add user", e);
         } finally {
             close(statement);
             close(connection);
@@ -72,7 +72,7 @@ public class UserDaoImpl implements UserDao {
         ProxyConnection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = ConnectionPool.INSTANCE.getConnection();
+            connection = ConnectionPool.INSTANCE.occupyConnection();
             statement = connection.prepareStatement(UPDATE_USER_DATA_BY_ID);
             statement.setString(1, newEmail);
             statement.setString(2, newName);
@@ -81,7 +81,7 @@ public class UserDaoImpl implements UserDao {
             statement.setLong(5, id);
             statement.execute();
         } catch (SQLException e) {
-            throw new DaoException(String.format("Failed to update user data by id %d: ", id), e);
+            throw new DaoException(String.format("Failed to update user data by id %d", id), e);
         } finally {
             close(statement);
             close(connection);
@@ -93,13 +93,13 @@ public class UserDaoImpl implements UserDao {
         ProxyConnection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = ConnectionPool.INSTANCE.getConnection();
+            connection = ConnectionPool.INSTANCE.occupyConnection();
             statement = connection.prepareStatement(UPDATE_PASSWORD_BY_ID);
             statement.setString(1, newPassword);
             statement.setLong(2, id);
             statement.execute();
         } catch (SQLException e) {
-            throw new DaoException(String.format("Failed to change password by id %d: ", id), e);
+            throw new DaoException(String.format("Failed to change password by id %d", id), e);
         } finally {
             close(statement);
             close(connection);
@@ -111,7 +111,7 @@ public class UserDaoImpl implements UserDao {
         ProxyConnection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = ConnectionPool.INSTANCE.getConnection();
+            connection = ConnectionPool.INSTANCE.occupyConnection();
             statement = connection.prepareStatement(UPDATE_STATUS_BY_ID);
             statement.setString(1, newStatus);
             statement.setLong(2, id);
@@ -129,7 +129,7 @@ public class UserDaoImpl implements UserDao {
         ProxyConnection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = ConnectionPool.INSTANCE.getConnection();
+            connection = ConnectionPool.INSTANCE.occupyConnection();
             statement = connection.prepareStatement(UPDATE_ROLE_BY_ID);
             statement.setString(1, newRole);
             statement.setLong(2, id);
@@ -149,7 +149,7 @@ public class UserDaoImpl implements UserDao {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
-            connection = ConnectionPool.INSTANCE.getConnection();
+            connection = ConnectionPool.INSTANCE.occupyConnection();
             if (limit != 0) {
                 statement = connection.prepareStatement(SELECT_ALL_LIMITED);
                 statement.setInt(1, offset);
@@ -197,7 +197,7 @@ public class UserDaoImpl implements UserDao {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
-            connection = ConnectionPool.INSTANCE.getConnection();
+            connection = ConnectionPool.INSTANCE.occupyConnection();
             statement = connection.prepareStatement(SELECT_USER_BY_ID);
             statement.setLong(1, id);
             resultSet = statement.executeQuery();
@@ -229,7 +229,7 @@ public class UserDaoImpl implements UserDao {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
-            connection = ConnectionPool.INSTANCE.getConnection();
+            connection = ConnectionPool.INSTANCE.occupyConnection();
             statement = connection.prepareStatement(SELECT_USER_BY_EMAIL_PASSWORD);
             statement.setString(1, emailKey);
             statement.setString(2, passwordKey);

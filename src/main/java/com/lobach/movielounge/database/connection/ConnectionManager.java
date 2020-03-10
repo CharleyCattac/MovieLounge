@@ -32,8 +32,8 @@ class ConnectionManager {
             userName = bundle.getString(PROPERTY_DB_USER);
             userPassword = bundle.getString(PROPERTY_DB_PASSWORD);
             String poolSizeString = bundle.getString(PROPERTY_DB_POOL_SIZE);
-            Class.forName(driverUrl);
             poolSize = Integer.parseInt(poolSizeString);
+            Class.forName(driverUrl);
             return;
         } catch (MissingResourceException e) {
             logger.fatal(String.format("Resource not found: %s", BUNDLE_NAME));

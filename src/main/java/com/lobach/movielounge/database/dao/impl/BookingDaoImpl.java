@@ -45,7 +45,7 @@ public class BookingDaoImpl implements BookingDao {
         ProxyConnection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = ConnectionPool.INSTANCE.getConnection();
+            connection = ConnectionPool.INSTANCE.occupyConnection();
             statement = connection.prepareStatement(INSERT);
             statement.setLong(1, object.getUserId());
             statement.setLong(2, object.getMovieEventId());
@@ -70,7 +70,7 @@ public class BookingDaoImpl implements BookingDao {
         StringBuilder queryBuilder = new StringBuilder(UPDATE_AMOUNT);
         queryBuilder.append(WHERE_BOOKING_ID);
         try {
-            connection = ConnectionPool.INSTANCE.getConnection();
+            connection = ConnectionPool.INSTANCE.occupyConnection();
             statement = connection.prepareStatement(queryBuilder.toString());
             statement.setInt(1, newAmount);
             statement.setLong(2, bookingId);
@@ -93,7 +93,7 @@ public class BookingDaoImpl implements BookingDao {
 
         String existsStatement = String.format(SELECT_USER_EVENT, userIdKey, eventIdKey);
         try {
-            connection = ConnectionPool.INSTANCE.getConnection();
+            connection = ConnectionPool.INSTANCE.occupyConnection();
             statement = connection.createStatement();
             resultSet = statement.executeQuery(existsStatement);
             while (resultSet.next()) {
@@ -164,7 +164,7 @@ public class BookingDaoImpl implements BookingDao {
         queryBuilder.append(WHERE_USER_ID);
         queryBuilder.append(ORDER_BY_EVENT_ID);
         try {
-            connection = ConnectionPool.INSTANCE.getConnection();
+            connection = ConnectionPool.INSTANCE.occupyConnection();
             statement = connection.prepareStatement(queryBuilder.toString());
             statement.setLong(1, userIdKey);
             resultSet = statement.executeQuery();
@@ -199,7 +199,7 @@ public class BookingDaoImpl implements BookingDao {
         StringBuilder queryBuilder = new StringBuilder(SELECT);
         queryBuilder.append(WHERE_EVENT_ID);
         try {
-            connection = ConnectionPool.INSTANCE.getConnection();
+            connection = ConnectionPool.INSTANCE.occupyConnection();
             statement = connection.prepareStatement(queryBuilder.toString());
             statement.setLong(1, eventIdKey);
             resultSet = statement.executeQuery();
@@ -238,7 +238,7 @@ public class BookingDaoImpl implements BookingDao {
         StringBuilder queryBuilder = new StringBuilder(DELETE);
         queryBuilder.append(WHERE_BOOKING_ID);
         try {
-            connection = ConnectionPool.INSTANCE.getConnection();
+            connection = ConnectionPool.INSTANCE.occupyConnection();
             statement = connection.prepareStatement(queryBuilder.toString());
             statement.setLong(1, id);
             resultSet = statement.executeQuery();
@@ -260,7 +260,7 @@ public class BookingDaoImpl implements BookingDao {
         StringBuilder queryBuilder = new StringBuilder(DELETE);
         queryBuilder.append(WHERE_USER_AND_EVENT_IDS);
         try {
-            connection = ConnectionPool.INSTANCE.getConnection();
+            connection = ConnectionPool.INSTANCE.occupyConnection();
             statement = connection.prepareStatement(queryBuilder.toString());
             statement.setLong(1, userId);
             statement.setLong(2, eventId);

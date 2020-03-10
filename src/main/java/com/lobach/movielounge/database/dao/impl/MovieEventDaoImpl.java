@@ -20,8 +20,8 @@ public class MovieEventDaoImpl implements MovieEventDao {
             "SELECT events.id,date,booking_amount,available,movie1_id,movie2_id,movie3_id,theme " +
                     "FROM events ORDER BY date";
     private static final String SELECT_ALL_SESSIONS_LIMITED =
-            "SELECT events.id,date,booking_amount,available,movie1_id,movie2_id,movie3_id,theme " +
-                    "FROM events ORDER BY date LIMIT ?,?";
+            "SELECT id,date,booking_amount,available,movie1_id,movie2_id,movie3_id,theme " +
+                    "FROM (SELECT * FROM events ORDER BY date) AS ordered_events LIMIT ?,?";
     private static final String SELECT_SESSION_BY_ID =
             "SELECT events.id,date,booking_amount,available,movie1_id,movie2_id,movie3_id,theme " +
                     "FROM events WHERE events.id=?";
@@ -40,7 +40,7 @@ public class MovieEventDaoImpl implements MovieEventDao {
         ProxyConnection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = ConnectionPool.INSTANCE.getConnection();
+            connection = ConnectionPool.INSTANCE.occupyConnection();
             statement = connection.prepareStatement(INSERT_SESSION);
             statement.setLong(1, object.getDate().getTime());
             for (int i = 0; i < 3; i++) {
@@ -61,7 +61,7 @@ public class MovieEventDaoImpl implements MovieEventDao {
         ProxyConnection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = ConnectionPool.INSTANCE.getConnection();
+            connection = ConnectionPool.INSTANCE.occupyConnection();
             statement = connection.prepareStatement(UPDATE_AVAILABILITY_BY_ID);
             statement.setBoolean(1, status);
             statement.setLong(2, id);
@@ -79,7 +79,7 @@ public class MovieEventDaoImpl implements MovieEventDao {
         ProxyConnection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = ConnectionPool.INSTANCE.getConnection();
+            connection = ConnectionPool.INSTANCE.occupyConnection();
             statement = connection.prepareStatement(UPDATE_BOOKING_AMOUNT_BY_ID);
             statement.setInt(1, newAmount);
             statement.setLong(2, id);
@@ -97,7 +97,7 @@ public class MovieEventDaoImpl implements MovieEventDao {
         ProxyConnection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = ConnectionPool.INSTANCE.getConnection();
+            connection = ConnectionPool.INSTANCE.occupyConnection();
             statement = connection.prepareStatement(DELETE_BY_ID);
             statement.setLong(1, id);
             statement.execute();
@@ -114,7 +114,7 @@ public class MovieEventDaoImpl implements MovieEventDao {
         ProxyConnection connection = null;
         Statement statement = null;
         try {
-            connection = ConnectionPool.INSTANCE.getConnection();
+            connection = ConnectionPool.INSTANCE.occupyConnection();
             statement = connection.createStatement();
             statement.execute(DELETE_ALL);
         } catch (SQLException e) {
@@ -132,7 +132,7 @@ public class MovieEventDaoImpl implements MovieEventDao {
         ResultSet resultSet = null;
         MovieEvent movieEvent = null;
         try {
-            connection = ConnectionPool.INSTANCE.getConnection();
+            connection = ConnectionPool.INSTANCE.occupyConnection();
             statement = connection.prepareStatement(SELECT_SESSION_BY_ID);
             statement.setLong(1, idKey);
             resultSet = statement.executeQuery();
@@ -144,7 +144,7 @@ public class MovieEventDaoImpl implements MovieEventDao {
                 boolean available = resultSet.getBoolean(index++);
                 List<Long> movieIds = new ArrayList<>(3);
                 for (int i = 0; i < 3; i++) {
-                    movieIds.set(i, resultSet.getLong(index++));
+                    movieIds.add(resultSet.getLong(index++));
                 }
                 String theme = resultSet.getString(index);
                 movieEvent = MovieEventFactory.INSTANCE.createFull(id, date, movieIds,bookingAmount, available, theme);
@@ -167,7 +167,7 @@ public class MovieEventDaoImpl implements MovieEventDao {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
-            connection = ConnectionPool.INSTANCE.getConnection();
+            connection = ConnectionPool.INSTANCE.occupyConnection();
             statement = connection.prepareStatement(SELECT_SESSIONS_BY_MOVIE_ID);
             for (int i = 1; i < 4; i++) {
                 statement.setLong(i, movieId);
@@ -205,7 +205,7 @@ public class MovieEventDaoImpl implements MovieEventDao {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
-            connection = ConnectionPool.INSTANCE.getConnection();
+            connection = ConnectionPool.INSTANCE.occupyConnection();
             if (limit != 0) {
                 statement = connection.prepareStatement(SELECT_ALL_SESSIONS_LIMITED);
                 statement.setInt(1, offset);

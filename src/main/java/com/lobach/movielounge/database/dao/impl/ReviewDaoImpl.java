@@ -36,7 +36,7 @@ public class ReviewDaoImpl implements ReviewDao {
         ProxyConnection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = ConnectionPool.INSTANCE.getConnection();
+            connection = ConnectionPool.INSTANCE.occupyConnection();
             statement = connection.prepareStatement(INSERT);
             statement.setLong(1, object.getUserId());
             statement.setLong(2, object.getMovieEventId());
@@ -63,7 +63,7 @@ public class ReviewDaoImpl implements ReviewDao {
         StringBuilder queryBuilder = new StringBuilder(SELECT);
         queryBuilder.append(WHERE_ID);
         try {
-            connection = ConnectionPool.INSTANCE.getConnection();
+            connection = ConnectionPool.INSTANCE.occupyConnection();
             statement = connection.prepareStatement(queryBuilder.toString());
             statement.setLong(1, idKey);
             resultSet = statement.executeQuery();
@@ -97,7 +97,7 @@ public class ReviewDaoImpl implements ReviewDao {
         StringBuilder queryBuilder = new StringBuilder(SELECT);
         queryBuilder.append(ORDER_BY);
         try {
-            connection = ConnectionPool.INSTANCE.getConnection();
+            connection = ConnectionPool.INSTANCE.occupyConnection();
             if (limit != 0) {
                 queryBuilder.append(LIMIT);
                 statement = connection.prepareStatement(queryBuilder.toString());
@@ -139,7 +139,7 @@ public class ReviewDaoImpl implements ReviewDao {
         queryBuilder.append(String.format(WHERE_USER_ID, userIdKey));
         queryBuilder.append(ORDER_BY);
         try {
-            connection = ConnectionPool.INSTANCE.getConnection();
+            connection = ConnectionPool.INSTANCE.occupyConnection();
             if (limit != 0) {
                 queryBuilder.append(LIMIT);
                 statement = connection.prepareStatement(queryBuilder.toString());
@@ -179,7 +179,7 @@ public class ReviewDaoImpl implements ReviewDao {
         StringBuilder queryBuilder = new StringBuilder(DELETE);
         queryBuilder.append(WHERE_ID);
         try {
-            connection = ConnectionPool.INSTANCE.getConnection();
+            connection = ConnectionPool.INSTANCE.occupyConnection();
             statement = connection.prepareStatement(queryBuilder.toString());
             statement.setLong(1, idKey);
             resultSet = statement.executeQuery();
@@ -198,7 +198,7 @@ public class ReviewDaoImpl implements ReviewDao {
         Statement statement = null;
         ResultSet resultSet = null;
         try {
-            connection = ConnectionPool.INSTANCE.getConnection();
+            connection = ConnectionPool.INSTANCE.occupyConnection();
             statement = connection.createStatement();
             resultSet = statement.executeQuery(DELETE);
         } catch (SQLException e) {
