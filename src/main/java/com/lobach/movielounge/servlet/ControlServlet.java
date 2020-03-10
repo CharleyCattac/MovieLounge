@@ -2,12 +2,10 @@ package com.lobach.movielounge.servlet;
 
 import com.lobach.movielounge.command.ActionCommand;
 import com.lobach.movielounge.command.CommandManager;
-import com.lobach.movielounge.exception.CommandException;
-import com.lobach.movielounge.manager.PropertyManager;
+import com.lobach.movielounge.util.Router;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.ejb.SessionContext;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -40,18 +38,26 @@ public class ControlServlet extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String page = PropertyManager.getProperty(BUNDLE_NAME, PROPERTY_MAIN_PAGE);
-        try {
-            ActionCommand command = CommandManager.defineCommand(request);
-            RequestContent content = new RequestContent(request);
-            logger.debug(content.getRequestParameter("command"));
-            page = command.execute(content);
-            content.passContent(request);
-        } catch (CommandException e) {
-            logger.error(String.format("Error occured during request processing: %s", e.getMessage()));
-        } finally {
-            RequestDispatcher dispatcher = request.getRequestDispatcher(page);
-            dispatcher.forward(request, response);
+        ActionCommand command = CommandManager.defineCommand(request);
+        RequestContent content = new RequestContent(request);
+        Router executionResult = command.execute(content);
+        String page = executionResult.url;
+        Router.RouteType routeType = executionResult.getRouteType();
+        content.passContent(request);
+
+        switch (routeType) {
+            case NOTHING: {
+                break;
+            }
+            case FORWARD: {
+                RequestDispatcher dispatcher = request.getRequestDispatcher(page);
+                dispatcher.forward(request, response);
+                break;
+            }
+            case REDIRECT: {
+                response.sendRedirect(page);
+                break;
+            }
         }
     }
 }

@@ -9,7 +9,6 @@ import com.lobach.movielounge.model.MovieEventFactory;
 import com.lobach.movielounge.service.MovieEventService;
 import com.lobach.movielounge.validator.MovieEventValidator;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -22,9 +21,9 @@ public class MovieEventServiceImpl implements MovieEventService {
     }
 
     @Override
-    public void createEvent(Date date, String theme, List<Long> movieIds) throws ServiceException {
+    public boolean createEvent(Date date, String theme, List<Long> movieIds) throws ServiceException {
         if (!MovieEventValidator.isAtLeastInAWeek(date)) {
-            throw new ServiceException();
+            return false;
         }
         try {
             MovieEvent event = MovieEventFactory.INSTANCE
@@ -33,6 +32,7 @@ public class MovieEventServiceImpl implements MovieEventService {
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
+        return true;
     }
 
     @Override
@@ -75,9 +75,9 @@ public class MovieEventServiceImpl implements MovieEventService {
     }
 
     @Override
-    public void increaseBookingAmountById(long id, int currentAmount, int add) throws ServiceException {
+    public boolean increaseBookingAmountById(long id, int currentAmount, int add) throws ServiceException {
         if (!MovieEventValidator.amountCanBeIncreased(currentAmount, add)) {
-            throw new ServiceException();
+            return false;
         }
         try {
             eventDao.updateParticipantAmountById(id, currentAmount + add);
@@ -87,12 +87,13 @@ public class MovieEventServiceImpl implements MovieEventService {
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
+        return true;
     }
 
     @Override
-    public void decreaseBookingAmountById(long id, int currentAmount, int sub) throws ServiceException {
+    public boolean decreaseBookingAmountById(long id, int currentAmount, int sub) throws ServiceException {
         if (!MovieEventValidator.amountCanBeIncreased(currentAmount, sub)) {
-            throw new ServiceException();
+            return false;
         }
         try {
             if (currentAmount == MovieEventValidator.getMaxBookingAmount()) {
@@ -102,6 +103,7 @@ public class MovieEventServiceImpl implements MovieEventService {
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
+        return true;
     }
 
     @Override

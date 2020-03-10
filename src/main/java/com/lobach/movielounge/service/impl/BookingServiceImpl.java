@@ -4,7 +4,6 @@ import com.lobach.movielounge.database.dao.BookingDao;
 import com.lobach.movielounge.database.dao.impl.BookingDaoImpl;
 import com.lobach.movielounge.exception.DaoException;
 import com.lobach.movielounge.exception.ServiceException;
-import com.lobach.movielounge.manager.PropertyManager;
 import com.lobach.movielounge.model.Booking;
 import com.lobach.movielounge.model.BookingFactory;
 import com.lobach.movielounge.service.BookingService;

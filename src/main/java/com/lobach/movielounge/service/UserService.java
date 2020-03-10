@@ -8,17 +8,17 @@ import java.util.Optional;
 
 public interface UserService {
 
-    void registerUser(String email, String password, String name, String phoneNumber, String avatarUrl)
+    String registerUser(String email, String password, String name, String phoneNumber, String avatarUrl)
             throws ServiceException;
 
-    void updateUserData(long id, String newEmail, String newName, String newPhoneNumber, String newAvatarUrl)
+    String updateUserData(long id, String newEmail, String newName, String newPhoneNumber, String newAvatarUrl)
             throws ServiceException;
 
-    void changeUserPassword(long id, String newPassword) throws ServiceException;
+    String changeUserPassword(long id, String newPassword) throws ServiceException;
 
-    void changeUserRole(long id, String newRole) throws ServiceException;
+    String changeUserRole(long id, String newRole) throws ServiceException;
 
-    void changeUserStatus(long id, String userStatus) throws ServiceException;
+    String changeUserStatus(long id, String userStatus) throws ServiceException;
 
     User findUserById(long id) throws ServiceException;
 

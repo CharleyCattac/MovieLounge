@@ -1,6 +1,6 @@
 package com.lobach.movielounge.validator;
 
-import com.lobach.movielounge.manager.PropertyManager;
+import com.lobach.movielounge.util.PropertyManager;
 import com.lobach.movielounge.model.MovieEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface MovieEventService {
 
-    void createEvent (Date date, String theme, List<Long> movieIds) throws ServiceException;
+    boolean createEvent(Date date, String theme, List<Long> movieIds) throws ServiceException;
 
     List<MovieEvent> findAllEvents(int offset, int limit) throws ServiceException;
 
@@ -18,9 +18,9 @@ public interface MovieEventService {
 
     void switchAvailabilityById(long id, boolean currentAvailability) throws ServiceException;
 
-    void increaseBookingAmountById(long id, int currentAmount, int add) throws ServiceException;
+    boolean increaseBookingAmountById(long id, int currentAmount, int add) throws ServiceException;
 
-    void decreaseBookingAmountById(long id, int currentAmount, int sub) throws ServiceException;
+    boolean decreaseBookingAmountById(long id, int currentAmount, int sub) throws ServiceException;
 
     void deleteEventById(long id) throws ServiceException;
 }

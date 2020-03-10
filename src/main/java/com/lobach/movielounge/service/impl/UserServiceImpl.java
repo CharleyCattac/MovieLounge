@@ -1,6 +1,5 @@
 package com.lobach.movielounge.service.impl;
 
-import com.lobach.movielounge.manager.PropertyManager;
 import com.lobach.movielounge.model.UserStatus;
 import com.lobach.movielounge.service.UserService;
 import com.lobach.movielounge.database.dao.UserDao;
@@ -10,6 +9,7 @@ import com.lobach.movielounge.exception.ServiceException;
 import com.lobach.movielounge.model.User;
 import com.lobach.movielounge.model.UserRole;
 import com.lobach.movielounge.model.UserFactory;
+import com.lobach.movielounge.util.Encrypror;
 import com.lobach.movielounge.validator.URLValidator;
 import com.lobach.movielounge.validator.UserValidator;
 
@@ -18,7 +18,7 @@ import java.util.Optional;
 
 public class UserServiceImpl implements UserService {
 
-    private static final String MESSAGE_BUNDLE = "message";
+    private static final String MESSAGE_EXISTS = "user.user_exists";
     private static final String MESSAGE_EMAIL = "user.email";
     private static final String MESSAGE_PASSWORD = "user.password";
     private static final String MESSAGE_NAME = "user.name";
@@ -34,72 +34,79 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void registerUser(String email, String password, String name, String phoneNumber, String avatarUrl)
+    public String registerUser(String email, String password, String name, String phoneNumber, String avatarUrl)
             throws ServiceException {
         String possibleErrorMessage = registerValidation(email, password, name, phoneNumber, avatarUrl);
         if (possibleErrorMessage != null) {
-            throw new ServiceException(possibleErrorMessage);
+            return possibleErrorMessage;
         }
+        String encodedPassword = Encrypror.encode(password);
         User user = UserFactory.INSTANCE
-                .createFullNoId(email, password, UserRole.USER, UserStatus.ACTIVE, name, phoneNumber, avatarUrl);
+                .createFullNoId(email, encodedPassword, UserRole.USER, UserStatus.ACTIVE, name, phoneNumber, avatarUrl);
         try {
             dao.add(user);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
+        return null;
     }
 
     @Override
-    public void updateUserData(long id, String newEmail, String newName,
+    public String updateUserData(long id, String newEmail, String newName,
                                String newPhoneNumber, String newAvatarUrl) throws ServiceException {
         String possibleErrorMessage = updateDataValidation(newEmail, newName, newPhoneNumber, newAvatarUrl);
         if (possibleErrorMessage != null) {
-            throw new ServiceException(possibleErrorMessage);
+            return possibleErrorMessage;
         }
         try {
             dao.updateById(id, newEmail, newName, newPhoneNumber, newAvatarUrl);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
+        return null;
     }
 
     @Override
-    public void changeUserPassword(long id, String newPassword) throws ServiceException {
+    public String changeUserPassword(long id, String newPassword) throws ServiceException {
         String possibleErrorMessage = validatePassword(newPassword);
         if (possibleErrorMessage != null) {
-            throw new ServiceException(possibleErrorMessage);
+            return possibleErrorMessage;
         }
+        String encodedPassword = Encrypror.encode(newPassword);
         try {
-            dao.updatePassword(id, newPassword);
+            dao.updatePassword(id, encodedPassword);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
+        return null;
     }
 
     @Override
-    public void changeUserRole(long id, String newRole) throws ServiceException {
+    public String changeUserRole(long id, String newRole) throws ServiceException {
         String possibleErrorMessage = validateRole(newRole);
         if (possibleErrorMessage != null) {
-            throw new ServiceException(possibleErrorMessage);
+            return possibleErrorMessage;
         }
         try {
             dao.updateRole(id, newRole);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
+        return null;
     }
 
     @Override
-    public void changeUserStatus(long id, String newStatus) throws ServiceException {
+    public String changeUserStatus(long id, String newStatus) throws ServiceException {
         String possibleErrorMessage = validateStatus(newStatus);
         if (possibleErrorMessage != null) {
-            throw new ServiceException(possibleErrorMessage);
+            return possibleErrorMessage;
         }
         try {
             dao.updateStatus(id, newStatus);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
+        return null;
     }
 
     @Override
@@ -113,8 +120,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<User> findUserByEmailAndPassword(String email, String password) throws ServiceException {
+        String encodedPassword = Encrypror.encode(password);
         try {
-            User user = dao.findByEmailPassword(email, password);
+            User user = dao.findByEmailPassword(email, encodedPassword);
             if (user == null) {
                 return Optional.empty();
             } else {
@@ -134,7 +142,6 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    // TODO: 08/02/2020 оставлять ли приватные мелкие валидаторы или сделать, например, внутренний класс-обертку
 
     private String registerValidation(String email, String password, String name,
                                       String phoneNumber, String avatarUrl) {
