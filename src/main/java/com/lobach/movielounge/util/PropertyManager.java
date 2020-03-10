@@ -1,4 +1,4 @@
-package com.lobach.movielounge.manager;
+package com.lobach.movielounge.util;
 
 import com.lobach.movielounge.command.LocaleType;
 import org.apache.logging.log4j.LogManager;
