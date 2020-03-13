@@ -3,7 +3,7 @@ package com.lobach.movielounge.database.dao;
 import com.lobach.movielounge.database.connection.ConnectionPool;
 import com.lobach.movielounge.database.dao.impl.UserDaoImpl;
 import com.lobach.movielounge.exception.DaoException;
-import com.lobach.movielounge.model.UserFactory;
+import com.lobach.movielounge.model.UserSupplier;
 import com.lobach.movielounge.model.UserRole;
 import com.lobach.movielounge.model.User;
 import com.lobach.movielounge.model.UserStatus;
@@ -17,7 +17,7 @@ import java.util.List;
 
 public class UserDaoTest {
     private static final Logger logger = LogManager.getLogger();
-    private static final UserFactory factory = UserFactory.INSTANCE;
+    private static final UserSupplier factory = UserSupplier.INSTANCE;
 
     @BeforeClass
     public void initConnectionPool() {

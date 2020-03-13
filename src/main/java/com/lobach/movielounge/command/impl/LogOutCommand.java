@@ -1,18 +1,21 @@
 package com.lobach.movielounge.command.impl;
 
 import com.lobach.movielounge.command.ActionCommand;
-import com.lobach.movielounge.manager.PropertyManager;
+import com.lobach.movielounge.util.PropertyManager;
 import com.lobach.movielounge.servlet.RequestContent;
+import com.lobach.movielounge.util.Router;
 
 public class LogOutCommand implements ActionCommand {
     private static final String BUNDLE_CONFIG = "config";
-
-    private static final String PROPERTY_MAIN_PAGE = "path.main_page";
+    private static final String PROPERTY_INDEX = "path.index";
 
     @Override
-    public String execute(RequestContent content) {
-        String page = PropertyManager.getProperty(BUNDLE_CONFIG, PROPERTY_MAIN_PAGE);
+    public Router execute(RequestContent content) {
+        String page = PropertyManager.getProperty(BUNDLE_CONFIG, PROPERTY_INDEX);
         content.invalidateSession();
-        return page;
+
+        Router router = new Router(page);
+        router.setRouteType(Router.RouteType.REDIRECT);
+        return router;
     }
 }

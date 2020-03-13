@@ -181,6 +181,13 @@
     height: fit-content;
 }
 
+.button_red_disabled {
+    background-color: rgba(150, 75, 34, 0.74);
+    color: #b6b6b6;
+    width: max-content;
+    height: fit-content;
+}
+
 .button_red:hover{
     color: #fff;
     background-color: #964b22;
@@ -198,13 +205,20 @@
     background-color: #c87324;
 }
 
+.button_yellow_disabled{
+    color: #474747;
+    height: 120%;
+    background-color: rgba(255, 182, 18, 0.41);
+    width: max-content;
+}
+
 .button_padding-1 {
     padding: 4px 10px;
 }
 
 .button_font-middle {
     font-weight: 100;
-    font-size: 14px;
+    font-size: 15px;
 }
 
 .button_link_like {
@@ -269,12 +283,15 @@
     font-weight: 400;
 }
 
-.news-block_text {
-    padding: 0 25px -5px;
-}
-
 .news-block_img {
     line-height: 0;
+}
+
+.news_typography {
+    text-align: left;
+    padding-left: 40px;
+    max-width: 95%;
+    font-size: 16px;
 }
 
 .header-padding {
@@ -298,15 +315,13 @@
 .tab_title {
     margin-left: -25px;
     margin-top: -7px;
-    margin-bottom: -25px;
-    overflow: hidden;
+    margin-bottom: -10px;
     max-width: 100%;
     font-weight: bold;
     font-size: 22px;
     font-style: oblique;
     line-height: 24px;
     text-overflow: ellipsis;
-    white-space: nowrap;
 }
 
 .event_title {
@@ -323,31 +338,28 @@
     white-space: nowrap;
 }
 
-.news_typography {
-    text-align: left;
-    padding-left: 40px;
-    max-width: 95%;
-}
-
 .multi_line_typo {
     text-align: left;
-    font-size: 18px;
+    font-size: 20px;
 }
 
 .multi_line_typo-small {
     text-align: left;
-    font-size: 12px;
-    font-weight: bold;
+    font-size: 16px;
 }
 
 .single_line_typo {
     text-align: center;
-    font-size: 18px;
+    font-size: 20px;
+}
+
+.single_line_typo-small {
+    text-align: center;
+    font-size: 16px;
 }
 
 .auth_error_typo {
     color: #f75c48;
-    font-size: 16px;
 }
 
 .tab-block_text {
@@ -443,4 +455,20 @@
 
 .error-block h2{
     color: #0a3839;
+}
+
+.table_book {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.td, .th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+.tr:nth-child(even) {
+    background-color: #dddddd;
 }

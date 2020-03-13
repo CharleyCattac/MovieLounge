@@ -3,7 +3,7 @@ package com.lobach.movielounge.command.impl;
 import com.lobach.movielounge.command.ActionCommand;
 import com.lobach.movielounge.command.LocaleType;
 import com.lobach.movielounge.exception.ServiceException;
-import com.lobach.movielounge.manager.PropertyManager;
+import com.lobach.movielounge.util.PropertyManager;
 import com.lobach.movielounge.model.Review;
 import com.lobach.movielounge.service.MovieEventService;
 import com.lobach.movielounge.service.ReviewService;
@@ -12,6 +12,7 @@ import com.lobach.movielounge.service.impl.MovieEventServiceImpl;
 import com.lobach.movielounge.service.impl.ReviewServiceImpl;
 import com.lobach.movielounge.service.impl.UserServiceImpl;
 import com.lobach.movielounge.servlet.RequestContent;
+import com.lobach.movielounge.util.Router;
 
 import java.util.List;
 
@@ -40,7 +41,7 @@ public class ShowReviewsCommand implements ActionCommand {
     }
 
     @Override
-    public String execute(RequestContent content) {
+    public Router execute(RequestContent content) {
         String page = PropertyManager.getProperty(BUNDLE_CONFIG, PROPERTY_REVIEWS);
         LocaleType localeType = defineLocale(content);
         List<Review> reviews;
@@ -67,6 +68,6 @@ public class ShowReviewsCommand implements ActionCommand {
                     PROPERTY_ERROR_MESSAGE, localeType);
             content.setRequestAttribute(ATTRIBUTE_FATAL_MESSAGE, defaultErrorMessage);
         }
-        return page;
+        return new Router(page);
     }
 }

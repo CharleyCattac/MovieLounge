@@ -37,9 +37,109 @@
                         </form>
                     </div>
                 </div>
+
+                <c:if test="${fatalMessage == null}">
+                    <c:if test="${usersRole == 'ADMIN'}">
+                        <article class="news news_main">
+                            <div class="container row news" style="align-items: center; height: min-content">
+                                <!--
+                            <c:if test="${usersSize == 0}">
+                                <div class="header-padding single_line_typo">
+                                    <p><c:out value="${userErrorMessage}"/></p>
+                                </div>
+                            </c:if>
+                            <table>
+                                <tr>
+                                    <th><fmt:message key="profile.user.booking_table.theme"/></th>
+                                    <th><fmt:message key="profile.user.booking_table.date"/></th>
+                                    <th><fmt:message key="profile.user.booking_table.status"/></th>
+                                    <th><fmt:message key="profile.user.booking_table.booked"/></th>
+                                    <th><fmt:message key="profile.user.booking_table.action"/></th>
+                                    <th><fmt:message key="profile.user.booking_table.comment"/></th>
+                                </tr>
+                                <c:forEach items="${users}" var="user">
+                                <tr>
+                                    <td>booking.movieEvent.theme</td>
+                                    <td>booking.movieEvent.date</td>
+                                    <td>booking.paid</td>
+                                    <td>booking.amount</td>
+                                    <td>
+                                        <form id="deleteBookButton" action="control_servlet" method="POST">
+                                            <input type="hidden" name="command" value="delete_booking"/>
+                                            <button type="submit" class="button_red button_font-middle">
+                                                <span class="button_title"><fmt:message key="events_page.admin.item.button.delete"/></span>
+                                            </button>
+                                        </form>
+                                    </td>
+                                    <td>
+                                        <c:if test="${errorMessage != null && errorBookId == user.id}">
+                                            <div class="auth_field">
+                                                <div class="auth_error_typo"> ${errorMessage}</div>
+                                            </div>
+                                        </c:if>
+                                    </td>
+                                </tr>
+                                </c:forEach>
+                            </table>
+                            -->
+                            </div>
+                        </article>
+                    </c:if>
+
+                    <article class="news news_main">
+                        <div class="container row news" style="align-items: center; height: min-content">
+
+                        </div>
+                        <!--
+                        <c:if test="${bookingSize == 0}">
+                            <div class="header-padding single_line_typo">
+                                <p><c:out value="${errorMessage}"/></p>
+                            </div>
+                        </c:if>
+                        <table>
+                            <tr>
+                                <th><fmt:message key="profile.user.booking_table.theme"/></th>
+                                <th><fmt:message key="profile.user.booking_table.date"/></th>
+                                <th><fmt:message key="profile.user.booking_table.status"/></th>
+                                <th><fmt:message key="profile.user.booking_table.booked"/></th>
+                                <th><fmt:message key="profile.user.booking_table.action"/></th>
+                                <th><fmt:message key="profile.user.booking_table.comment"/></th>
+                            </tr>
+                            <c:forEach items="${bookings}" var="user">
+                            <tr>
+                                <td>booking.movieEvent.theme</td>
+                                <td>booking.movieEvent.date</td>
+                                <td>booking.paid</td>
+                                <td>booking.amount</td>
+                                <td>
+                                    <form id="deleteBookButton" action="control_servlet" method="POST">
+                                        <input type="hidden" name="command" value="delete_booking"/>
+                                        <button type="submit" class="button_red button_font-middle">
+                                            <span class="button_title"><fmt:message key="events_page.admin.item.button.delete"/></span>
+                                        </button>
+                                    </form>
+                                </td>
+                                <td>
+                                    <c:if test="${errorMessage != null && errorBookId == user.id}">
+                                        <div class="auth_field">
+                                            <div class="auth_error_typo"> ${errorMessage}</div>
+                                        </div>
+                                    </c:if>
+                                </td>
+                            </tr>
+                            </c:forEach>
+                        </table>
+                        -->
+                    </article>
+                </c:if>
+                <c:if test="${fatalMessage != null}">
+                    <div class="auth_field">
+                        <div class="auth_error_typo"> ${fatalMessage}</div>
+                    </div>
+                </c:if>
+                </div>
             </div>
         </div>
-
     </div>
 </div>
 <script src="//code.jquery.com/jquery-3.4.1.min.js"></script>

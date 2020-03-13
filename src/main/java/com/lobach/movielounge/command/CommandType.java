@@ -9,15 +9,19 @@ public enum CommandType {
     CHANGE_PAGE(new ChangePageCommand()),
 
     SHOW_MOVIES(new ShowMoviesCommand()),
+    CREATE_MOVIE(new CreateMovieCommand()),
+    DELETE_MOVIE(new DeleteMovieCommand()),
 
     SHOW_EVENTS(new ShowEventsCommand()),
     MAKE_BOOKING(new MakeBookingCommand()),
     CREATE_EVENT(new CreateEventCommand()),
-    SWITCH_AVAILABILITY(new SwitchAvailabilityCommand()),
     DELETE_EVENT(new DeleteEventCommand()),
 
     SHOW_REVIEWS(new ShowReviewsCommand()),
 
+    OPEN_PROFILE(new OpenProfileCommand()),
+
+    SIGN_UP(new SignUpCommand()),
     LOG_IN(new LogInCommand()),
     LOG_OUT(new LogOutCommand());
 

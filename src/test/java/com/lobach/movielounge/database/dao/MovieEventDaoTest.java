@@ -4,7 +4,7 @@ import com.lobach.movielounge.database.connection.ConnectionPool;
 import com.lobach.movielounge.database.dao.impl.MovieEventDaoImpl;
 import com.lobach.movielounge.exception.DaoException;
 import com.lobach.movielounge.model.MovieEvent;
-import com.lobach.movielounge.model.MovieEventFactory;
+import com.lobach.movielounge.model.MovieEventSupplier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
@@ -42,7 +42,7 @@ public class MovieEventDaoTest {
         movieIds.add(39L);
         movieIds.add(47L);
 
-        MovieEvent event1 = MovieEventFactory.INSTANCE.createBasic(
+        MovieEvent event1 = MovieEventSupplier.INSTANCE.createBasic(
                 date,
                 movieIds,
                 0,
@@ -52,7 +52,7 @@ public class MovieEventDaoTest {
         String sDate2="23/02/2020";
         date = new SimpleDateFormat("dd/MM/yyyy").parse(sDate2);
 
-        MovieEvent event2 = MovieEventFactory.INSTANCE.createBasic(
+        MovieEvent event2 = MovieEventSupplier.INSTANCE.createBasic(
                 date,
                 movieIds,
                 0,
@@ -67,7 +67,7 @@ public class MovieEventDaoTest {
         movieIds3.add(35L);
         movieIds3.add(36L);
 
-        MovieEvent event3 = MovieEventFactory.INSTANCE.createBasic(
+        MovieEvent event3 = MovieEventSupplier.INSTANCE.createBasic(
                 date,
                 movieIds3,
                 0,

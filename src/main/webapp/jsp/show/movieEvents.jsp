@@ -39,7 +39,7 @@
                                 <input type="hidden" name="command" value="change_page"/>
                                 <input type="hidden" name="page" value="path.create.event"/>
                                 <button type="submit" class="button_red button_font-middle">
-                                    <span class="button_title"><fmt:message key="events_page.admin.item.button.create"/></span>
+                                    <span class="button_title"><fmt:message key="create.button"/></span>
                                 </button>
                             </form>
                         </div>
@@ -117,44 +117,25 @@
                                                             <div class="input-group form-group">
                                                                 <input name="amount" type="number" class="form-control"
                                                                        min="1" max="20"
-                                                                        <c:if test="${movieEvent.available == false}"> aria-disabled="true" </c:if>
+                                                                        <c:if test="${movieEvent.available == false}"> disabled </c:if>
                                                                        placeholder="<fmt:message key="events_page.user.item.hint.amount"/>"/>
                                                             </div>
-                                                            <button type="submit" class="button_red button_padding-1" aria-pressed="true"
-                                                            <c:if test="${movieEvent.available == false}"> disabled </c:if>>
+                                                            <button type="submit" class="button_padding-1
+                                                            <c:if test="${movieEvent.available == true}"> button_red </c:if>
+                                                            <c:if test="${movieEvent.available == false}"> button_red_disabled </c:if>
+                                                            "
+                                                            <c:if test="${movieEvent.available == false}"> disabled </c:if>
+                                                            >
                                                                 <span class="button_title" style="width: 150%">
                                                                     <fmt:message key="events_page.user.item.button.book"/>
                                                                 </span>
                                                             </button>
                                                         </form>
-                                                        <c:if test="${errorMessage != null}">
-                                                            <div class="multi_line_typo-small " style="margin: 5px">
-                                                                <div class="auth_error_typo">
-                                                                    <h3><c:out value="${errorMessage}"/></h3>
-                                                                </div>
-                                                            </div>
-                                                        </c:if>
                                                     </div>
                                                 </c:if>
                                                 <c:if test="${userRole == 'ADMIN' }">
                                                     <div class="row" style="align-content: center;
                                                     padding-bottom: 15px; padding-top: 7px">
-                                                        <form id="switchAvailabilityButton" action="control_servlet" method="POST">
-                                                            <input type="hidden" name="command" value="switch_availability"/>
-                                                            <input type="hidden" name="event_id" value="${movieEvent.id}"/>
-                                                            <input type="hidden" name="event_availability" value="${movieEvent.available}"/>
-                                                            <button type="submit" class="button_red button_padding-1"
-                                                                    aria-pressed="true" style="margin-right: 20px">
-                                                                <span class="button_title" style="width: 150%">
-                                                                    <c:if test="${movieEvent.available == true }">
-                                                                    <fmt:message key="events_page.admin.item.button.disable"/>
-                                                                    </c:if>
-                                                                    <c:if test="${movieEvent.available == false }">
-                                                                        <fmt:message key="events_page.admin.item.button.set_available"/>
-                                                                    </c:if>
-                                                                </span>
-                                                            </button>
-                                                        </form>
                                                         <form id="deleteEventButton" action="control_servlet" method="POST">
                                                             <input type="hidden" name="command" value="delete_event"/>
                                                             <input type="hidden" name="event_id" value="${movieEvent.id}"/>
@@ -166,6 +147,13 @@
                                                         </form>
                                                     </div>
                                                 </c:if>
+                                                <c:if test="${errorMessage != null && errorEventId == movieEvent.id}">
+                                                    <div class="multi_line_typo-small " style="margin-bottom: 5px">
+                                                        <div class="auth_error_typo">
+                                                            <a><c:out value="${errorMessage}"/></a>
+                                                        </div>
+                                                    </div>
+                                                </c:if>
                                             </div>
                                         </div>
                                     </div>
@@ -173,9 +161,22 @@
                             </div>
                         </c:forEach>
                     </article>
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination">
+                            <c:if test="${pageCount > 1}">
+                                <c:forEach begin="1" end="${pageCount}" varStatus="loop">
+                                    <form class="page-item" id="update" action="control_servlet" method="POST">
+                                        <input type="hidden" name="pageNumber" value="${loop.count-1}"/>
+                                        <input type="hidden" name="command" value="show_movies"/>
+                                        <button type="submit" class="button_green">${loop.count}</button>
+                                    </form>
+                                </c:forEach>
+                            </c:if>
+                        </ul>
+                    </nav>
                 </c:if>
                 <c:if test="${fatalMessage != null}">
-                    <div class="auth_field">
+                    <div class="single_line_typo">
                         <div class="auth_error_typo"> ${fatalMessage}</div>
                     </div>
                 </c:if>

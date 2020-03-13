@@ -60,13 +60,13 @@
                             </c:if>
                             <c:if test="${currentUser != null}">
                                 <div class="avatar avatar_head avatar_small">
-                                    <form id="profileOpen" action="control_servlet" method="POST">
+                                    <form id="profileOpen" action="control_servlet" method="GET">
                                         <input type="image" class="img-fluid" style="cursor: pointer"
                                                src="<c:out value="${currentUser.avatarURL}"/>"
-                                               alt="<c:out value="${currentUser.avatarURL}"/>"
+                                               alt="<c:out value="${currentUser.name}"/>"
                                         >
-                                        <input type="hidden" name="command" value="change_page"/>
-                                        <input type="hidden" name="page" value="path.profile_page"/>
+                                        <input type="hidden" name="user_id" value="${currentUser.id}">
+                                        <input type="hidden" name="command" value="open_profile"/>/>
                                     </form>
                                 </div>
                             </c:if>

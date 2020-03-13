@@ -11,7 +11,7 @@
 <html>
 <head>
     <meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
-    <title><fmt:message key="create.event.title"/></title>
+    <title><fmt:message key="create.movie.title"/></title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
     <link href="<c:url value="/css/style.css"/>" rel="stylesheet">
     <link href="<c:url value="/css/main.css"/>" rel="stylesheet">
@@ -44,83 +44,61 @@
                     <div class="container flex-lg-column" style="max-width: max-content">
                         <div class="login_card card_width-middle">
                             <div class="card-header">
-                                <h3><fmt:message key="create.event.header"/></h3>
+                                <h3><fmt:message key="create.movie.header"/></h3>
                             </div>
                             <div class="card-body">
                                 <form id="createEventAct" action="control_servlet" method="POST">
-                                    <input type="hidden" name="command" value="create_event"/>
-                                    <div class="input-group form-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text"><i class="fas fa-table"></i></span>
-                                        </div>
-                                        <input name="date" type="text" class="form-control" id="date" required
-                                               placeholder="<fmt:message key="create.event.input_field.date"/>"/>
-                                    </div>
-                                    <div class="input-group form-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text"><i class="far fa-clock"></i></span>
-                                        </div>
-                                        <div class="time_border">
-                                            <input name="hours" type="number" class="time_item" required
-                                                   min="0" max="23" placeholder="00">:
-                                            <input name="minutes" type="number" class="time_item" required
-                                                   min="0" max="55" step="5" placeholder="00">
-                                        </div>
-                                    </div>
-                                    <div class="input-group form-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text"><i class="fab fa-ethereum"></i></span>
-                                        </div>
-                                        <input name="theme" type="text" class="form-control" required
-                                               placeholder="<fmt:message key="create.event.input_field.theme"/>"/>
-                                    </div>
+                                    <input type="hidden" name="command" value="create_movie"/>
                                     <div class="input-group form-group">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fas fa-film"></i></span>
                                         </div>
-                                        <input name="movie1" type="text" class="form-control" required
-                                               placeholder="<fmt:message key="create.event.input_field.movie1"/>"/>
+                                        <input name="title" type="text" class="form-control" required
+                                               placeholder="<fmt:message key="create.movie.input_field.title"/>"/>
                                     </div>
                                     <div class="input-group form-group">
                                         <div class="input-group-prepend">
-                                            <span class="input-group-text"><i class="fas fa-film"></i></span>
+                                            <span class="input-group-text"><i class="fas fa-info-circle"></i></span>
                                         </div>
-                                        <input name="movie2" type="text" class="form-control" required
-                                               placeholder="<fmt:message key="create.event.input_field.movie2"/>"/>
+                                        <input name="description" type="text" class="form-control" required
+                                               placeholder="<fmt:message key="create.movie.input_field.description"/>"/>
                                     </div>
                                     <div class="input-group form-group">
                                         <div class="input-group-prepend">
-                                            <span class="input-group-text"><i class="fas fa-film"></i></span>
+                                            <span class="input-group-text"><i class="fas fa-smile"></i></span>
                                         </div>
-                                        <input name="movie3" type="text" class="form-control" required
-                                               placeholder="<fmt:message key="create.event.input_field.movie3"/>"/>
+                                        <input name="director" type="text" class="form-control" required
+                                               placeholder="<fmt:message key="create.movie.input_field.director"/>"/>
+                                    </div>
+                                    <div class="input-group form-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="far fa-calendar-check"></i></span>
+                                        </div>
+                                        <input name="year" type="number" class="form-control" required
+                                               min="1980" max="2020"
+                                               placeholder="<fmt:message key="create.movie.input_field.year"/>"/>
+                                    </div>
+                                    <div class="input-group form-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-star"></i></span>
+                                        </div>
+                                        <input name="rating" type="number" class="form-control" required
+                                               min="0" max="10" step="0.001"
+                                               placeholder="<fmt:message key="create.movie.input_field.rating"/>"/>
+                                    </div>
+                                    <div class="input-group form-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-image"></i></span>
+                                        </div>
+                                        <input name="poster" type="url" class="form-control" required
+                                               placeholder="<fmt:message key="create.movie.input_field.url"/>"/>
                                     </div>
                                     <div class="form-group">
                                         <button type="submit" class="float-right button_yellow button_font-middle">
                                             <span class="button_title"><fmt:message key="create.button"/></span>
                                         </button>
                                     </div>
-                                    <script>
-                                        $('#date').datetimepicker({
-                                            format:"Y-m-d",
-                                            timepicker:false,
-                                            defaultDate: new Date(),
-                                            scrollMonth:false,
-                                            scrollTime:false,
-                                            scrollInput:false,
-                                            startDate: new Date(),
-                                            minDate: new Date(),
-                                            maxDate:'2020/12/31',
-                                        });
-                                    </script>
                                 </form>
-                            </div>
-                            <div class="card-footer">
-                                <div class="container flex-column">
-                                    <h2><fmt:message key="create.event.text.0"/></h2>
-                                    <a><fmt:message key="create.event.text.1"/></a>
-                                    <br><fmt:message key="create.event.text.2"/></br>
-                                </div>
                             </div>
                         </div>
                         <c:if test="${errorMessage != null}">
@@ -146,3 +124,4 @@
 
 </body>
 </html>
+

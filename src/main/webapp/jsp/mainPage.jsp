@@ -20,22 +20,16 @@
         <div class="main">
             <div class="main_inner">
                 <article class="news news_main">
-                    <header class="header-padding">
-                        <h2 class="news_title"><fmt:message key="main_page.label.title"/></h2>
+                    <header style="padding-left: 25px; padding-top: 15px">
+                        <h3><fmt:message key="main_page.label.title"/></h3>
                     </header>
-                    <div class="news_content news_typography">
-                        <div class="news_content-inner">
-                            <div class="news-block_text">
-                                <p><fmt:message key="main_page.text.description"/></p>
-                            </div>
-                            <div class="news-block_img">
-                                <img src="<fmt:message key="main_page.picture_url.audience"/>" class="rounded mx-auto d-block"
-                                     alt="audience">
-                            </div>
-                            <div class="news-block_text">
-                                <p><fmt:message key="main_page.label.address"/></p>
-                            </div>
+                    <div class="news_typography">
+                        <p><fmt:message key="main_page.text.description"/></p>
+                        <div class="news-block_img">
+                            <img src="<fmt:message key="main_page.picture_url.audience"/>" class="rounded mx-auto d-block"
+                                 alt="audience">
                         </div>
+                        <p><fmt:message key="main_page.label.address"/></p>
                     </div>
                 </article>
             </div>

@@ -11,7 +11,7 @@
 <html>
 <head>
     <meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
-    <title><fmt:message key="main_page.title"/></title>
+    <title><fmt:message key="login.title"/></title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
 
     <!--Bootsrap 4 CDN-->
@@ -49,7 +49,8 @@
                                             <span class="input-group-text"><i class="fas fa-envelope"></i></span>
                                         </div>
                                         <input name="email" type="email" class="form-control"
-                                               placeholder="<fmt:message key="login.hint.email"/>"/>
+                                               placeholder="<fmt:message key="login.hint.email"/>"
+                                               value="${email}"/>
                                     </div>
                                     <div class="input-group form-group">
                                         <div class="input-group-prepend">

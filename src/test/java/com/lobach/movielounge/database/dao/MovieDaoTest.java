@@ -4,7 +4,7 @@ import com.lobach.movielounge.database.connection.ConnectionPool;
 import com.lobach.movielounge.database.dao.impl.MovieDaoImpl;
 import com.lobach.movielounge.exception.DaoException;
 import com.lobach.movielounge.model.Movie;
-import com.lobach.movielounge.model.MovieFactory;
+import com.lobach.movielounge.model.MovieSupplier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
@@ -128,7 +128,7 @@ public class MovieDaoTest {
 
     @DataProvider(name = "movie_provider1")
     public Object[][] passMovie() {
-        Movie testMovie7 = MovieFactory.INSTANCE.createBasic(
+        Movie testMovie7 = MovieSupplier.INSTANCE.createBasic(
             "Pulp Fiction",
             "The lives of two mob hitmen, a boxer, a gangster and his wife, and a pair "
             + "of diner bandits intertwine in four tales of violence and redemption. ",

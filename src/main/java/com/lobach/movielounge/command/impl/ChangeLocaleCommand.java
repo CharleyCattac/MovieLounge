@@ -1,10 +1,9 @@
 package com.lobach.movielounge.command.impl;
 
 import com.lobach.movielounge.command.ActionCommand;
-import com.lobach.movielounge.manager.PropertyManager;
+import com.lobach.movielounge.util.PropertyManager;
 import com.lobach.movielounge.servlet.RequestContent;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.lobach.movielounge.util.Router;
 
 public class ChangeLocaleCommand implements ActionCommand {
 
@@ -12,12 +11,12 @@ public class ChangeLocaleCommand implements ActionCommand {
     private static final String PROPERTY_MAIN_PAGE = "path.main_page";
 
     @Override
-    public String execute(RequestContent content) {
+    public Router execute(RequestContent content) {
         String page = PropertyManager.getProperty(BUNDLE_CONFIG, PROPERTY_MAIN_PAGE);
         String requestedLocale = content.getRequestParameter(ATTRIBUTE_LOCALE);
         if (requestedLocale != null) {
             content.setSessionAttribute(ATTRIBUTE_LOCALE, requestedLocale);
         }
-        return page;
+        return new Router(page);
     }
 }
