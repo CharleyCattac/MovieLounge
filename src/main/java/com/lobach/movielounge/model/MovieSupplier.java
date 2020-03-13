@@ -1,9 +1,9 @@
 package com.lobach.movielounge.model;
 
-public enum MovieFactory {
+public enum MovieSupplier {
     INSTANCE;
 
-    MovieFactory() {
+    MovieSupplier() {
     }
 
     public Movie createBasic(String title, String description, String posterUrl,

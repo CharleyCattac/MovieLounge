@@ -29,12 +29,8 @@ public class MovieEventValidator {
         return currentDate.after(movieEvent.getDate());
     }
 
-    public static boolean isOutdated(Date eventDate) {
-        return eventDate.getTime() < System.currentTimeMillis();
-    }
-
     public static boolean isAtLeastInAWeek(Date eventDate) {
-        return eventDate.getTime() - MILLIS_IN_WEEK > System.currentTimeMillis();
+        return new Date(eventDate.getTime() - MILLIS_IN_WEEK).after(new Date(System.currentTimeMillis()));
     }
 
     public static boolean isFulled(MovieEvent movieEvent) {

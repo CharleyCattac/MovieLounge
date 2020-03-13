@@ -1,11 +1,11 @@
 
-Ksquid:S11991"-Extract this nested code block into a method.(°¥Œ½8¢÷¶é‰.
 Ksquid:S1989$"-Add a "try/catch" block for "processRequest".(‘ŸÑ8·îı€.
-Msquid:S1068"/Remove this unused "BUNDLE_NAME" private field.(£å©¢8²‡÷÷….
-Psquid:S11994"-Extract this nested code block into a method.(˜·Ûøÿÿÿÿ8ğšÿ÷….
-Ksquid:S1989$"-Add a "try/catch" block for "processRequest".(‘ŸÑ8·îı€.
-Ksquid:S1989"-Add a "try/catch" block for "processRequest".(‘ŸÑ8·îı€.
-Gsquid:S1068"*Remove this unused "logger" private field.(áÈˆ8ØÆñ÷….
-Psquid:S11999"-Extract this nested code block into a method.(œëüøÿÿÿÿ8ğšÿ÷….
-Ksquid:S1989"-Add a "try/catch" block for "processRequest".(‘ŸÑ8·îı€.
 Ysquid:S1068"6Remove this unused "PROPERTY_MAIN_PAGE" private field.(¾Òşşüÿÿÿÿ8²‡÷÷….
+isquid:S13010"KReplace this "switch" statement by "if" statements to increase readability.(²ğöœ8ß •Œ.
+Ksquid:S1989"-Add a "try/catch" block for "processRequest".(‘ŸÑ8·îı€.
+Ksquid:S1989"-Add a "try/catch" block for "processRequest".(‘ŸÑ8·îı€.
+Ksquid:S1989$"-Add a "try/catch" block for "processRequest".(‘ŸÑ8·îı€.
+Psquid:S11991"-Extract this nested code block into a method.(˜·Ûøÿÿÿÿ8ğšÿ÷….
+Msquid:S1068"/Remove this unused "BUNDLE_NAME" private field.(£å©¢8²‡÷÷….
+Psquid:S11996"-Extract this nested code block into a method.(œëüøÿÿÿÿ8ğšÿ÷….
+Gsquid:S1068"*Remove this unused "logger" private field.(áÈˆ8Ñ¹èŒ.

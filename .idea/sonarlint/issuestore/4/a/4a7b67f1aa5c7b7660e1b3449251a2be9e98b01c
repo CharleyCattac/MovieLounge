@@ -1,12 +1,12 @@
 
- squid:S1186¹"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(¬°€½8ä™Ë.
-ysquid:S2068%"V'PASSWORD' detected in this expression, review this potentially hard-coded credential.(ò¹ŠÎøÿÿÿÿ8¬Ûôÿü-
-Tsquid:S1133¹"5Do not forget to remove this deprecated code someday.(¬°€½8İÍœË.
 Xsquid:MissingDeprecatedCheck¹"(Add the missing @deprecated Javadoc tag.(¬°€½8İÍœË.
- squid:S1186¾"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(Æı‘¹8ä™Ë.
-Xsquid:MissingDeprecatedCheck¾"(Add the missing @deprecated Javadoc tag.(Æı‘¹8±Ë.
-ssquid:S2068&"V'password' detected in this expression, review this potentially hard-coded credential.(ûİ…8¬Ûôÿü-
-Tsquid:S1133¾"5Do not forget to remove this deprecated code someday.(Æı‘¹8±Ë.
 ¨squid:S1192"‰Define a constant instead of duplicating this literal "SELECT users.id,email,password,status,role,name,phone_number,avatar_url " 3 times.(ŠÜç8ğ¿ÄÔ.
 Asquid:S2629;"$Invoke method(s) only conditionally.(¯Ğ„8ş’Ä…€.
+Tsquid:S1133¾"5Do not forget to remove this deprecated code someday.(Æı‘¹8±Ë.
+ysquid:S2068%"V'PASSWORD' detected in this expression, review this potentially hard-coded credential.(ò¹ŠÎøÿÿÿÿ8¬Ûôÿü-
+ squid:S1186¹"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(¬°€½8ä™Ë.
+Xsquid:MissingDeprecatedCheck¾"(Add the missing @deprecated Javadoc tag.(Æı‘¹8±Ë.
+ squid:S1186¾"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(Æı‘¹8ä™Ë.
+ssquid:S2068&"V'password' detected in this expression, review this potentially hard-coded credential.(ûİ…8¬Ûôÿü-
+Tsquid:S1133¹"5Do not forget to remove this deprecated code someday.(¬°€½8İÍœË.
 tsquid:S2068 "V'PASSWORD' detected in this expression, review this potentially hard-coded credential.(¦¡ò¯8•¢·‚.

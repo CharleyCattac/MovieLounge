@@ -1,8 +1,7 @@
 package com.lobach.movielounge.util;
 
 public class Router {
-    public enum RouteType {
-        NOTHING, FORWARD, REDIRECT;
+    public enum RouteType {FORWARD, REDIRECT;
     }
 
     public final String url;

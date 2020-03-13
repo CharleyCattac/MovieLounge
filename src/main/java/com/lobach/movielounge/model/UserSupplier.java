@@ -1,16 +1,17 @@
 package com.lobach.movielounge.model;
 
-public enum UserFactory {
+public enum UserSupplier {
     INSTANCE;
 
-    UserFactory() {
+    UserSupplier() {
     }
 
-    public User createReduced(long id, UserRole role, String name, String avatarUrl) {
+    public User createReduced(long id, UserRole role, String name, String phoneNumber, String avatarUrl) {
         User user = new User();
         user.setId(id);
         user.setUserRole(role);
         user.setName(name);
+        user.setPhoneNumber(phoneNumber);
         user.setAvatarURL(avatarUrl);
         return user;
     }

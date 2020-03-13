@@ -219,3 +219,17 @@ h
 8src/main/java/com/lobach/movielounge/util/Encrypror.java,8\d\8df7521ccf7705fb204cb9c134fa5de733a1716f
 y
 Isrc/main/java/com/lobach/movielounge/command/impl/OpenProfileCommand.java,6\e\6e2fe0697e711bbea197109e1ef1cbb53086af8c
+u
+Esrc/main/java/com/lobach/movielounge/timertask/TimerTaskSceduler.java,e\4\e447675c63f765112e49fffb84f8fa28c7c0bdc7
+ƒ
+Ssrc/test/java/com/lobach/movielounge/database/connection/ConnectionManagerTest.java,9\1\9148c11762bd332eee9335f1576f3582088a3a1f
+|
+Lsrc/main/java/com/lobach/movielounge/timertask/DeleteOutdatedEventsTask.java,5\a\5abe2ec3262b3b1fea19f10ab5530d3bbe273c9f
+n
+>src/main/java/com/lobach/movielounge/util/PropertyManager.java,c\9\c9694f30b180f9a4fd9a92283288117cb9c6249d
+€
+Psrc/test/java/com/lobach/movielounge/database/connection/ConnectionPoolTest.java,6\c\6c0f34c4f28d5d97192c446ff82703ac9125b54b
+m
+=src/main/java/com/lobach/movielounge/mail/SessionCreator.java,2\2\227ef9a8d61f5bb7c16a833dbfefbbbcb76cf318
+i
+9src/main/java/com/lobach/movielounge/mail/MailThread.java,b\1\b19754f84274bcc776110f3c46185ad892162072

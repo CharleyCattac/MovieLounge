@@ -11,7 +11,6 @@ public class Booking {
     private MovieEvent movieEvent;
     private boolean paid;
     private int amount;
-    private Date date;
 
     Booking() {
     }
@@ -72,14 +71,6 @@ public class Booking {
         this.amount = amount;
     }
 
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -91,13 +82,12 @@ public class Booking {
                 paid == booking.paid &&
                 amount == booking.amount &&
                 Objects.equals(user, booking.user) &&
-                Objects.equals(movieEvent, booking.movieEvent) &&
-                Objects.equals(date, booking.date);
+                Objects.equals(movieEvent, booking.movieEvent);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, userId, movieEventId, user, movieEvent, paid, amount, date);
+        return Objects.hash(id, userId, movieEventId, user, movieEvent, paid, amount);
     }
 
     @Override
@@ -110,7 +100,6 @@ public class Booking {
                 ", movieEvent=" + movieEvent +
                 ", paid=" + paid +
                 ", amount=" + amount +
-                ", date=" + date +
                 '}';
     }
 }

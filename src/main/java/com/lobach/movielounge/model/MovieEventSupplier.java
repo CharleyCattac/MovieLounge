@@ -4,7 +4,7 @@ package com.lobach.movielounge.model;
 import java.util.Date;
 import java.util.List;
 
-public enum MovieEventFactory {
+public enum MovieEventSupplier {
     INSTANCE;
 
     public MovieEvent createBasic(Date date, List<Long> movieIds,

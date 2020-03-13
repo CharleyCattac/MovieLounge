@@ -46,9 +46,6 @@ public class ControlServlet extends HttpServlet {
         content.passContent(request);
 
         switch (routeType) {
-            case NOTHING: {
-                break;
-            }
             case FORWARD: {
                 RequestDispatcher dispatcher = request.getRequestDispatcher(page);
                 dispatcher.forward(request, response);

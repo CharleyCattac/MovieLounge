@@ -1,6 +1,6 @@
 package com.lobach.movielounge.model;
 
-public enum ReviewFactory {
+public enum ReviewSupplier {
     INSTANCE; // TODO: 06/02/2020
 
     public Review createBasic(long userId, long movieEventId, int rate,
