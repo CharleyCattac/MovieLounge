@@ -8,7 +8,7 @@ import com.lobach.movielounge.exception.DaoException;
 import com.lobach.movielounge.exception.ServiceException;
 import com.lobach.movielounge.model.User;
 import com.lobach.movielounge.model.UserRole;
-import com.lobach.movielounge.model.UserFactory;
+import com.lobach.movielounge.model.UserSupplier;
 import com.lobach.movielounge.util.Encrypror;
 import com.lobach.movielounge.validator.URLValidator;
 import com.lobach.movielounge.validator.UserValidator;
@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
             return possibleErrorMessage;
         }
         String encodedPassword = Encrypror.encode(password);
-        User user = UserFactory.INSTANCE
+        User user = UserSupplier.INSTANCE
                 .createFullNoId(email, encodedPassword, UserRole.USER, UserStatus.ACTIVE, name, phoneNumber, avatarUrl);
         try {
             dao.add(user);

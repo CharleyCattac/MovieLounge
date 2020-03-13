@@ -5,7 +5,7 @@ import com.lobach.movielounge.database.dao.impl.MovieEventDaoImpl;
 import com.lobach.movielounge.exception.DaoException;
 import com.lobach.movielounge.exception.ServiceException;
 import com.lobach.movielounge.model.MovieEvent;
-import com.lobach.movielounge.model.MovieEventFactory;
+import com.lobach.movielounge.model.MovieEventSupplier;
 import com.lobach.movielounge.service.MovieEventService;
 import com.lobach.movielounge.validator.MovieEventValidator;
 
@@ -26,7 +26,7 @@ public class MovieEventServiceImpl implements MovieEventService {
             return false;
         }
         try {
-            MovieEvent event = MovieEventFactory.INSTANCE
+            MovieEvent event = MovieEventSupplier.INSTANCE
                     .createBasic(date, movieIds, 0,false, theme);
             eventDao.add(event);
         } catch (DaoException e) {

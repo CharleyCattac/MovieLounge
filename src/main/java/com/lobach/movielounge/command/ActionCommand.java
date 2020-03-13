@@ -47,6 +47,6 @@ public interface ActionCommand {
      */
     default boolean rolesMatch(RequestContent content, UserRole expectedRole) {
         UserRole actualRole = (UserRole) content.getSessionAttribute(ATTRIBUTE_ROLE);
-        return actualRole.equals(expectedRole);
+        return actualRole == expectedRole;
     }
 }

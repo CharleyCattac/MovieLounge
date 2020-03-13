@@ -5,7 +5,7 @@ import com.lobach.movielounge.database.connection.ConnectionPool;
 import com.lobach.movielounge.database.connection.ProxyConnection;
 import com.lobach.movielounge.exception.DaoException;
 import com.lobach.movielounge.model.MovieEvent;
-import com.lobach.movielounge.model.MovieEventFactory;
+import com.lobach.movielounge.model.MovieEventSupplier;
 
 import java.sql.*;
 import java.util.Date;
@@ -147,7 +147,7 @@ public class MovieEventDaoImpl implements MovieEventDao {
                     movieIds.add(resultSet.getLong(index++));
                 }
                 String theme = resultSet.getString(index);
-                movieEvent = MovieEventFactory.INSTANCE.createFull(id, date, movieIds,bookingAmount, available, theme);
+                movieEvent = MovieEventSupplier.INSTANCE.createFull(id, date, movieIds,bookingAmount, available, theme);
             }
         } catch (SQLException e) {
             throw new DaoException(String.format("Failed to find movie event with id %d: %s", idKey, e));
@@ -184,7 +184,7 @@ public class MovieEventDaoImpl implements MovieEventDao {
                     movieIds.set(i, resultSet.getLong(index++));
                 }
                 String theme = resultSet.getString(index);
-                MovieEvent movieEvent = MovieEventFactory
+                MovieEvent movieEvent = MovieEventSupplier
                         .INSTANCE.createFull(id, date, movieIds,bookingAmount, available, theme);
                 movieEvents.add(movieEvent);
             }
@@ -225,7 +225,7 @@ public class MovieEventDaoImpl implements MovieEventDao {
                     movieIds.add(resultSet.getLong(index++));
                 }
                 String theme = resultSet.getString(index);
-                MovieEvent movieEvent = MovieEventFactory
+                MovieEvent movieEvent = MovieEventSupplier
                         .INSTANCE.createFull(id, date, movieIds,bookingAmount, available, theme);
                 movieEvents.add(movieEvent);
             }

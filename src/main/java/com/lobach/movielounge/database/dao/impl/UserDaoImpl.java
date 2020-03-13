@@ -6,7 +6,7 @@ import com.lobach.movielounge.database.connection.ProxyConnection;
 import com.lobach.movielounge.exception.DaoException;
 import com.lobach.movielounge.model.User;
 import com.lobach.movielounge.model.UserRole;
-import com.lobach.movielounge.model.UserFactory;
+import com.lobach.movielounge.model.UserSupplier;
 import com.lobach.movielounge.model.UserStatus;
 
 import java.sql.PreparedStatement;
@@ -30,7 +30,7 @@ public class UserDaoImpl implements UserDao {
             "SELECT users.id,email,password,status,role,name,phone_number,avatar_url " +
                     "FROM users WHERE users.id=?";
     private static final String SELECT_USER_BY_EMAIL_PASSWORD =
-            "SELECT users.id,role,name,avatar_url FROM users WHERE email=? AND password=?";
+            "SELECT users.id,role,status,name,avatar_url,phone_number FROM users WHERE email=? AND password=?";
     private static final String UPDATE_USER_DATA_BY_ID =
             "UPDATE users SET email=?,name=?,phone_number=?,avatar_url=? " +
                     "WHERE users.id=?";
@@ -168,7 +168,7 @@ public class UserDaoImpl implements UserDao {
                 String name = resultSet.getString(index++);
                 String phoneNumber = resultSet.getString(index++);
                 String avatarURL = resultSet.getString(index);
-                User user = UserFactory.INSTANCE.createFull(id, email, password, role, status, name, phoneNumber, avatarURL);
+                User user = UserSupplier.INSTANCE.createFull(id, email, password, role, status, name, phoneNumber, avatarURL);
                 users.add(user);
             }
         } catch (SQLException e) {
@@ -210,7 +210,7 @@ public class UserDaoImpl implements UserDao {
                 String name = resultSet.getString(index++);
                 String phoneNumber = resultSet.getString(index++);
                 String avatarURL = resultSet.getString(index);
-                user = UserFactory.INSTANCE.createFull(id, email, password, role, status, name, phoneNumber, avatarURL);
+                user = UserSupplier.INSTANCE.createFull(id, email, password, role, status, name, phoneNumber, avatarURL);
             }
         } catch (SQLException e) {
             throw new DaoException(String.format("Failed to find user by id %d: ", id), e);
@@ -239,9 +239,12 @@ public class UserDaoImpl implements UserDao {
                 long id = resultSet.getLong(index++);
                 String roleString = resultSet.getString(index++);
                 UserRole role = UserRole.valueOf(roleString.toUpperCase());
+                String statusString = resultSet.getString(index++);
+                UserStatus status = UserStatus.valueOf(statusString.toUpperCase());
                 String name = resultSet.getString(index++);
-                String avatarURL = resultSet.getString(index);
-                user = UserFactory.INSTANCE.createReduced(id, role, name, avatarURL);
+                String avatarURL = resultSet.getString(index++);
+                String phoneNumber = resultSet.getString(index);
+                user = UserSupplier.INSTANCE.createReduced(id, role, status, name, phoneNumber, avatarURL);
             }
         } catch (SQLException e) {
             throw new DaoException(

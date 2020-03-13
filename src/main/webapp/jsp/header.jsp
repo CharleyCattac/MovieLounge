@@ -14,7 +14,7 @@
             <div class="header_inner">
                 <div class="header_item header_logo">
                     <div class="logo">
-                        <a href="control_servlet"> <img src="img/logo.png" class="logo_img"></a>
+                        <a href="<%=request.getContextPath()%>/control_servlet"> <img src="img/logo.png" class="logo_img"></a>
                     </div>
                 </div>
 

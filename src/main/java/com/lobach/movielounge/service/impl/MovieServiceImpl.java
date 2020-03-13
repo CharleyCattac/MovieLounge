@@ -1,6 +1,6 @@
 package com.lobach.movielounge.service.impl;
 
-import com.lobach.movielounge.model.MovieFactory;
+import com.lobach.movielounge.model.MovieSupplier;
 import com.lobach.movielounge.service.MovieService;
 import com.lobach.movielounge.database.dao.MovieDao;
 import com.lobach.movielounge.database.dao.impl.MovieDaoImpl;
@@ -22,7 +22,7 @@ public class MovieServiceImpl implements MovieService {
     public void addMovie(String title, String description, String posterUrl,
                          int releaseYear, String director, float rating) throws ServiceException {
         try {
-            Movie movie = MovieFactory
+            Movie movie = MovieSupplier
                     .INSTANCE.createBasic(title, description, posterUrl, releaseYear, director, rating);
             dao.add(movie);
         } catch (DaoException e) {

@@ -12,13 +12,13 @@ public class ConnectionPoolTest {
     private int poolSize;
     List<ProxyConnection> connectionList = new ArrayList<>(poolSize);
 
-    @BeforeClass
+    @BeforeMethod
     public void setUpPool() {
         pool.setUpPool();
         poolSize = pool.getPoolSize();
     }
 
-    @AfterClass
+    @AfterMethod
     public void destroyPool() {
         if (!connectionList.isEmpty()) {
             for (ProxyConnection connection : connectionList) {

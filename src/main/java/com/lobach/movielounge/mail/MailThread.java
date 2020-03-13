@@ -17,7 +17,7 @@ public class MailThread extends Thread {
 
     private static final String REGISTRATION_MESSAGE = "mail.registration.message";
     private static final String TEXT_HTML_TYPE = "text/html";
-    private static final String SUBJECT = "Registration confirm";
+    private static final String SUBJECT = "Booking confirmation";
     private String eventDateString;
     private String eMail;
     private MimeMessage message;

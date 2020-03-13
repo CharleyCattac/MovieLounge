@@ -6,10 +6,12 @@ public enum UserSupplier {
     UserSupplier() {
     }
 
-    public User createReduced(long id, UserRole role, String name, String phoneNumber, String avatarUrl) {
+    public User createReduced(long id, UserRole role, UserStatus status,
+                              String name, String phoneNumber, String avatarUrl) {
         User user = new User();
         user.setId(id);
         user.setUserRole(role);
+        user.setStatus(status);
         user.setName(name);
         user.setPhoneNumber(phoneNumber);
         user.setAvatarURL(avatarUrl);

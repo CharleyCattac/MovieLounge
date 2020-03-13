@@ -5,7 +5,7 @@ import com.lobach.movielounge.database.connection.ProxyConnection;
 import com.lobach.movielounge.database.dao.MovieDao;
 import com.lobach.movielounge.exception.DaoException;
 import com.lobach.movielounge.model.Movie;
-import com.lobach.movielounge.model.MovieFactory;
+import com.lobach.movielounge.model.MovieSupplier;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -74,7 +74,7 @@ public class MovieDaoImpl implements MovieDao {
                 int releaseYear = resultSet.getInt(index++);
                 String director = resultSet.getString(index++);
                 float rating = resultSet.getFloat(index);
-                movie = MovieFactory.INSTANCE
+                movie = MovieSupplier.INSTANCE
                         .createFull(id, title, description, posterUrl, releaseYear, director, rating);
             }
         } catch (SQLException e) {
@@ -137,7 +137,7 @@ public class MovieDaoImpl implements MovieDao {
                 int releaseYear = resultSet.getInt(index++);
                 String director = resultSet.getString(index++);
                 float rating = resultSet.getFloat(index);
-                movies.add(MovieFactory.INSTANCE.createFull(id, title, description, posterUrl, releaseYear, director, rating));
+                movies.add(MovieSupplier.INSTANCE.createFull(id, title, description, posterUrl, releaseYear, director, rating));
             }
         } catch (SQLException e) {
             throw new DaoException(String.format("Failed to create movie list: %s", e));

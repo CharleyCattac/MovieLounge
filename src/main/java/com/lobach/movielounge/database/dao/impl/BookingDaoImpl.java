@@ -10,18 +10,18 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 public class BookingDaoImpl implements BookingDao {
 
     private static final String INSERT =
-            "INSERT INTO bookings (user_id,event_id,amount,paid,date) "
-                    + "VALUES (?,?,?,?,?)";
+            "INSERT INTO bookings (user_id,event_id,amount,paid) "
+                    + "VALUES (?,?,?,?)";
     private static final String SELECT =
-            "SELECT bookings.id,user_id,event_id,amount,paid,date FROM bookings";
+            "SELECT bookings.id,user_id,event_id,amount,paid FROM bookings";
     private static final String SELECT_USER_EVENT =
-            "SELECT bookings.id,user_id,event_id,amount,paid,date FROM bookings WHERE user_id=%d AND event_id=%d";
+            "SELECT bookings.id,user_id,event_id,amount,paid FROM bookings WHERE user_id=%d AND event_id=%d";
     private static final String UPDATE_AMOUNT =
             "UPDATE bookings SET amount=?";
     private static final String DELETE =
@@ -51,7 +51,6 @@ public class BookingDaoImpl implements BookingDao {
             statement.setLong(2, object.getMovieEventId());
             statement.setInt(3, object.getAmount());
             statement.setBoolean(4, object.getPaid());
-            statement.setLong(5, object.getDate().getTime());
             statement.executeUpdate();
             logger.info(String.format("Added new booking: %s", object.toString()));
         } catch (SQLException e) {
@@ -102,9 +101,8 @@ public class BookingDaoImpl implements BookingDao {
                 long userId = resultSet.getLong(index++);
                 long eventId = resultSet.getLong(index++);
                 int amount = resultSet.getInt(index++);
-                boolean paid = resultSet.getBoolean(index++);
-                Date date = new Date(resultSet.getLong(index));
-                booking = BookingFactory.INSTANCE.createFull(id, userId, eventId, amount, paid, date);
+                boolean paid = resultSet.getBoolean(index);
+                booking = BookingSupplier.INSTANCE.createFull(id, userId, eventId, amount, paid);
             }
         } catch (SQLException e) {
             throw new DaoException("There's no booking with these ids: ", e);
@@ -118,38 +116,6 @@ public class BookingDaoImpl implements BookingDao {
 
     @Override @Deprecated
     public Booking findById(Long idKey) throws DaoException {
-        /*
-        ProxyConnection connection = null;
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
-        Booking booking = null;
-
-        StringBuilder queryBuilder = new StringBuilder(SELECT);
-        queryBuilder.append(WHERE_BOOKING_ID);
-        try {
-            connection = ConnectionPool.INSTANCE.getConnection();
-            statement = connection.prepareStatement(queryBuilder.toString());
-            statement.setLong(1, idKey);
-            resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                int index = 1;
-                long id = resultSet.getLong(index++);
-                long userId = resultSet.getLong(index++);
-                long eventId = resultSet.getLong(index++);
-                int amount = resultSet.getInt(index++);
-                boolean paid = resultSet.getBoolean(index++);
-                Date date = new Date(resultSet.getLong(index));
-                booking = BookingFactory.INSTANCE.createFull(id, userId, eventId, amount, paid, date);
-            }
-        } catch (SQLException e) {
-            throw new DaoException(String.format("Failed to find booking with id %d: ", idKey), e);
-        } finally {
-            close(resultSet);
-            close(statement);
-            close(connection);
-        }
-        return booking;
-         */
         return null;
     }
 
@@ -158,7 +124,7 @@ public class BookingDaoImpl implements BookingDao {
         ProxyConnection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
-        List<Booking> bookings = null;
+        List<Booking> bookings = new ArrayList<>();
 
         StringBuilder queryBuilder = new StringBuilder(SELECT);
         queryBuilder.append(WHERE_USER_ID);
@@ -174,9 +140,8 @@ public class BookingDaoImpl implements BookingDao {
                 long userId = resultSet.getLong(index++);
                 long eventId = resultSet.getLong(index++);
                 int amount = resultSet.getInt(index++);
-                boolean paid = resultSet.getBoolean(index++);
-                Date date = new Date(resultSet.getLong(index));
-                Booking booking = BookingFactory.INSTANCE.createFull(id, userId, eventId, amount, paid, date);
+                boolean paid = resultSet.getBoolean(index);
+                Booking booking = BookingSupplier.INSTANCE.createFull(id, userId, eventId, amount, paid);
                 bookings.add(booking);
             }
         } catch (SQLException e) {
@@ -194,7 +159,7 @@ public class BookingDaoImpl implements BookingDao {
         ProxyConnection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
-        List<Booking> bookings = null;
+        List<Booking> bookings = new ArrayList<>();
 
         StringBuilder queryBuilder = new StringBuilder(SELECT);
         queryBuilder.append(WHERE_EVENT_ID);
@@ -209,9 +174,8 @@ public class BookingDaoImpl implements BookingDao {
                 long userId = resultSet.getLong(index++);
                 long eventId = resultSet.getLong(index++);
                 int amount = resultSet.getInt(index++);
-                boolean paid = resultSet.getBoolean(index++);
-                Date date = new Date(resultSet.getLong(index));
-                Booking booking = BookingFactory.INSTANCE.createFull(id, userId, eventId, amount, paid, date);
+                boolean paid = resultSet.getBoolean(index);
+                Booking booking = BookingSupplier.INSTANCE.createFull(id, userId, eventId, amount, paid);
                 bookings.add(booking);
             }
         } catch (SQLException e) {
@@ -224,9 +188,36 @@ public class BookingDaoImpl implements BookingDao {
         return bookings;
     }
 
-    @Override @Deprecated
+    @Override
     public List<Booking> findAll(int offset, int limit) throws DaoException {
-        return null;
+        ProxyConnection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        List<Booking> bookings = new ArrayList<>();
+
+        StringBuilder queryBuilder = new StringBuilder(SELECT);
+        try {
+            connection = ConnectionPool.INSTANCE.occupyConnection();
+            statement = connection.prepareStatement(queryBuilder.toString());
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                int index = 1;
+                long id = resultSet.getLong(index++);
+                long userId = resultSet.getLong(index++);
+                long eventId = resultSet.getLong(index++);
+                int amount = resultSet.getInt(index++);
+                boolean paid = resultSet.getBoolean(index);
+                Booking booking = BookingSupplier.INSTANCE.createFull(id, userId, eventId, amount, paid);
+                bookings.add(booking);
+            }
+        } catch (SQLException e) {
+            throw new DaoException("Failed to find bookings: ", e);
+        } finally {
+            close(resultSet);
+            close(statement);
+            close(connection);
+        }
+        return bookings;
     }
 
     @Override
@@ -276,6 +267,5 @@ public class BookingDaoImpl implements BookingDao {
 
     @Override @Deprecated
     public void deleteAll() throws DaoException {
-
     }
 }

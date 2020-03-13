@@ -75,7 +75,7 @@ public class ReviewDaoImpl implements ReviewDao {
                 int rate = resultSet.getInt(index++);
                 String overall = resultSet.getString(index++);
                 String reviewText = resultSet.getString(index);
-                review =  ReviewFactory.INSTANCE.createFull(id, userId, eventId, rate, overall, reviewText);
+                review =  ReviewSupplier.INSTANCE.createFull(id, userId, eventId, rate, overall, reviewText);
             }
         } catch (SQLException e) {
             throw new DaoException(String.format("Failed to find movie with id %d: %s", idKey, e));
@@ -115,7 +115,7 @@ public class ReviewDaoImpl implements ReviewDao {
                 int rate = resultSet.getInt(index++);
                 String overall = resultSet.getString(index++);
                 String reviewText = resultSet.getString(index);
-                Review review = ReviewFactory.INSTANCE.createFull(id, userId, eventId, rate, overall, reviewText);
+                Review review = ReviewSupplier.INSTANCE.createFull(id, userId, eventId, rate, overall, reviewText);
                 reviews.add(review);
             }
         } catch (SQLException e) {
@@ -157,7 +157,7 @@ public class ReviewDaoImpl implements ReviewDao {
                 int rate = resultSet.getInt(index++);
                 String overall = resultSet.getString(index++);
                 String reviewText = resultSet.getString(index);
-                Review review = ReviewFactory.INSTANCE.createFull(id, userId, eventId, rate, overall, reviewText);
+                Review review = ReviewSupplier.INSTANCE.createFull(id, userId, eventId, rate, overall, reviewText);
                 reviews.add(review);
             }
         } catch (SQLException e) {

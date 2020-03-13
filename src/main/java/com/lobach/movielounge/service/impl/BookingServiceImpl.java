@@ -1,24 +1,36 @@
 package com.lobach.movielounge.service.impl;
 
 import com.lobach.movielounge.database.dao.BookingDao;
+import com.lobach.movielounge.database.dao.MovieEventDao;
+import com.lobach.movielounge.database.dao.UserDao;
 import com.lobach.movielounge.database.dao.impl.BookingDaoImpl;
+import com.lobach.movielounge.database.dao.impl.MovieEventDaoImpl;
+import com.lobach.movielounge.database.dao.impl.UserDaoImpl;
 import com.lobach.movielounge.exception.DaoException;
 import com.lobach.movielounge.exception.ServiceException;
+import com.lobach.movielounge.mail.MailThread;
 import com.lobach.movielounge.model.Booking;
-import com.lobach.movielounge.model.BookingFactory;
+import com.lobach.movielounge.model.BookingSupplier;
+import com.lobach.movielounge.model.MovieEvent;
+import com.lobach.movielounge.model.User;
 import com.lobach.movielounge.service.BookingService;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
 public class BookingServiceImpl implements BookingService {
-
     private static final String MESSAGE_INVALID_AMOUNT = "Invalid booking amount cannot be set";
+    private static final String DATE_FORMAT = "yyyy-MM-dd";
 
-    private BookingDao dao;
+    private BookingDao bookingDao;
+    private UserDao userDao;
+    private MovieEventDao eventDao;
 
     public BookingServiceImpl() {
-        dao = new BookingDaoImpl();
+        bookingDao = new BookingDaoImpl();
+        userDao = new UserDaoImpl();
+        eventDao = new MovieEventDaoImpl();
     }
 
     @Override
@@ -27,9 +39,12 @@ public class BookingServiceImpl implements BookingService {
             throw new ServiceException(MESSAGE_INVALID_AMOUNT);
         }
         try {
-            Booking booking = BookingFactory.INSTANCE
-                    .createBasic(userId, eventId, amount, false, new Date(System.currentTimeMillis()));
-            dao.add(booking);
+            Booking booking = BookingSupplier.INSTANCE
+                    .createBasic(userId, eventId, amount, false);
+            User user = userDao.findById(userId);
+            MovieEvent event = eventDao.findById(eventId);
+            bookingDao.add(booking);
+            setEmail(user.getEmail(), event.getDate());
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
@@ -38,7 +53,7 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public Booking findBookingByIds(long userId, long eventId) throws ServiceException {
         try {
-            return dao.findByUserEvent(userId, eventId);
+            return bookingDao.findByUserEvent(userId, eventId);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
@@ -47,7 +62,7 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public void increaseAmount(long bookingId, int currentAmount, int add) throws ServiceException {
         try {
-            dao.updateAmountByBookingId(bookingId, currentAmount + add);
+            bookingDao.updateAmountByBookingId(bookingId, currentAmount + add);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
@@ -56,7 +71,7 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public void decreaseAmount(long bookingId, int currentAmount, int sub) throws ServiceException {
         try {
-            dao.updateAmountByBookingId(bookingId, currentAmount - sub);
+            bookingDao.updateAmountByBookingId(bookingId, currentAmount - sub);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
@@ -65,7 +80,7 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public List<Booking> findAllUserBookings(long userId) throws ServiceException {
         try {
-            return dao.findAllByUserId(userId);
+            return bookingDao.findAllByUserId(userId);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
@@ -74,7 +89,16 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public List<Booking> findAllEventBookings(long eventId) throws ServiceException {
         try {
-            return dao.findAllByEventId(eventId);
+            return bookingDao.findAllByEventId(eventId);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public List<Booking> findAllBookings(int offset, int limit) throws ServiceException {
+        try {
+            return bookingDao.findAll(offset, limit);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
@@ -83,7 +107,7 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public void deleteBookingById(long bookingId) throws ServiceException {
         try {
-            dao.deleteById(bookingId);
+            bookingDao.deleteById(bookingId);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
@@ -92,9 +116,15 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public void deleteBookingByUserEventIds(long userId, long eventI) throws ServiceException {
         try {
-            dao.deleteByUserEvent(userId, eventI);
+            bookingDao.deleteByUserEvent(userId, eventI);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
+    }
+
+    private void setEmail(String email, Date eventDate) {
+        SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT);
+        String stringDate = format.format(eventDate);
+        new MailThread(stringDate, email).start();
     }
 }

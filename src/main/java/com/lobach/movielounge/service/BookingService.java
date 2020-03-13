@@ -19,6 +19,8 @@ public interface BookingService {
 
     List<Booking> findAllEventBookings(long eventId) throws ServiceException;
 
+    List<Booking> findAllBookings(int offset, int limit) throws ServiceException;
+
     void deleteBookingById(long bookingId) throws ServiceException;
 
     void deleteBookingByUserEventIds(long userId, long eventId) throws ServiceException;

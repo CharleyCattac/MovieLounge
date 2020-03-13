@@ -5,7 +5,7 @@ import com.lobach.movielounge.database.dao.impl.ReviewDaoImpl;
 import com.lobach.movielounge.exception.DaoException;
 import com.lobach.movielounge.exception.ServiceException;
 import com.lobach.movielounge.model.Review;
-import com.lobach.movielounge.model.ReviewFactory;
+import com.lobach.movielounge.model.ReviewSupplier;
 import com.lobach.movielounge.service.ReviewService;
 
 import java.util.List;
@@ -21,7 +21,7 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public void addReview(long userId, long eventId, int rate, String overall, String reviewText) throws ServiceException {
         try {
-            Review review = ReviewFactory.INSTANCE.createBasic(userId, eventId, rate, overall, reviewText);
+            Review review = ReviewSupplier.INSTANCE.createBasic(userId, eventId, rate, overall, reviewText);
             dao.add(review);
         } catch (DaoException e) {
             throw new ServiceException(e);
